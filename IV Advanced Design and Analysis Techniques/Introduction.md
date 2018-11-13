@@ -1,0 +1,20 @@
+designing and analyzing efficient algorithms：
+Earlier parts have presented other widely applicable techniques, such as divide-and-conquer, 
+randomization, and how to solve recurrences. The techniques in this part are some what more sophisticated,
+but they help us to attack many computational problems.
+    |—— divide-and-conquer
+    |—— randomization
+    |—— Dynamic programming, typically applies to optimization problems
+        |—— make a set of choices in order to arrive at an optimal solution，As we make
+            each choice  a given subproblem may arise from more than one partial set of choices;
+        |—— the key technique is to store the solution to each such subproblem in case it should reappear.
+    |—— greedy algorithm,
+        |—— make each choice in a locally optimal manner
+        |—— much more quickly than would a dynamic-programming approach on some problems
+        |—— matroid theory, which provides a mathematical basis that can help us to show that
+            a greedy algorithm yields an optimal solution
+    |——amortized analysis
+        |—— analyze certain algorithms that perform a sequence of similar operations.
+        |—— provides a bound on the actual cost of the entire sequence
+        |—— introduces three ways to perform an amortized analysis of an algorithm
+    
