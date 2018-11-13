@@ -1,1 +1,1 @@
- translate pseudocode  within <<Introduction to Algorithms (3e)>> into C/Python 
+Notes while reading  <<Introduction to Algorithms (3e)>>, and translate pseudocode  within into C/Python 
