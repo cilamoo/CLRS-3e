@@ -101,22 +101,29 @@
 
 int cut_rod(int *p, int n);
 int memoized_cut_rod(int *p, int n);
-int memoized_cut_rod_aux(int *p, int n; int *r);
+int memoized_cut_rod_aux(int *p, int n, int *r);
 int bottom_up_cut_rod(int *p, int n);
+int extend_bottom_up_cut_rod(int *p, int n);
+void print_cut_rod_solution(int *p, int n);
+
+int se[] = {};
+int re[] = {};
 
 int main(){
-    int cost_cut_rod, cost_top_down, cost_bottom_up;
-    int price[4] ={1, 5, 8, 9};
-    int length = 4;
+    int cut_rod_optimal_value, top_down_optimal_value,
+        bottom_up_optimal_value, extend_bottom_up_value;
+    int price[10] = {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+    int length = 10;
    
-    cost_cut_rod = cut(price,length);
-    cost_top_down = memoized_cut_rod(price, length);
-    cost_bottom_up = bottom_up_cut_rod(price, length);
-    
-    printf("solution value of recursive calls: %d\n", cost_cut_rod);
-    printf("memoized_cut_rod : %d\n",cost_top_down);
-    printf("bottom_up_cut_rod: %d\n",cost_bottom_up);
-    print_cut_rod_solution(price, length);
+    cut_rod_optimal_value = cut_rod(price,length);
+    top_down_optimal_value = memoized_cut_rod(price, length);
+    bottom_up_optimal_value = bottom_up_cut_rod(price, length);
+    extend_bottom_up_value = extend_bottom_up_cut_rod(price, length);
+   
+    printf("cut_rod optimal value is %d\n", cut_rod_optimal_value);
+    printf("memoized_cut_rod optimal value is %d\n", top_down_optimal_value);
+    printf("bottom_up_cut_rod optimal value is %d\n", bottom_up_optimal_value);
+    printf("extend_bottom_up_cut_rod optimal value is %d\n", extend_bottom_up_value);
     
     return 0;
 }
@@ -127,7 +134,7 @@ int cut_rod(int *p, int n){
         return 0;
     int q = INT_MIN;
     for( i = 1; i <= n; i++){
-        q = max(q,p[i] + cut_rod(p, n-i));
+        q = max(q,p[i - 1] + cut_rod(p, n-i));
     }
     return q;
 }
@@ -141,7 +148,7 @@ int memoized_cut_rod(int *p, int n){
     return memoized_cut_rod_aux(p, n, r);
 }
 
-int memoized_cut_rod_aux(int *p, int n; int *r){
+int memoized_cut_rod_aux(int *p, int n, int *r){
     int i, q;
     if(r[n] >= 0)
         return r[n];
@@ -150,7 +157,7 @@ int memoized_cut_rod_aux(int *p, int n; int *r){
     else 
         q = INT_MIN;
         for(i = 1 ; i <= n; i++)
-            q = max(q,p[i] + memoized_cut_rod_aux(p,n-i,r);
+            q = max(q,p[i - 1] + memoized_cut_rod_aux(p,n-i,r));
     r[n] = q;
     return q;
 }
@@ -159,37 +166,41 @@ int bottom_up_cut_rod(int *p, int n){
     int i, j, q;
     int r[n+1];
     r[0] = 0;
-    for(j =1; j <=n; j++){
+    for(j = 1; j <= n; j++){
         q = INT_MIN;
         for(i = 1; i <= j; i++){
-            q = max(q, p[i] + r[j - i]);
+            q = max(q, p[i - 1] + r[j - i]);
         }
         r[j] = q;
     }
     return r[n];
 }
 
-static int se[n+1];
-static int re[n+1];
-void extend_bottom_up_cut_rod(int *p, int n){
+int extend_bottom_up_cut_rod(int *p, int n){
     int i, j, q;
-    re[0] = 0;
+    int r[n+1], s[n+1];
+    r[0] = 0;
     for(j = 1; j <= n; j++){
         q = INT_MIN;
         for(i = 1; i <= j; i++){
-            if(q < p[i] + re[ j -i])
-                q = p[i] + re[ j -i];
-                se[j] = i;
-        }
-        re[j] = q;
+          /* Can not use gobal array se and re, otherwise bug arises.Maybe fix it in future.
+	   *for example, when p = {1, 5}, optimal value is 6,not 5.
+           */
+           if(q < (p[i - 1] + r[ j - i])){
+                q = p[i - 1] + r[ j - i];
+                s[j] = i;
+       }
+      }
+        r[j] = q;
     }
+   return r[n];
 }
 
-
+/*TO DO:use global array to store information and reconstruct a solution 
 void print_cut_rod_solution(int *p, int n){
     extend_bottom_up_cut_rod(p, n);
-    while(n > 0)
-        printf("The first piece to cut off is %d when solving subproblem of size %d\n", se[n],n);
-        n -= se[n];
+    while(n > 0){
+        printf("The first piece to cut off is %d when solving subproblem of size %d\n", se[i], i);
+        n -= se[i];
 }
-
+} */
