@@ -92,8 +92,10 @@ struct multi_split{
     int s[1024][1024];
 };
 
-/*Prototype,second argument is length of array which first argument is pointing to*/
+/*Prototype,second argument is the length of array which first argument is pointing to*/
 struct multi_split* matrix_chain_order(int *, int );
+
+void print_optimal_parens(int s[1024][1024], int i, int j);
 
 int main(){
     /* can reconstruct a interface function to handle command line arguments,
@@ -109,6 +111,7 @@ int main(){
     struct multi_split *optvalue = matrix_chain_order(p, length);
     printf("The minimum number of scalar multiplications " 
      "to multiply the 6 matrices is m[1][6] = %d\n", optvalue -> m[1][6]);
+    print_optimal_parens(optvalue -> m, 1, 6);
     return 0;
 }
 
@@ -148,4 +151,15 @@ struct multi_split* matrix_chain_order(int *p, int length){
         }
     }
     return &ms;
+}
+
+void print_optimal_parens(int s[1024][1024],int i, int j){
+    if( i == j)
+        printf("A%d", i);
+    else
+        printf("(")
+        print_optimal_parens(s, i, s[i][j]);
+        print_optimal_parens(s, s[i][j]+1, j);
+        printf(")")
+        
 }
