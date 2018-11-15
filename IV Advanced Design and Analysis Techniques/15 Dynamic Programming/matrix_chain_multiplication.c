@@ -87,28 +87,34 @@
 #include <stdlib.h>
 
 /*preallocation ,consume 4MB memory space */
-strcut multi_split{
+struct multi_split{
     int m[1024][1024];
     int s[1024][1024];
 };
 
-/*Prototype*/
-multi_split* matrix_chain_order(int *);
-
-
+/*Prototype,second argument is length of array which first argument is pointing to*/
+struct multi_split* matrix_chain_order(int *, int );
 
 int main(){
+    /* can reconstruct a interface function to handle command line arguments,
+       such as matrix dimension,and so on */ 
     int p[7] = {30, 35, 15, 5, 10, 20, 25};
-    multi_split *optvalue;
-    optvalue = matrix_chain_order(p);
-    printf("The minimum number of scalar multiplications \n 
-            to multiply the 6 matrices is m[1][6] = %d\n", optvalue -> m[1][6]);
+    int length =  sizeof p /sizeof (p[0]) - 1;
+    if(length > 1023)
+    {
+        printf("We should enlarge dimension of array m and s in struct multi_split\n");
+        exit(1);
+    }
+
+    struct multi_split *optvalue = matrix_chain_order(p, length);
+    printf("The minimum number of scalar multiplications " 
+     "to multiply the 6 matrices is m[1][6] = %d\n", optvalue -> m[1][6]);
     return 0;
 }
 
-multi_split* matrix_chain_order(int *p){
-    int i, l, n;
-    int n = (int)(sizeof p /sizeof (p[0])) - 1 
+struct multi_split* matrix_chain_order(int *p, int length){
+    int i, l;
+    int n = length;
     static struct multi_split  ms;
 
     if(n > 1023)
@@ -134,12 +140,12 @@ multi_split* matrix_chain_order(int *p){
             ms.m[i][j] = INT_MAX;
             for(k = i; k < j; k++){
                 int q;
-                q = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
+                q = ms.m[i][k] + ms.m[k+1][j] + p[i-1]*p[k]*p[j];
                 if(q < ms.m[i][j])
                    ms.m[i][j] = q;
                    ms.s[i][j] = k;
             }
         }
-    } 
+    }
     return &ms;
 }
