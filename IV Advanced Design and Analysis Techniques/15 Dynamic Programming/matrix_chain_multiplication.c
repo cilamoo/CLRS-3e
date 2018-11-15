@@ -125,12 +125,6 @@ struct multi_split* matrix_chain_order(int *p, int length){
     int n = length;
     static struct multi_split  ms;
 
-    if(n > 1023)
-    {
-        printf("We should enlarge dimension of array m and s in struct multi_split\n");
-        exit(1);
-    }
-
     /* initialize two large enough arrays */
     for(i = 0;i < 1024; i++){
         int j;
