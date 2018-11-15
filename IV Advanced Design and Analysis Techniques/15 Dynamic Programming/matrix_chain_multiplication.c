@@ -95,7 +95,9 @@ struct multi_split{
 /*Prototype,second argument is the length of array which first argument is pointing to*/
 struct multi_split* matrix_chain_order(int *, int );
 
+void print_subproblem_optimal_value(int m[1024][1024],int length);
 void print_optimal_parens(int s[1024][1024], int i, int j);
+void print_split_value(int s[1024][1024],int length);
 
 int main(){
     /* can reconstruct a interface function to handle command line arguments,
@@ -110,8 +112,11 @@ int main(){
 
     struct multi_split *optvalue = matrix_chain_order(p, length);
     printf("The minimum number of scalar multiplications " 
-     "to multiply the 6 matrices is m[1][6] = %d\n", optvalue -> m[1][6]);
-    print_optimal_parens(optvalue -> m, 1, 6);
+     "to multiply the 6 matrices is m[1][6] = %d\n\n", optvalue -> m[1][6]);
+    print_subproblem_optimal_value(optvalue -> m,length);
+    print_split_value(optvalue -> s,length);
+    print_optimal_parens(optvalue -> s, 1, length);
+    printf("\n");
     return 0;
 }
 
@@ -139,27 +144,54 @@ struct multi_split* matrix_chain_order(int *p, int length){
         int i;
         for(i = 1; i <= n - l +1; i++){
             int k;
-            int j= i + l - 1;
+            int j = i + l - 1;
             ms.m[i][j] = INT_MAX;
             for(k = i; k < j; k++){
                 int q;
                 q = ms.m[i][k] + ms.m[k+1][j] + p[i-1]*p[k]*p[j];
-                if(q < ms.m[i][j])
+                if(q < ms.m[i][j]){
                    ms.m[i][j] = q;
                    ms.s[i][j] = k;
+                 } 
             }
         }
     }
     return &ms;
 }
 
+void print_subproblem_optimal_value(int m[1024][1024],int length){
+     int i, j;
+     printf("Each subproblem's optimal value is:\n");
+     for(i = 1; i <= length; i++){
+        for(j = 1; j <= length; j++){
+        if(m[i][j] != 0)
+           printf(" [%d][%d] = %d ", i, j, m[i][j]);
+        }
+    }
+   printf("\n\n");
+}
+
+void print_split_value(int s[1024][1024],int length){
+     int i,j;
+     printf("Each subproblem's split value:\n");
+     for(i = 1; i <= length - 1; i++){
+        for(j = 2; j <= length; j++){
+           if(s[i][j] != 0)
+             printf(" [%d][%d] = %d ", i, j, s[i][j]);
+        }
+    }
+   printf("\n\n");
+
+}
+
 void print_optimal_parens(int s[1024][1024],int i, int j){
-    if( i == j)
+    if( i == j){
         printf("A%d", i);
-    else
-        printf("(")
+      }
+    else {
+        printf("(");
         print_optimal_parens(s, i, s[i][j]);
         print_optimal_parens(s, s[i][j]+1, j);
-        printf(")")
-        
+        printf(")");
+       }
 }
