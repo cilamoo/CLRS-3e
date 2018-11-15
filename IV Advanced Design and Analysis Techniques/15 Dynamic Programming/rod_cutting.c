@@ -200,7 +200,7 @@ int extend_bottom_up_cut_rod(int *p, int n){
 void print_cut_rod_solution(int *p, int n){
     extend_bottom_up_cut_rod(p, n);
     while(n > 0){
-        printf("The first piece to cut off is %d when solving subproblem of size %d\n", se[i], i);
-        n -= se[i];
+        printf("The first piece to cut off is %d when solving subproblem of size %d\n", se[n], n);
+        n -= se[n];
 }
 } */
