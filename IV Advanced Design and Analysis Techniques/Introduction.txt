@@ -1,4 +1,4 @@
-igning and analyzing efficient algorithms：
+designing and analyzing efficient algorithms：
 Earlier parts have presented other widely applicable techniques, such as divide-and-conquer,
 randomization, and how to solve recurrences. The techniques in this part are some what more sophisticated,
 but they help us to attack many computational problems.
