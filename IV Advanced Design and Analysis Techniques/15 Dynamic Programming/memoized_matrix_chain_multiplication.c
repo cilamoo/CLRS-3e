@@ -41,7 +41,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-int memoized_matrix_chain(int p*);
+int memoized_matrix_chain(int *p);
 int lookup_chain(int m[7][7], int p[7], int i, int j);
 
 int main(){
@@ -73,10 +73,10 @@ int lookup_chain(int m[7][7], int p[7], int i, int j ){
         int k;
         for(k = i;k <= j -1 ; k++){
             int q;
-            q = lookup_chain(m, p, i, k) + lookup_chain(m,p,k+1,j) + p[i-1]p[k]p[j];
+            q = lookup_chain(m, p, i, k) + lookup_chain(m,p,k+1,j) + p[i-1]*p[k]*p[j];
             if(q < m[i][j])
                 m[i][j] = q;
         }
     }
-    retunr m[i][j];
+    return m[i][j];
 }
