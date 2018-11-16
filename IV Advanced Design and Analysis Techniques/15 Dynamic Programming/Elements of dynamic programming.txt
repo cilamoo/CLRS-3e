@@ -1,0 +1,112 @@
+15.3 Elements of dynamic programming
+
+  two key ingredients that an optimization problem must have in order 
+  for dynamic programming to apply: optimal substructure and overlapping subproblems. 
+
+1.Optimal substructure
+The first step in solving an optimization problem by dynamic programming is to
+characterize the structure of an optimal solution. Recall that a problem exhibits
+optimal substructure if an optimal solution to the problem contains within it optimal
+solutions to subproblems. Whenever a problem exhibits optimal substructure,
+we have a good clue that dynamic programming might apply. (As Chapter 16 discusses,
+it also might mean that a greedy strategy applies, however.) In dynamic
+programming, we build an optimal solution to the problem from optimal solutions
+to subproblems. Consequently, we must take care to ensure that the range of subproblems
+we consider includes those used in an optimal solution.
+
+1.Optimal substructure
+1.1.
+To characterize the space of subproblems, a good rule of thumb says to try to
+keep the space as simple as possible and then expand it as necessary.
+1.2
+Optimal substructure varies across problem domains in two ways:
+1. how many subproblems an optimal solution to the original problem uses, and
+2. how many choices we have in determining which subproblem(s) to use in an
+optimal solution.(see annotation on p380)
+
+1.3
+Informally, the running time of a dynamic-programming algorithm depends on
+the product of two factors: the number of subproblems overall and how many
+choices we look at for each subproblem. 
+
+Usually, the subproblem graph gives an alternative way to perform the same
+analysis.
+
+1.4
+Dynamic programming often uses optimal substructure in a bottom-up fashion.
+That is, we first find optimal solutions to subproblems and, having solved the subproblems,
+we find an optimal solution to the problem. Finding an optimal solution
+to the problem entails making a choice among subproblems as to which we 
+will use in solving the problem. The cost of the problem solution is usually the 
+subproblem costs plus a cost that is directly attributable to the choice itself.
+
+1.5 greedy algorithms and dynamic programming
+In particular, problems to which greedy algorithms
+apply have optimal substructure. One major difference between greedy algorithms
+and dynamic programming is that instead of first finding optimal solutions to subproblems
+and then making an informed choice, greedy algorithms first make a
+“greedy” choice—the choice that looks best at the time—and then solve a resulting
+subproblem, without bothering to solve all possible related smaller subproblems
+
+2.Subtleties
+
+2.1
+Consider the following two problems in which we are given a directed graph
+G = (V, E) and vertices u,v ∈ V.
+
+Unweighted shortest path: Find a path from u to v consisting of the fewest
+edges. Such a path must be simple, since removing a cycle from a path produces
+a path with fewer edges.
+
+Unweighted longest simple path: Find a simple path from u to v consisting of
+the most edges. We need to include the requirement of simplicity because otherwise
+we can traverse a cycle as many times as we like to create paths with an
+arbitrarily large number of edges.
+
+2.2
+The unweighted shortest-path problem exhibits optimal substructure,
+
+for longest simple paths, not only does the problem lack optimal substructure, 
+but we cannot necessarily assemble a “legal” solution to the problem from solutions 
+to subproblems.
+
+Indeed, the problem of finding an unweighted longest simple path does not 
+appear to have any sort of optimal substructure. No efficient dynamic-programming 
+algorithm for this problem has ever been found. In fact, this problem is
+NP-complete, that we are unlikely to find a way to solve it in polynomial time.
+
+Although a solution to a problem for both longest and shortest paths uses 
+two subproblems, the subproblems in finding the longest simple path are not independent,
+whereas for shortest paths they are.(p383，explanation in detail)
+
+3.Overlapping subproblems
+
+ The second ingredient that an optimization problem must have for dynamic programming
+ to apply is that the space of subproblems must be “small” in the sense
+ that a recursive algorithm for the problem solves the same subproblems over and
+ over, rather than always generating new subproblems. Typically, the total number
+ of distinct subproblems is a polynomial in the input size. When a recursive algorithm
+ revisits the same problem repeatedly, we say that the optimization problem
+ has overlapping subproblems.4 In contrast, a problem for which a divide-andconquer
+ approach is suitable usually generates brand-new problems at each step
+ of the recursion. Dynamic-programming algorithms typically take advantage of
+ overlapping subproblems by solving each subproblem once and then storing the
+ solution in a table where it can be looked up when needed, using constant time per
+ lookup.
+
+ Two subproblems of the same problem are independent if they do not share resources.
+ Two subproblems are overlapping if they are really the samesubproblem that occurs
+  as a subproblem of different problems.
+
+ RECURSIVE-MATRIX-CHAIN(p, i, j)
+ 1 if i == j
+ 2     return 0
+ 3 m[i, j] = ∞ 
+ 4 for k = i to j - 1
+ 5     q = RECURSIVE-MATRIX-CHAIN(p, i, k)
+           +RECURSIVE-MATRIX-CHAIN(p, k+1, j)
+           + pi-1 * pk * pj //i-1, k ,j are subscripts
+ 6      if q < m[i, j]
+ 7          m[i, j] = q
+ 8 return m[i,j]
+
