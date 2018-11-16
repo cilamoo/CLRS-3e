@@ -42,7 +42,7 @@
 #include <limits.h>
 
 int memoized_matrix_chain(int *p);
-int lookup_chain(int m[7][7], int p[7], int i, int j);
+int lookup_chain(int m[6][6], int p[7], int i, int j);
 
 int main(){
     int optvalue;
@@ -55,28 +55,28 @@ int main(){
 int memoized_matrix_chain(int *p){
     int i, j;
     int n = 6;
-    int m[7][7];
-    for(i = 0; i<=6; i++)
-        for(j = 0; j <= 6;j++)
+    int m[6][6];
+    for(i = 0; i<= 5; i++)
+        for(j = 0; j <= 5;j++)
             m[i][j] = INT_MAX;
     return lookup_chain(m, p, 1, n);
 }
 
-int lookup_chain(int m[7][7], int p[7], int i, int j ){
-    if(m[i][j] < INT_MAX)
-        return m[i][j];
+int lookup_chain(int m[6][6], int p[7], int i, int j ){
+    if(m[i-1][j-1] < INT_MAX)
+        return m[i-1][j-1];
     
     if(i == j)
-        m[i][j] = 0;
+        m[i-1][j-1] = 0;
     else 
     {
         int k;
-        for(k = i;k <= j -1 ; k++){
+        for(k = i;k <= j - 1 ; k++){
             int q;
             q = lookup_chain(m, p, i, k) + lookup_chain(m,p,k+1,j) + p[i-1]*p[k]*p[j];
-            if(q < m[i][j])
-                m[i][j] = q;
+            if(q < m[i-1][j-1])
+                m[i-1][j-1] = q;
         }
     }
-    return m[i][j];
+    return m[i-1][j-1];
 }
