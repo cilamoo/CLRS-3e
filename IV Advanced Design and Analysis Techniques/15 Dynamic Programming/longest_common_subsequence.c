@@ -75,7 +75,7 @@ int main(){
 }
 
 struct cb* lcs_length(char *X, int xl, char *Y, int yl){
-    int i, j, i2, j2;
+    int i, j;
     int m = xl;
     int n = yl;
     
@@ -92,22 +92,26 @@ struct cb* lcs_length(char *X, int xl, char *Y, int yl){
         }
     }
     
-    for(i2 = 1; i2 <= m; i2++){
-        for(j2 = 1; j2 <= n;j2++){
-            if(X[i2-1] == Y[j2-1]){
-                store.c[i2][j2] = store.c[i2-1][j2-1] + 1;
-                store.b[i2-1][j2-1] = 256;
+   {
+    /* 256,512 and 1024 represent   "↖","↑" and "←" respectively */  
+    int i,j;
+    for(i = 1; i <= m; i++){
+        for(j = 1; j <= n;j++){
+            if(X[i-1] == Y[j-1]){
+                store.c[i][j] = store.c[i-1][j-1] + 1;
+                store.b[i-1][j-1] = 256;
             }
-            else if(store.c[i2-1][j2] >= store.c[i2][j2-1]){
-                store.c[i2][j2] = store.c[i2-1][j2];
-                store.b[i2-1][j2-1] = 512; 
+            else if(store.c[i-1][j] >= store.c[i][j-1]){
+                store.c[i][j] = store.c[i-1][j];
+                store.b[i-1][j-1] = 512; 
             }
             else{
-                store.c[i2][j2] = store.c[i2][j2-1];
-                store.b[i2-1][j2-1] = 1024;
+                store.c[i][j] = store.c[i][j-1];
+                store.b[i-1][j-1] = 1024;
             }
         }
     }
+   }
 
     return &store;
 }
