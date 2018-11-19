@@ -74,7 +74,7 @@ struct er* optimal_bst(double *p, double *q, int n){
     double w[7][6];
     for(i = 0; i < 7;i++){
         for(j = 0;j < 6; j++){
-            er_data.[i][j] = 0.0;
+            er_data.e[i][j] = 0.0;
             w[i][j] = 0.0;
         }
     }
@@ -84,22 +84,25 @@ struct er* optimal_bst(double *p, double *q, int n){
             er_data.root[i][j] = 0;
 
     for(i = 1;i <= 6; i++){
-        er_data.e[i,i-1] = q[i-1];
-        w[i,i-1] = q[i-1];
+        er_data.e[i][i-1] = q[i-1];
+        w[i][i-1] = q[i-1];
     }
-    
-    for(l = 1;l <= 5; l ++){
-        int n2 = n + l -1;
+ 
+    for(l = 1; l <= 5; l ++){
+        int n2 = n - l + 1;
         for(i = 1; i <= n2; i ++ ){
             j = i + l - 1;
-            er_data.e[i][j] = INT_MAX;
-            w[i,j] = w[i,j-1] + p[j-1] + q[j-1];
+            er_data.e[i][j] = (double)INT_MAX;
+            w[i][j] = w[i][j-1] + p[j-1] + q[j];
+            printf("w[%d][%d] = %g ", i, j, w[i][j]);
+            printf("\n");
+
             for(r = i; r <= j; r++){
-                int t;
-                t = er_data.e[i,r-1] + er_data.e[r+1,j] + w[i][j];
+                double t;
+                t = er_data.e[i][r-1] + er_data.e[r+1][j] + w[i][j];
                 if(t < er_data.e[i][j] ){
                     er_data.e[i][j] = t;
-                    root[i][j] = r;
+                    er_data.root[i][j] = r;
                 }
             }
         }
@@ -108,12 +111,17 @@ struct er* optimal_bst(double *p, double *q, int n){
 }
 
 void print_result(struct er *pr){
+    printf("\n");
     int i,j;
-    for(i = 1;i <= 6; i++)
+    for(i = 1;i <= 6; i++){
         for(j = 0; j <= 5; j++)
-            printf("e[%d][%d] = %g\n", i, j, pr -> e[i][j]);
-    
-    for(i = 1; i <= 5; i++)
+            printf("e[%d][%d] = %g ", i, j, pr -> e[i][j]);
+    }
+    printf("\n\n");
+
+    for(i = 1; i <= 5; i++){
         for(j = 1; j <= 5; j++)
-            printf("%d\n", pr -> root[i][j]);
+            printf("root[%d][%d] = %d ",i,j, pr -> root[i][j]);
+   }
+    printf("\n");
 }
