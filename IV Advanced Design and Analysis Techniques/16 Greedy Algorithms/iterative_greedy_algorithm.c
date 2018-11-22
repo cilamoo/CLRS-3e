@@ -19,6 +19,8 @@
  * their finish times.
 */
 
+#include <stdio.h> 
+
 int* greedy_activity_selector(int *,int *);
 void print_result_set(int *,int *, int *);
 int set[11] = {0,0,0,0,0,0,0,0,0,0,0};
@@ -35,8 +37,8 @@ int main(){
 int* greedy_activity_selector(int *s, int *f){
     static int index = 0;
     int k, n, m;
-    int k = 1;
-    int n = 11;
+    k = 1;
+    n = 11;
     set[index++] = 1;
     for(m = 2; m <= n; m++){
         if(s[m-1] >= f[k-1]){
@@ -44,7 +46,7 @@ int* greedy_activity_selector(int *s, int *f){
             k = m;
         }
     }
-    return &set;
+    return set;
 }
 
 void print_result_set(int *pset, int *ps, int *pf){
@@ -53,7 +55,7 @@ void print_result_set(int *pset, int *ps, int *pf){
     for(i = 0; i < 11; i++){
         if(pset[i] !=0 ){
            int idx = pset[i];
-           printf("a%d start:%d, finish:%d\n",idx, ps[idx-1], pf[idx]);
+           printf("a%d start:%d, finish:%d\n",idx, ps[idx-1], pf[idx-1]);
         }
     }
 }
