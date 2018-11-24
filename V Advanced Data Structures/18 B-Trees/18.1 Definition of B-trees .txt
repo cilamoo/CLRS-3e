@@ -2,7 +2,7 @@ A B-tree T is a rooted tree (whose root is T.root) having the following properti
 1. Every node x has the following attributes:
     a. x.n, the number of keys currently stored in node x,
     b. the x.n keys themselves, x.key1,x.key2,...,x.keyx.n, stored in nondecreasing
-       order, so that x.key1 <= x.key2 <= x.keyx.n,
+       order, so that x.key1 ≤ x.key2 ≤ x.keyx.n,
     c. x.leaf, a boolean value that is TRUE if x is a leaf and FALSE if x is an internal
        node.
 
