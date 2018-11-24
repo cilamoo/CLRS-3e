@@ -1,0 +1,44 @@
+1.B-trees are balanced search trees designed to work well on disks or other directaccess
+secondary storage devices. B-trees are similar to red-black trees (Chapter
+13), but they are better at minimizing disk I/O operations. Many database systems
+use B-trees, or variants of B-trees, to store information.
+
+2.Data structures on secondary storage
+
+Although disks are cheaper and have higher capacity than mainmemory, they are
+much, much slower because they have moving mechanical parts. The mechanical
+motion has two components: platter rotation and arm movement.
+
+In order to amortize the time spent waiting for mechanical movements, disks
+access not just one item but several at a time. Information is divided into a number
+of equal-sized pages of bits that appear consecutively within tracks, and each disk
+read or write is of one or more entire pages. For a typical disk, a page might be 2^11
+to 2^14 bytes in length. Once the read/write head is positioned correctly and the disk
+has rotated to the beginning of the desired page, reading or writing a magnetic disk
+is entirely electronic (aside from the rotation of the disk), and the disk can quickly
+read or write large amounts of data.
+
+Often, accessing a page of information and reading it from a disk takes longer
+than examining all the information read. For this reason, in this chapter we shall
+look separately at the two principal components of the running time:
+  the number of disk accesses, and
+  the CPU (computing) time.
+
+We measure the number of disk accesses in terms of the number of pages of information
+that need to be read from or written to the disk.
+
+In a typical B-tree application, the amount of data handled is so large that all
+the data do not fit into main memory at once. The B-tree algorithms copy selected
+pages from disk into main memory as needed and write back onto disk the pages
+that have changed. B-tree algorithms keep only a constant number of pages in
+main memory at any time; thus, the size of main memory does not limit the size of
+B-trees that can be handled.
+
+Since in most systems the running time of a B-tree algorithm depends primarily
+on the number of DISK-READ and DISK-WRITE operations it performs, we
+typically want each of these operations to read or write as much information as
+possible. Thus, a B-tree node is usually as large as a whole disk page, and this size
+limits the number of children a B-tree node can have
+
+A large branching factor dramatically reduces both the height of the tree and the number of
+disk accesses required to find any key.

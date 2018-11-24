@@ -1,0 +1,39 @@
+1.This part returns to studying data structures that support operations on dynamic
+sets
+
+2.Chapter 18 presents B-trees, which are balanced search trees specifically designed
+to be stored on disks. Because disks operate much more slowly than
+random-access memory, we measure the performance of B-trees not only by how
+much computing time the dynamic-set operations consume but also by how many
+disk accesses they perform. For each B-tree operation, the number of disk accesses
+increases with the height of the B-tree, but B-tree operations keep the height low.
+
+3.Chapter 19 gives an implementation of a mergeable heap, which supports the
+operations INSERT, MINIMUM, EXTRACT-MIN, and UNION.
+The most significant advantage of Fibonacci heaps, however, is
+that DECREASE-KEY takes only O(1) amortized time. Because the DECREASE-KEY 
+operation takes constant amortized time, Fibonacci heaps are key components
+of some of the asymptotically fastest algorithms to date for graph problems.
+
+4.we can beat the Ω(nlgn) lower bound for sorting when the keys are integers in a restricted range
+by using a recursive data structure known as a van Emde Boas tree.If the keys are
+unique integers drawn from the set {0,1,2,...,u-1}, where u is an exact power
+of 2, then van Emde Boas trees support each of the above operations——SEARCH, INSERT, DELETE,
+MINIMUM, MAXIMUM, SUCCESSOR, and PREDECESSOR—— in O(lglgu) time.
+
+5.disjoint sets
+
+6.Other advanced data structures：
+1).Dynamic trees,maintain a forest of disjoint rooted trees, are used in some of the
+ asymptotically fastest network-flow algorithms.
+
+2)Splay trees,are a form of binary search tree on which the standard searchtree
+operations run in O(lgn) amortized time. One application of splay trees simplifies dynamic trees.
+
+3)Persistent data structures,fusion trees and exponential search trees
+As in Chapter 20, several data structures allow a faster implementation of dictionary
+operations (INSERT, DELETE, and SEARCH) for a restricted universe of keys.
+
+4)Dynamic graph data structures support various queries while allowing the
+structure of a graph to change through operations that insert or delete vertices
+or edges
