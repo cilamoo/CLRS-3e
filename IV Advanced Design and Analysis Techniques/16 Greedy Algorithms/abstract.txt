@@ -1,0 +1,73 @@
+17 Amortized Analysis
+
+In an amortized analysis, we average the time required to perform a sequence of
+data-structure operations over all the operations performed. With amortized analysis,
+we can show that the average cost of an operation is small, if we average over a
+sequence of operations, even though a single operation within the sequence might
+be expensive. Amortized analysis differs from average-case analysis in that probability
+is not involved; an amortized analysis guarantees the average performance
+of each operation in the worst case.
+
+The first three sections of this chapter cover the three most common techniques
+used in amortized analysis. Section 17.1 starts with aggregate analysis, in which
+we determine an upper bound T(n) on the total cost of a sequence of n operations.
+The average cost per operation is then T(n)/n. We take the average cost as the
+amortized cost of each operation, so that all operations have the same amortized
+cost.
+
+Section 17.2 covers the accounting method, in which we determine an amortized
+cost of each operation. When there is more than one type of operation, each type of
+operation may have a different amortized cost. The accounting method overcharges
+some operations early in the sequence, storing the overcharge as “prepaid credit”
+on specific objects in the data structure. Later in the sequence, the credit pays for
+operations that are charged less than they actually cost.
+
+Section 17.3 discusses the potential method, which is like the accounting method
+in that we determine the amortized cost of each operation and may overcharge operations
+early on to compensate for undercharges later. The potential method maintains
+the credit as the “potential energy” of the data structure as a whole instead of
+associating the credit with individual objects within the data structure.
+
+17.1 Aggregate analysis
+
+In aggregate analysis, we show that for all n, a sequence of n operations takes
+worst-case time T(n) in total. In the worst case, the average cost, or amortized
+cost, per operation is therefore T(n)/n. Note that this amortized cost applies to
+each operation, even when there are several types of operations in the sequence.
+The other two methods we shall study in this chapter, the accounting method and
+the potential method, may assign different amortized costs to different types of
+operations.
+
+1.Stack operations
+
+MULTIPOP(S,k)
+1 while not STACK-EMPTY(S) and k > 0
+2     POP(S)
+3     k = k - 1
+
+We can pop each object from the stack at most once for each time we have pushed it
+onto the stack. Therefore, the number of times that POP can be called on a nonempty 
+stack, including calls within MULTIPOP, is at most the number of PUSH operations, 
+which is at most n. For any value of n, any sequence of n PUSH, POP, and MULTIPOP 
+operations takes a total of O(n) time. The average cost of an operation is O(n)/n=O(1). 
+In aggregate analysis, we assign the amortized cost of each operation to be the average cost. 
+In this example, therefore, all three stack operations have an amortized cost of O(1).
+
+2.Incrementing a binary counter
+
+the problem of implementing a k-bit binary counter that counts upward from 0. We use an 
+array A[0..k-1] of bits, where A.length=k, as the counter.
+
+INCREMENT(A)
+1 i = 0
+2 while i < A.length and A[i] == 1
+3     A[i] = 0
+4     i = i + 1
+5 if i < A.length
+6     A[i] = 1
+
+In general, for i = 0,1,..., k-1, bit A[i] flips ⌊ n/2^i ⌋  times in a
+sequence of n INCREMENT operations on an initially zero counter.
+
+The average cost of each operation, and therefore the amortized cost per operation, is O(n)/n=O(1).
+
