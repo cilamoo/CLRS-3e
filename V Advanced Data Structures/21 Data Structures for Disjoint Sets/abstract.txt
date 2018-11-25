@@ -1,0 +1,44 @@
+21 Data Structures for Disjoint Sets
+
+Some applications involve grouping n distinct elements into a collection of disjoint
+sets. These applications often need to perform two operations in particular: finding
+the unique set that contains a given element and uniting two sets. This chapter
+explores methods for maintaining a data structure that supports these operations.
+
+21.1 Disjoint-set operations
+operations:
+MAKE-SET(x) creates a new set whose only member (and thus representative)
+is x. Since the sets are disjoint, we require that x not already be in some other
+set.
+
+UNION(x,y) unites the dynamic sets that contain x and y, say Sx and Sy, into a
+new set that is the union of these two sets.
+
+FIND-SET(x) returns a pointer to the representative of the (unique) set containing
+x.
+
+An application of disjoint-set data structures
+One of the many applications of disjoint-set data structures arises in determining
+the connected components of an undirected graph.
+
+When the edges of the graph are static—not changing over time—we can compute the connected
+components faster by using depth-first search (Exercise 22.3-12). Sometimes, however, the edges
+are added dynamically and we need to maintain the connected components as each edge is added. In
+this case, the implementation given here can be more efficient than running a new depth-first search
+for each new edge.
+
+CONNECTED-COMPONENTS(G)
+1 for each vertex v ∈ G.V
+2     MAKE-SET(v)
+3 for each edge (u,v) ∈ G.E
+4     if FIND-SET(u) ≠ FIND-SET(v)
+5         UNION(u,v)
+
+SAME-COMPONENT(u,v)
+1 if FIND-SET(u) == FIND-SET(v)
+2     return TRUE
+3 else return FALSE
+
+21.2 Linked-list representation of disjoint sets
+A simple implementation of union
+A weighted-union heuristic

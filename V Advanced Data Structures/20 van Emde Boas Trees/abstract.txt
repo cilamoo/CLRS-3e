@@ -1,0 +1,16 @@
+20 van Emde Boas Trees
+
+If we could perform both the INSERT and EXTRACT-MIN operations in o(lgn) time, 
+then we could sort n keys in o(nlgn) time by first performing n INSERT operations,
+ followed by n EXTRACT-MIN operations.
+
+In particular, with counting sort we can sort n keys, each an integer in the range 0 to k, 
+in time Θ(n+k), which is Θ(n) when k=O(n).
+
+ In this chapter, we shall see that we can: van Emde Boas trees support the priority-queue operations,
+and a few others, each in O(lglgn) worst-case time. The hitch is that the keys must be integers 
+in the range 0 to n - 1, with no duplicates allowed.
+
+Specifically, van Emde Boas trees support each of the dynamic set operations
+listed on page 230—SEARCH, INSERT, DELETE, MINIMUM, MAXIMUM, SUCCESSOR,
+and PREDECESSOR—in O(lglgn) time.

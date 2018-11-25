@@ -1,0 +1,45 @@
+19 Fibonacci Heaps
+
+Mergeable heaps
+A mergeable heap is any data structure that supports the following five operations,
+in which each element has a key:
+MAKE-HEAP()creates and returns a new heap containing no elements.
+
+INSERT(H,x) inserts element x, whose key has already been filled in, into heap H.
+
+MINIMUM(H) returns a pointer to the element in heap H whose key is minimum.
+
+EXTRACT-MIN(H) deletes the element from heap H whose key is minimum, returning
+a pointer to the element.
+
+UNION(H1,H2) creates and returns a new heap that contains all the elements of
+heaps H1 and H2. Heaps H1 and H2 are “destroyed” by this operation
+
+In addition to the mergeable-heap operations above, Fibonacci heaps also support
+the following two operations:
+DECREASE-KEY(H,x,k) assigns to element x within heap H the new key
+value k, which we assume to be no greater than its current key value.
+
+DELETE(H,x) deletes element x from heap H.
+
+Fibonacci heaps in theory and practice
+From a theoretical standpoint, Fibonacci heaps are especially desirable when the
+number of EXTRACT-MIN and DELETE operations is small relative to the number
+of other operations performed.
+
+From a practical point of view, however, the constant factors and programming
+complexity of Fibonacci heaps make them less desirable than ordinary binary
+(or k-ary) heaps for most applications, except for certain applications that manage
+large amounts of data. Thus, Fibonacci heaps are predominantly of theoretical interest.
+If a much simpler data structure with the same amortized time bounds as
+Fibonacci heaps were developed, it would be of practical use as well.
+
+Both binary heaps and Fibonacci heaps are inefficient in how they support the
+operation SEARCH; it can take a while to find an element with a given key. For this
+reason, operations such as DECREASE-KEY and DELETE that refer to a given element
+require a pointer to that element as part of their input. As in our discussion of
+priority queues in Section 6.5, when we use a mergeable heap in an application, we
+often store a handle to the corresponding application object in each mergeable-heap
+element, as well as a handle to the corresponding mergeable-heap element in each
+application object. The exact nature of these handles depends on the application
+and its implementation.
