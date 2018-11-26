@@ -1,0 +1,35 @@
+Techniques for searching a graph lie at the heart of the field of graph algorithms.
+
+22.1 Representations of graphs
+
+Because the adjacency-list representation provides a compact way to represent 
+sparse graphs—those for which |E| is much less than |V^2|—it is usually the method
+of choice.When the graph is dense—|E| is close to |V^2| —or when we need to be able 
+to tell quickly if there is an edge connecting two given vertices.
+
+
+If G is a directed graph, the sum of the lengths of all the adjacency lists is |E|,
+since an edge of the form (u,v) is represented by having v appear in Adj|u|. If G is
+an undirected graph, the sum of the lengths of all the adjacency lists is 2 |E|, since
+if (u,v) is an undirected edge, then u appears in v’s adjacency list and vice versa.
+For both directed and undirected graphs, the adjacency-list representation has the
+desirable property that the amount of memory it requires is Θ(V+E).
+
+A potential disadvantage of the adjacency-list representation is that it provides
+no quicker way to determine whether a given edge (u,v) is present in the graph
+than to search for v in the adjacency list Adj|u|. An adjacency-matrix representation
+of the graph remedies this disadvantage, but at the cost of using asymptotically
+more memory. (See Exercise 22.1-8 for suggestions of variations on adjacency lists
+that permit faster edge lookup.) 
+
+The adjacency matrix of a graph requires |V^2| memory, independent of the number of edges in the graph.
+
+Since in an undirected graph, (u,v) and (v,u) represent the same edge, the adjacency 
+matrix A of an undirected graph is its own transpose: A=AT.In some applications, it 
+pays to store only the entries on and above the diagonal of the adjacency matrix, thereby 
+cutting the memory needed to store the graph almost in half.
+
+Although the adjacency-list representation is asymptotically at least as spaceefficient
+as the adjacency-matrix representation, adjacency matrices are simpler,
+and so we may prefer them when graphs are reasonably small. Moreover, adjacency matrices
+carry a further advantage for unweighted graphs: they require only one bit per entry.

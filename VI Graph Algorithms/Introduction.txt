@@ -1,0 +1,24 @@
+Introduction
+
+Graph problems pervade computer science, and algorithms for working with them
+are fundamental to the field. Hundreds of interesting computational problems are
+couched in terms of graphs. 
+
+Chapter 22：
+1.represent a graph
+2.breadth-first search or depth-first search
+3.two applications of depth-first search: topologically sorting a directed acyclic
+graph and decomposing a directed graph into its strongly connected components
+
+
+Chapter 23:
+1.compute a minimum-weight spanning tree of a graph: the least-weight way of connecting
+all of the vertices together when each edge has an associated weight(one application of greedy algorithms)
+
+Chapters 24 and 25:
+1.compute shortest paths between vertices when each edge has an associated length or “weight.”
+2.C24,find shortest paths from a given source vertex to all other vertices
+3.examines methods to compute shortest paths between every pair of vertices
+
+Chapter 26
+1.compute a maximum flow of material in a flow network
