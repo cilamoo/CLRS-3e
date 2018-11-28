@@ -1,0 +1,27 @@
+22.4 Topological sort —— directed acyclic graph,dag
+
+A topological sort of a dag G = (V,E) is a linear ordering of all its vertices such that 
+if G contains an edge (u,v), then u appears before v in the ordering. (If the graph contains a cycle,
+then no linear ordering is possible.) We can view a topological sort of a graph as
+an ordering of its vertices along a horizontal line so that all directed edges go from
+left to right.
+
+Many applications use directed acyclic graphs to indicate precedences among
+events.
+
+TOPOLOGICAL-SORT(G)
+1 call DFS(G) to compute finishing times v.f for each vertex v
+2 as each vertex is finished, insert it onto the front of a linked list
+3 return the linked list of vertices
+
+We can perform a topological sort in time Θ(V+E), since depth-first search
+takes Θ(V+E) time and it takes O(1) time to insert each of the |V| vertices onto
+the front of the linked list.
+
+Lemma 22.11
+A directed graph G is acyclic if and only if a depth-first search of G yields no back
+edges.
+
+Theorem 22.12
+TOPOLOGICAL-SORT produces a topological sort of the directed acyclic graph
+provided as its input.

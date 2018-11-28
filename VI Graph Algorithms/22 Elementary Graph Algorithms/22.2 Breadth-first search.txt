@@ -1,0 +1,68 @@
+22.2 Breadth-first search
+
+Breadth-first search is the archetype for Prim’s minimum-spanning tree algorithm
+and Dijkstra’s single-source shortest-paths algorithm.
+
+Given a graph G = (V,E) and a distinguished source vertex s, breadth-first search 
+systematically explores the edges of G to “discover” every vertex that is
+reachable from s. It computes the distance (smallest number of edges) from s
+to each reachable vertex. It also produces a “breadth-first tree” with root s that
+contains all reachable vertices. For any vertex v reachable from s, the simple path
+in the breadth-first tree from s to v corresponds to a “shortest path” from s to v
+in G, that is, a path containing the smallest number of edges. The algorithm works
+on both directed and undirected graphs.
+
+BFS(G,s)
+1 for each vertex u ∈ G.V - {s}
+2     u.color = WHITE
+3     u.d = ∞
+4     u.∏ = NIL
+5 s.color = GRAY
+6 s.d = 0
+7 s.∏ = NIL
+8 Q = Ø
+9 ENQUEUE(Q,s)
+10 while Q ≠ Ø 
+11     u = DEQUEUE(Q)
+12     for each v ∈ Adj[u]
+13         if v.color = WHITE
+14             v.color = GRAY
+15             v.d = u.d + 1 
+16             v.∏ = u
+17             ENQUEUE(Q,v) 
+18     u.color = BLACK
+
+The results of breadth-first search may depend upon the order in which the neighbors
+of a given vertex are visited in line 12: the breadth-first tree may vary, but the
+distances d computed by the algorithm will not. (See Exercise 22.2-5.)
+
+Analysis
+
+The operations of enqueuing and dequeuing take O(1) time, and so the total time devoted to queue
+operations is O(V). Because the procedure scans the adjacency list of each vertex
+only when the vertex is dequeued, it scans each adjacency list at most once. Since
+the sum of the lengths of all the adjacency lists is Θ(E), the total time spent in
+scanning adjacency lists is O(E). The overhead for initialization is O(V), and
+thus the total running time of the BFS procedure is O(V+E). Thus, breadth-first
+search runs in time linear in the size of the adjacency-list representation of G.
+
+
+Shortest paths
+
+Define the shortest-path distance δ(s,v) from s to v as the minimum number
+of edges in any path from vertex s to vertex v; if there is no path from s to v,
+then δ(s,v) = ∞. We call a path of length δ(s,v) from s to v a shortest path from s to v.
+
+
+PRINT-PATH(G,s,v)
+1 if v == s
+2     print s
+3 elseif v.∏ == NIL 
+4     print “no path from” s “to”  “exists”
+5 else PRINT-PATH.G(G,s,v.∏)
+6     print v 
+
+Lemma 22.1 - 22.3, Corollary 22.4, Theorem 22.5 (Correctness of breadth-first search),
+Lemma 22.6
+
+Breadth-first trees,predecessor subgraph

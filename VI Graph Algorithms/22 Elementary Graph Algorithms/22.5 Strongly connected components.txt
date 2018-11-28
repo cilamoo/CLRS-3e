@@ -1,0 +1,30 @@
+22.5 Strongly connected components
+
+A strongly connected component of a directed graph G = (V,E) is a maximal set of vertices 
+C ∈ V such that for every pair of vertices u and v in C, we have both u → v and v → u; 
+that is, vertices u and v are reachable from each other.  
+
+STRONGLY-CONNECTED-COMPONENTS(G)
+1 call DFS(G) to compute finishing times u.f for each vertex u
+2 compute GT
+3 call DFS(GT), but in the main loop of DFS, consider the vertices
+       in order of decreasing u.f (as computed in line 1)
+4 output the vertices of each tree in the depth-first forest formed in line 3 as a
+        separate strongly connected component
+
+The key property is that the component graph is a dag.
+
+Each edge in GT that goes between different strongly connected components goes from a component with an earlier finishing
+time (in the first depth-first search) to a component with a later finishing time.
+
+Corollary 22.15
+Let C and C' be distinct strongly connected components in directed graph G = (V,E). 
+Suppose that there is an edge (u,v) ∈ ET, where u ∈ C and v ∈ C'. Then
+f(C) < f(C')
+
+Should see book
+
+
+
+
+

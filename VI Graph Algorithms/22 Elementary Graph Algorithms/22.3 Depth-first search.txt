@@ -1,0 +1,87 @@
+22.3 Depth-first search
+
+1.
+Unlike breadth-first search, whose predecessor subgraph forms a tree, the 
+predecessor subgraph produced by a depth-first search may be composed of
+several trees, because the search may repeat from multiple sources.
+
+The predecessor subgraph of a depth-first search forms a depth-first forest comprising
+several depth-first trees. 
+
+Breadth-first search usually serves to find shortestpath distances 
+(and the associated predecessor subgraph) from a given source. Depth-first search is
+often a subroutine in another algorithm.
+
+DFS(G)
+1 for each vertex u ∈ G.V 
+2     u.color = WHITE
+3     u.∏ = NIL
+4 time = 0 
+5 for each vertex u ∈ G.V
+6     if u.color = WHITE
+7         DFS-VISIT(G,u)
+
+DFS-VISIT(G,u)
+1 time = time + 1
+2 u.d = time 
+3 u.color = GRAY
+4 for each v ∈ G.Adj[u]
+5     if v.color = WHITE
+6         v.∏ = u
+7         DFS-VISIT(G,v)
+8 u.color = BLACK
+9 time = time + 1
+10 u.f = time 
+
+As each vertex v ∈ Adj[u] is considered in line 4, we say that edge (u,v) is explored by the depth-first search.
+
+Every time DFS-VISIT(G,u) is called in line 7, vertex u becomes the root of a new 
+tree in the depth-first forest.
+
+The running time of DFS is therefore Θ(V+E)
+
+2.Properties of depth-first search
+Perhaps the most basic property of depth-first search is that the predecessor subgraph
+G∏ does indeed form a forest of trees, since the structure of the depthfirst
+trees exactly mirrors the structure of recursive calls of DFS-VISIT
+
+Another important property of depth-first search is that discovery and finishing
+times have parenthesis structure
+
+3.
+Theorem 22.7 (Parenthesis theorem),
+Corollary 22.8 (Nesting of descendants’ intervals),
+Theorem 22.9 (White-path theorem),
+
+4.Classification of edges
+Tree edges,Edge (u,v) is a tree edge if v was first discovered by exploring edge(u,v);
+
+Back edges are those edges (u,v) connecting a vertex u to an ancestor v in a depth-first tree;
+
+Forward edges are those nontree edges (u,v) connecting a vertex u to a descendant
+in a depth-first tree.
+
+Cross edges are all other edges.They can go between vertices in the same
+depth-first tree, as long as one vertex is not an ancestor of the other, or they can
+go between vertices in different depth-first trees.
+
+The key idea is that when we first explore an edge(u,v), the color of
+vertex v tells us something about the edge:
+1. WHITE indicates a tree edge,
+2. GRAY indicates a back edge, and
+3. BLACK indicates a forward or cross edge.
+
+For the second case, observe that the gray vertices always form a linear chain of descendants
+corresponding to the stack of active DFS-VISIT invocations; the number of gray
+vertices is one more than the depth in the depth-first forest of the vertex most recently
+discovered. Exploration always proceeds from the deepest gray vertex, so an edge that reaches 
+another gray vertex has reached an ancestor. The third case, to be a cross edge if and only 
+if v.d < v.f < u.d < u.f
+
+Theorem 22.10
+In a depth-first search of an undirected graph G, every edge of G is either a tree
+edge or a back edge.
+
+
+Exercise 22.3-5、6
+
