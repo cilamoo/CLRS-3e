@@ -1,0 +1,20 @@
+23 Minimum Spanning Trees
+
+We can easily make each of them run in time O(ElgV) using ordinary binary heaps. By using
+Fibonacci heaps, Prim’s algorithm runs in time O(E + VlgV), which improves
+over the binary-heap implementation if |V| is much smaller than |E|.
+
+The two algorithms are greedy algorithms.
+
+The phrase “minimum spanning tree” is a shortened form of the phrase “minimum-weight spanning
+tree.” We are not, for example, minimizing the number of edges in T , since all spanning trees have
+exactly |V| - 1 edges by Theorem B.2.
+
+The first algorithm, due to Kruskal, is similar to the connected-components algorithm 
+from Section 21.1. The second, due to Prim, resembles Dijkstra’s shortest-paths algorithm (Section 24.3).
+
+Because a tree is a type of graph, in order to be precise we must define a tree in
+terms of not just its edges, but its vertices as well.
+
+24.1 Growing a minimum spanning tree
+

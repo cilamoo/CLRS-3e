@@ -1,0 +1,43 @@
+23.2 The algorithms of Kruskal and Prim
+
+MST-KRUSKAL(G)
+1 A = Ø ;
+2 for each vertex u ∈ G.V
+3     MAKE-SET(u)
+4 sort the edges of G.E into nondecreasing order by weight w
+5 for each edge (u,v) ∈ G.E, taken in nondecreasing order by weight
+6     if FIND-SET(u) ≠ FIND-SET
+7         A = A U(u,v)
+8         UNION(u,v)
+9 return A
+
+The running time of Kruskal’s algorithm for a graph G = (V,E) depends
+on how we implement the disjoint-set data structure.
+
+the running time of Kruskal’s algorithm is O(ElgV)
+
+Prim’s algorithm
+
+Prim’s algorithm operates much like Dijkstra’s algorithm for finding shortest paths in a graph,
+which we shall see in Section 24.3. Prim’s algorithm has the property that the edges in the set A always
+form a single tree.
+
+MST-PRIM(G,w,r)
+1 for each u ∈ G.V 
+2     u.key =  
+3     u.∏ = NIL
+4 r.key = 0
+5 Q = G.V 
+6 while Q ≠ Ø 
+7     u = EXTRACT-MIN(Q)
+8     for each v ∈ G.Adj[u]
+9         if v ∈ Q and w(u,v) < v.key 
+10             v.∏ = U
+11             v.key = w(u,v)
+
+The running time of Prim’s algorithm depends on how we implement the minpriority
+queue Q.
+
+The running time is O(ElgV);
+use a Fibonacci heap to implement the min-priority queue Q, the running time of Prim’s
+algorithm improves to O(E + VlgV);
