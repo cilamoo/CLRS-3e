@@ -1,0 +1,91 @@
+24 Single-Source Shortest Paths
+
+1.Variants
+
+Single-destination shortest-paths problem: Find a shortest path to a given destination
+vertex t from each vertex v. By reversing the direction of each edge in
+the graph, we can reduce this problem to a single-source problem.
+
+Single-pair shortest-path problem: Find a shortest path from u to v for given
+vertices u and v.also. Moreover, all known algorithms for this problem
+have the same worst-case asymptotic running time as the best single-source
+algorithms.
+
+All-pairs shortest-paths problem: Find a shortest path from u to v for every pair
+of vertices u and v.
+
+2.Optimal substructure of a shortest path
+
+Shortest-paths algorithms typically rely on the property that a shortest path between
+two vertices contains other shortest paths within it. 
+
+Dijkstra’s algorithm, which we shall see in Section 24.3, is a greedy algorithm, and the
+Floyd-Warshall algorithm, which finds shortest paths between all pairs of vertices (see
+Section 25.2), is a dynamic-programming algorithm.
+
+3.Negative-weight edges
+
+Some shortest-paths algorithms, such as Dijkstra’s algorithm, assume that all
+edge weights in the input graph are nonnegative, as in the road-map example. Others,
+such as the Bellman-Ford algorithm, allow negative-weight edges in the input
+graph and produce a correct answer as long as no negative-weight cycles are
+reachable from the source. Typically, if there is such a negative-weight cycle, the
+algorithm can detect and report its existence.
+
+4.Cycles
+
+Can a shortest path contain a cycle? Nor can it contain a positive-weight cycle, since removing
+the cycle from the path produces a path with the same source and destination
+vertices and a lower path weight.
+
+5.Representing shortest paths
+
+predecessor subgraph;
+
+shortest-paths tree;
+
+Shortest paths are not necessarily unique, and neither are shortest-paths trees. 
+
+6.Relaxation
+
+For each vertex v ∈ V , we maintain an attribute v.d, which is an upper bound on the weight of
+a shortest path from source s to v. We call d a shortest-path estimate
+
+INITIALIZE-SINGLE-SOURCE(G,s)
+1 for each vertex v ∈ G.V
+2     v.d = ∞
+3     v.π = NIL  
+4 s.d = 0 
+
+RELAX(u,v,w)
+1 if v.d > u.d + w(u,v)
+2     v.d = u.d + w(u,v)
+3     v.π = u 
+
+The algorithms in this chapter differ in how many times they relax each edge 
+and the order in which they relax edges. Dijkstra’s algorithm and the shortest-paths 
+algorithm for directed acyclic graphs relax each edge exactly once. The Bellman-Ford .
+algorithm relaxes each edge |V| - 1 times.
+
+7.Properties of shortest paths and relaxation
+
+8.Chapter outline
+Section 24.1 presents the Bellman-Ford algorithm, which solves the single-source
+shortest-paths problem in the general case in which edges can have negative weight.
+The Bellman-Ford algorithm is remarkably simple, and it has the further benefit
+of detecting whether a negative-weight cycle is reachable from the source. 
+
+Section24.2 gives a linear-time algorithm for computing shortest paths from a single
+source in a directed acyclic graph.
+
+Section 24.3 covers Dijkstra’s algorithm, which has a lower running time than the 
+Bellman-Ford algorithm but requires the edge weights to be nonnegative.
+
+Section 24.4 shows how we can use the Bellman-Ford algorithm to solve a special case
+of linear programming. 
+
+Section 24.5 proves the properties of shortest paths and relaxation stated above.
+
+
+
+

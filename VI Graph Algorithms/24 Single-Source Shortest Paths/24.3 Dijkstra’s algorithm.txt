@@ -1,0 +1,67 @@
+24.3 Dijkstra’s algorithm
+
+Dijkstra’s algorithm solves the single-source shortest-paths problem on a weighted,
+directed graph G = (V,E) for the case in which all edge weights are nonnegative.
+
+DIJKSTRA(G,w,s)
+1 INITIALIZE-SINGLE-SOURCE(G,s)
+2 S = Ø 
+3 Q = G.V 
+4 while Q ≠ Ø 
+5     u = EXTRACT-MIN(Q)
+6     S = S ∪ {u}
+7     for each vertex v ∈ G.Adj[u]
+8         RELAX(u,v,w) 
+
+Because Dijkstra’s algorithm always chooses the “lightest” or “closest” vertex
+in V - S to add to set S, we say that it uses a greedy strategy.
+Greedy strategies do not always yield optimal results in general,
+but as the following theorem and its corollary show, Dijkstra’s algorithm does
+indeed compute shortest paths. The key is to show that each time it adds a vertex u
+to set S, we have u.d = δ(s,u).
+
+Analysis
+==== see book on page 661 ====
+
+How fast is Dijkstra’s algorithm? It maintains the min-priority queue Q by calling
+three priority-queue operations: INSERT (implicit in line 3), EXTRACT-MIN
+(line 5), and DECREASE-KEY (implicit in RELAX, which is called in line 8). The
+algorithm calls both INSERT and EXTRACT-MIN once per vertex. Because each
+vertex u ∈ V is added to set S exactly once, each edge in the adjacency list Adj[u]
+is examined in the for loop of lines 7–8 exactly once during the course of the algorithm.
+Since the total number of edges in all the adjacency lists is |E|, this for
+loop iterates a total of |E| times, and thus the algorithm calls DECREASE-KEY at
+most |E| times overall. (Observe once again that we are using aggregate analysis.)
+
+The running time of Dijkstra’s algorithm depends on how we implement the
+min-priority queue. Consider first the case in which we maintain the min-priority
+queue by taking advantage of the vertices being numbered 1 to |V|. We simply
+store v.d in the vth entry of an array. Each INSERT and DECREASE-KEY operation
+takes O(1) time, and each EXTRACT-MIN operation takes O(V) time (since we
+have to search through the entire array), for a total time of O(V^2+E) = O(V^2)
+
+If the graph is sufficiently sparse—in particular, E = o(V^2/lgV)—we can
+improve the algorithm by implementing the min-priority queue with a binary minheap.
+Total running time is O((V+E)lgV) , which is O(ElgV) if all vertices
+are reachable from the source.
+
+We can in fact achieve a running time of O(VlgV+E) by implementing the
+min-priority queue with a Fibonacci heap.
+
+Historically,
+the development of Fibonacci heaps was motivated by the observation
+that Dijkstra’s algorithm typically makes many more DECREASE-KEY calls than
+EXTRACT-MIN calls, so that any method of reducing the amortized time of each
+DECREASE-KEY operation to o(lgV) without increasing the amortized time of
+EXTRACT-MIN would yield an asymptotically faster implementation than with binary
+heaps.
+
+Dijkstra’s algorithm resembles both breadth-first search (see Section 22.2) and
+Prim’s algorithm for computing minimum spanning trees (see Section 23.2). It is
+like breadth-first search in that set S corresponds to the set of black vertices in a
+breadth-first search; just as vertices in S have their final shortest-path weights, so
+do black vertices in a breadth-first search have their correct breadth-first distances.
+Dijkstra’s algorithm is like Prim’s algorithm in that both algorithms use a minpriority
+queue to find the “lightest” vertex outside a given set (the set S in Dijkstra’s
+algorithm and the tree being grown in Prim’s algorithm), add this vertex into the
+set, and adjust the weights of the remaining vertices outside the set accordingly.

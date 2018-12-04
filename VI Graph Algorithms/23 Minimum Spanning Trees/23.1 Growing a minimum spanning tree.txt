@@ -16,5 +16,4 @@ from Section 21.1. The second, due to Prim, resembles Dijkstra’s shortest-path
 Because a tree is a type of graph, in order to be precise we must define a tree in
 terms of not just its edges, but its vertices as well.
 
-24.1 Growing a minimum spanning tree
 
