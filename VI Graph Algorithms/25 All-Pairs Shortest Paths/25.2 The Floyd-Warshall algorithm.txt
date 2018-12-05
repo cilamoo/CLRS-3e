@@ -1,0 +1,27 @@
+25.2 The Floyd-Warshall algorithm
+
+Negative-weight edges may be present, but we assume that there are no
+negative-weight cycles.
+
+1.The structure of a shortest path
+
+1)If k is not an intermediate vertex of path p, then all intermediate vertices of
+path p are in the set {1,2,...,k-1}
+
+2)If k is an intermediate vertex of path p, then we decompose p into i ——> k ——> j 
+
+2.A recursive solution to the all-pairs shortest-paths problem
+
+see page 694
+
+3. Computing the shortest-path weights bottom up 
+
+page 695
+
+4.Constructing a shortest path
+
+page 697
+
+5.Transitive closure of a directed graph
+
+

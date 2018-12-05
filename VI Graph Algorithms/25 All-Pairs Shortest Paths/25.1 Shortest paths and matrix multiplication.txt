@@ -1,0 +1,51 @@
+25.1 Shortest paths and matrix multiplication
+
+1.The structure of a shortest path
+all subpaths of a shortest path are shortest paths,
+δ(i,j) = δ(i,k) + wkj
+
+2.A recursive solution to the all-pairs shortest-paths problem
+see content on page 687,
+
+3.Computing the shortest-path weights bottom up
+EXTEND-SHORTEST-PATHS(L,W)
+1 n = L.rows
+2 let L' = (lij')
+3 for i = 1 to n
+4     for j = 1 to n 
+5         lij' = ∞ 
+6         for k = 1 to n
+7             lij' = min(lij', lik + wkj) 
+8 return L'
+
+Its running time is Θ(n^3) due to the three nested for loops
+
+SLOW-ALL-PAIRS-SHORTEST-PATHS(W)
+1 n = W.rows
+2 L(1) = W 
+3 for m = 2 to n - 1 
+4     let L(m) be a new n×n matrix 
+5     L(m) = EXTEND-SHORTEST-PATHS(L(m-1),W)
+6 return L(n-1)
+
+4.Improving the running time
+Just as traditional matrix multiplication is associative, so is matrix multiplication defined by
+the EXTEND-SHORTEST-PATHS procedure (see Exercise 25.1-4). Therefore, we
+can compute L(n-1) with only ⌈lg(n-1)⌉ matrix products
+
+FASTER-ALL-PAIRS-SHORTEST-PATHS(W)
+1 n = W.rows 
+2 L(1) = W 
+3 m = 1 
+4 while m < n - 1 
+5     let L(2m) be a new n×n matirx 
+6     L(2m) = EXTEND-SHORTEST-PATHS(L(m),L(m))
+7     m = 2m 
+8 return L(m)
+
+Because each of the ⌈lg(n-1)⌉  matrix products takes Θ(n^3) time, FASTERALL-
+PAIRS-SHORTEST-PATHS runs in Θ(n^3lgn) time.
+
+
+
+

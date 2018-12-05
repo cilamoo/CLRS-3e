@@ -1,0 +1,32 @@
+25 All-Pairs Shortest Paths
+
+We can solve an all-pairs shortest-paths problem by running a single-source
+shortest-paths algorithm |V| times, once for each vertex as the source. If all
+edge weights are nonnegative, we can use Dijkstra’s algorithm.
+
+If the graph has negative-weight edges, we cannot use Dijkstra’s algorithm. Instead,
+we must run the slower Bellman-Ford algorithm once from each vertex.
+
+In this chapter we shall see how to do better. We also investigate the relation of the all-pairs
+shortest-paths problem to matrix multiplication and study its algebraic structure.
+
+PRINT-ALL-PAIRS-SHORTEST-PATH(π,i,j)
+1 if i == j
+2     print i
+3 elseif πij == NIL
+4     print “no path from” i “to” j “exists”
+5 else PRINT-ALL-PAIRS-SHORTEST-PATH(π,i,πij)
+6     print j
+
+Chapter outline
+Section 25.1 presents a dynamic-programming algorithm based on matrix multiplication
+to solve the all-pairs shortest-paths problem. Using the technique of “repeated
+squaring,” we can achieve a running time of Θ(V^3lgV). Section 25.2 gives
+another dynamic-programming algorithm, the Floyd-Warshall algorithm, which
+runs in time Θ(V^3). Section 25.2 also covers the problem of finding the transitive
+closure of a directed graph, which is related to the all-pairs shortest-paths
+problem. Finally, Section 25.3 presents Johnson’s algorithm, which solves the all-pairs
+shortest-paths problem in O(V^2lgV+VE) time and is a good choice for
+large, sparse graphs.
+
+
