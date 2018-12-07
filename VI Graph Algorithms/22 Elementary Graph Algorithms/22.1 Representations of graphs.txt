@@ -33,3 +33,32 @@ Although the adjacency-list representation is asymptotically at least as spaceef
 as the adjacency-matrix representation, adjacency matrices are simpler,
 and so we may prefer them when graphs are reasonably small. Moreover, adjacency matrices
 carry a further advantage for unweighted graphs: they require only one bit per entry.
+
+Example:
+Figure 22.1, an undirected graph G has V vertices {1,2,3,4,5} and E edges {{1->[2,5]}, {2->[1,5,3,4]},
+{3->[2,4]}, {4->[2,5,3]}, {5->[4,1,2]}}
+
+adjacency-list representation:
+
+struct listnode {
+    int node_info;
+    struct listnode *next; /* pointer to listnode */ 
+};
+
+struct vertex{
+    int vertex_info;
+    int num; /* the number of edges vertex has */
+    struct listnode lnode; 
+};
+
+struct vertex Adj[V];
+
+adjacency-matrix representation:
+
+struct vertex{
+    int vertex_info;
+    int weight;
+}
+
+strcut vertex Adj[V][V];
+
