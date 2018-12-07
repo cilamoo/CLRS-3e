@@ -32,7 +32,7 @@ PRINT-PATH(G,s,v)
 
 #include <stdio.h>
 #include <limits.h>
-include <stdlib.h>
+#include <stdlib.h>
 
 /*adjacency-list representation */ 
 struct listnode {
@@ -54,17 +54,18 @@ struct Vertex* vertex_init(size_t vnum){
     struct Vertex *Adj;
     int i;
 
-    if((Adj = malloc(vnum*sizeof(*Adj))) == NULL)
+    if((Adj = malloc(sizeof(*Adj)*vnum)) == NULL)
         return NULL;
     
     for(i = 0; i < vnum; i++){
-        Adj[i]->vertex = i;
-        Adj[i]->parent = INT_MAX;
-        Adj[i]->color = 1 << 10; /* WHITE */
-        Adj[i]->distance = INT_MAX;
-        Adj[i]->head = NULL;
-        Adj[i]->nodenum = 0;
+        Adj[i].vertex = i;
+        Adj[i].parent = INT_MAX;
+        Adj[i].color = 1 << 10; /* WHITE */
+        Adj[i].distance = INT_MAX;
+        Adj[i].head = NULL;
+        Adj[i].nodenum = 0;
     }
+    printf("Vertexes = %d, vertex_init done, Adj[4].vertex == %d \n", vnum,Adj[4].vertex);
     return Adj;
 }
 
@@ -108,32 +109,50 @@ void add_list(struct Vertex *Adj, int v1, int v2){
     ver2->nodenum++;
 }
 
-struct Vertex* Adjlist_create(size_t vernum, int *edge){
+struct Vertex* Adjlist_create(size_t vernum, int *edge, int n){
     struct Vertex *Adj;
-    int i,edgenum;
+    int i;
 
     Adj = vertex_init(vernum);
-    edgenum = (sizeof(edge)/sizeof(edge[0]))/2;
-    for(i = 0; i < edgenum; i++){
-        add_list(Adj,edge[i],edge[i+1]);
+    for(i = 0; i < n; i++){
+        add_list(Adj,edge[2*i],edge[2*i+1]);
     }
-    return Adj
+   
+    /*debug*/
+    {
+       int j;
+       for(j = 0; j < vernum; j++){
+           int num = Adj[j].nodenum;
+           printf("Vertex %d have %d edge(s):\n", Adj[j].vertex, num);
+           int k;
+           struct listnode *ln = Adj[j].head;
+           for(k = 0; k < num; k++){
+              struct listnode *next = ln->next;
+              printf("%d\n",ln->self->vertex);
+              ln = next; 
+        }
+     }
+    }
+   
+    return Adj;
 }
 
 void Adjlist_release(struct Vertex *Adj, int vnum){
     int i;
     struct Vertex *ver;
     struct listnode  *delln;
+    printf("start freeing Adjlist memory\n");
     for(i = 0; i < vnum; i++){
-        ver = &Adj[i]
+        ver = &Adj[i];
         delln = ver->head;
-        whie(delln != NULL){
+        while(delln != NULL){
             ver->head = delln->next;
             free(delln);
-            delln = var->head;
+            delln = ver->head;
         }
-        free(ver);
     }
+    free(Adj);
+    printf("have freed Adjlist memory\n");
 }
 
 /* FIFO queue, initially, head = tail = 1 */
@@ -141,7 +160,7 @@ struct Queue{
     unsigned int head;
     unsigned int tail;
     unsigned int length;
-    struct Vertex *p;
+    struct Vertex **p;
 };
 
 struct Queue* queue_create(size_t num){
@@ -150,12 +169,12 @@ struct Queue* queue_create(size_t num){
     if((queue = malloc(sizeof(*queue))) == NULL)
         return NULL;
     
-    if((queue->p =  malloc((num+1)*sizeof(struct Vertex*))) == NULL)
+    if((queue->p = (struct Vertex**) malloc((num+1)*sizeof(struct Vertex*))) == NULL)
         return NULL;
     
     queue->head = queue->tail = 1;
     queue->length = (unsigned int) num + 1;
-    
+    printf("Alloc a queue\n");
     return queue;
 }
 
@@ -163,63 +182,72 @@ void queue_release(struct Queue *pq){
     if(pq == NULL) return;
     free(pq->p);
     free(pq);
+    printf("release queue\n");
 }
 
 void enqueue(struct Queue *pq,  struct Vertex *pv){
-    if((pq->head == pq->tail + 1) || (pq->head==1 && pq->tail==pq->length)){
+    if((pq->head == pq->tail + 1) || (pq->head == 1 && pq->tail == pq->length)){
         printf("queue overflows\n"); 
         exit(1);
     }
     
-    pq -> p[pq->tail-1] = pv; 
+    pq->p[pq->tail-1] = pv; 
     
     if(pq->tail == pq->length)
         pq->tail = 1;
     else 
         pq->tail += 1;
+    printf("add vertex %d to Queue, meanwhile ,head = %d, tail = %d\n", pv->vertex, pq->head, pq->tail);  
 }
 
 struct Vertex* dequeue(struct Queue *pq){
     struct Vertex *x;
 
     if(pq->head == pq->tail){
-        printf("queue underflows\n")
+        printf("queue underflows\n");
         exit(1);
     }
-    x = pq->p[p->head-1];
+    x = pq->p[pq->head-1];
 
-    if(pq->head = pq->length)
+    if(pq->head == pq->length)
         pq->head = 1;        
     else
         pq->head += 1;
-
+    printf("delete vertex %d from Queue, meanwhile ,head = %d, tail = %d \n",x->vertex, pq->head, pq->tail);   
     return x;
 }
 
 void BFS(struct Vertex *Adj, int start, size_t vnum){
+    printf("BFS start, start = %d, vnum = %d\n", start,vnum);
     struct Vertex *s;
-    s = &Vertex[start];
-    s->color = 1 << 11;
+    s = &Adj[start];
+    s->color = 1 << 11;/*GRAY*/
     s->distance = 0;
     struct Queue* Q = queue_create(vnum);
     enqueue(Q,s);
+    printf("Q->tail = %d, Q->head = %d\n", Q->tail,Q->head);
     while(Q->head != Q->tail){
         unsigned int i;
         struct Vertex *u = dequeue(Q);
+        //printf("vertex u = %d \n", u->vertex);
         struct listnode *ln = u->head;
+       // printf("enter while loop\n");
         for(i = 0; i < u->nodenum; i++){
             struct Vertex *v = ln->self;
             if( (v->color>>10) & 1){
+                printf("discover vertex %d's edge  %d\n", u->vertex, v->vertex);
                 v->color = 1 << 11;
-                v->distance = u->distance + 1 
-                v.parent = u->vertex;
-                enqueue(Q,v)
+                v->distance = u->distance + 1; 
+                v->parent = u->vertex;
+                enqueue(Q,v);
             }
             ln = ln-> next;
         }
-        u->color = 1 << 12;
+        printf("Have discovered all edges of %d\n", u->vertex);
+        u->color = 1 << 12;/*BLACK*/
     }
     queue_release(Q);
+    printf("BFS done\n");
 }
 
 void print_path(struct Vertex *Adj, char *c, int start, int dest, int limit){
@@ -230,11 +258,13 @@ void print_path(struct Vertex *Adj, char *c, int start, int dest, int limit){
 
     if(Adj[start].vertex == Adj[dest].vertex)
         printf("%c ", c[start]);
-    elseif(Adj[dest]->parent == INT_MAX)
+    else if(Adj[dest].parent == INT_MAX)
         printf("no path from %c to %c exits\n", c[start], c[dest]);
     else
-        print_path(Adj, start, Adj[dest]->parent);
+       {
+        print_path(Adj, c, start, Adj[dest].parent, limit);
         printf("%c ", c[dest]);
+       }
 }
 
 int main(){
@@ -243,7 +273,7 @@ int main(){
     char cver[8] = {'v', 'r', 's', 'w', 'x', 't', 'u', 'y'};
     int nvertex = 8;
 
-    Adjlist = Adjlist_create(nvertex,vertex_vector);
+    Adjlist = Adjlist_create(nvertex,vertex_vector,10);
     BFS(Adjlist,2,8);
     print_path(Adjlist, cver, 2, 7, 8);
     printf("\n");
