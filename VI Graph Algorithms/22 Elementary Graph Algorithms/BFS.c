@@ -1,4 +1,5 @@
-/*BFS(G,s)
+/* pseudocode：
+BFS(G,s)
 1 for each vertex u ∈ G.V - {s}
 2     u.color = WHITE
 3     u.d = ∞
@@ -17,9 +18,7 @@
 16             v.∏ = u
 17             ENQUEUE(Q,v) 
 18     u.color = BLACK
-*/
 
-/*
 PRINT-PATH(G,s,v)
 1 if v == s
 2     print s
@@ -35,21 +34,22 @@ PRINT-PATH(G,s,v)
 #include <stdlib.h>
 
 /*adjacency-list representation */ 
+/*adjacency-list node*/
 struct listnode {
-    struct Vertex *self;
-    struct listnode *next; 
+    struct Vertex *self;     /* pointer to vertex */
+    struct listnode *next;   /*next listnode */ 
 };
 
 struct Vertex{
-    int vertex;
-    int parent;
+    int vertex; 
+    int parent;          /*atrribute Π*/
     int color;
-    int distance;
+    int distance;        
     struct listnode *head; 
-    unsigned int nodenum; 
+    unsigned int nodenum;  /* the number of listnode this Vertex has */
 };
 
-
+/*vertexes init*/
 struct Vertex* vertex_init(size_t vnum){
     struct Vertex *Adj;
     int i;
@@ -69,21 +69,7 @@ struct Vertex* vertex_init(size_t vnum){
     return Adj;
 }
 
-/*
- edges {v,r}, {r,v,s}, {s,r,w}, {w,s,t,x},{x,w,t,u,y},{t,w,x,u},{u,t,x,y},{y,x,u}
-v 0 , r 1, s 2,w 3, x 4, t 5,u 6, y 7,              
-char list1[2] ={'v', 'r'}, 0 1
-list2[3] = {'r', 'v','s'}, 1 0 2
-list3[3] ={'s','r', 'w'}   2 1 3
-list4[4] = {'w', 's', 't', 'x'} 3 2 5 4
-list5[5] = {'x', 'w', 't', 'u', 'y'}4 3 5 6 7
-list6[4] = {'t', 'w', 'x', 'u'} 5 3 4 6 
-list7[4] = {'u', 't', 'x', 'y'} 6 5 4 7
-list8[3] = {'y', 'x', 'u'} 7 4 6
-0 1, 1 2, 2 3, 3 4, 3 5,4 5,5 6, 4 6, 4 7, 6 7,
-int vertex_vector[20] = {0,1,1,2,2,3,3,4,3,5,4,5,5,6,4,6,4,7,6,7}
-*/
-
+/*add listnode to Adjlist */
 void add_list(struct Vertex *Adj, int v1, int v2){
     struct listnode *ln1, *ln2;
     struct Vertex *ver1, *ver2;
@@ -225,13 +211,10 @@ void BFS(struct Vertex *Adj, int start, size_t vnum){
     s->distance = 0;
     struct Queue* Q = queue_create(vnum);
     enqueue(Q,s);
-    printf("Q->tail = %d, Q->head = %d\n", Q->tail,Q->head);
     while(Q->head != Q->tail){
         unsigned int i;
         struct Vertex *u = dequeue(Q);
-        //printf("vertex u = %d \n", u->vertex);
         struct listnode *ln = u->head;
-       // printf("enter while loop\n");
         for(i = 0; i < u->nodenum; i++){
             struct Vertex *v = ln->self;
             if( (v->color>>10) & 1){
@@ -250,6 +233,7 @@ void BFS(struct Vertex *Adj, int start, size_t vnum){
     printf("BFS done\n");
 }
 
+/*print path from s to one vertex */
 void print_path(struct Vertex *Adj, char *c, int start, int dest, int limit){
     if(start < 0 || start >= limit || dest < 0 || dest >= limit){
         printf("Wrong Input, Vertexes range from 0 to %d\n", limit-1);
@@ -266,6 +250,35 @@ void print_path(struct Vertex *Adj, char *c, int start, int dest, int limit){
         printf("%c ", c[dest]);
        }
 }
+
+/*Program Inputs from figure 22.3 on page 596
+
+vertexes,using character to denote, are:
+{'v', 'r', 's', 'w', 'x', 't', 'u', 'y'};
+for convenience,
+map character vertex to number vertex: 
+v -> 0 , r ->1, s -> 2,w ->3, x ->4, t-> 5,u-> 6, y ->7
+
+undirected edges are : 
+{v->r}, {r->(v,s)}, {s->(r,w)}, {w->(s,t,x)},{x->(w,t,u,y)},
+{t->(w,x,u)},{u->(t,x,y)},{y(x,u)}
+
+that is:              
+{'v', 'r'}, 0 1
+{'r', 'v','s'}, 1 0 2
+{'s','r', 'w'}   2 1 3
+{'w', 's', 't', 'x'} 3 2 5 4
+{'x', 'w', 't', 'u', 'y'}4 3 5 6 7
+{'t', 'w', 'x', 'u'} 5 3 4 6 
+{'u', 't', 'x', 'y'} 6 5 4 7
+{'y', 'x', 'u'} 7 4 6
+
+using two vertexes denotes 10 edges:
+0 1, 1 2, 2 3, 3 4, 3 5,4 5,5 6, 4 6, 4 7, 6 7,
+In vertex_vector, two elements constitute an edge starting at index 0, 
+such as (0,1),(2,3),(4,5)...
+int vertex_vector[20] = {0,1,1,2,2,3,3,4,3,5,4,5,5,6,4,6,4,7,6,7}
+*/
 
 int main(){
     struct Vertex *Adjlist;
