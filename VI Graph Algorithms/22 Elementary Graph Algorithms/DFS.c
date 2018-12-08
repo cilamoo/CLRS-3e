@@ -44,7 +44,7 @@ struct vertex {
 
 struct Graph {
     unsigned int vercount;
-    unsigned int edgecout;
+    unsigned int edgecount;
     struct listnode *blockmemory;
     struct vertex *Adj;
 };
@@ -67,36 +67,33 @@ struct vertex* vertex_init(size_t vnum){
     return vertex;       
 }
 
-void vertex_release(struct vertex *vertex){
-    free(vertex);
-}
-
 struct Graph* graph_init(size_t vernum, size_t edgenum){
     struct Graph *G;
     if((G = malloc(sizeof(*G))) == NULL)
-        return NULL:
-    if((G->blockmemory = malloc(edgnum*sizeof(struct listnode))) == NULL )
         return NULL;
-    if((G->Adj == vertex_init(vernum)) == NULL)
+    if((G->blockmemory = malloc(edgenum*sizeof(struct listnode))) == NULL )
+        return NULL;
+    if((G->Adj = vertex_init(vernum)) == NULL)
        return NULL;
 
     G->vercount = vernum;
-    G->edgenum = edgenum;
+    G->edgecount = edgenum;
     return G;
 }
 
 void graph_release(struct Graph *G){
-    vertex_release(G->blockmemory);
+    free(G->blockmemory);
     free(G->Adj);
     free(G);
 }
+
 /*Program Inputs from Figure 22.4 on page 605,
 Vertexes: u,v,w,x,y,z,
           0 1 2 3 4 5 
 Edges:u->v, u->x, v->y, w->y, w->z, x->v, y->x, z->z,
       0  1  0 3   1 4   2 4   2  5  3  1   4  3  5 5 
 int edge_vector[16] = {0, 1, 0, 3, 1, 4, 2, 4, 2, 5, 3, 1, 4, 3, 5, 5};
-char vertexes[5] ={u, v, w, x, y, z};
+char vertexes[5] = {'u', 'v', 'w', 'x', 'y', 'z'};
 */
 void add_edges(struct Graph *G, int *ev){
     unsigned int i, j, k;
@@ -105,7 +102,7 @@ void add_edges(struct Graph *G, int *ev){
     Adj = G->Adj;
     bm = G->blockmemory;
 
-    for(i = 0; i < G->edgenum; i++){
+    for(i = 0; i < G->edgecount; i++){
         j = ev[2*i];
         k = ev[2*i+1];
         bm->next = Adj[j].head;
@@ -117,8 +114,9 @@ void add_edges(struct Graph *G, int *ev){
 }
 void DFS_VISIT(struct Graph *G, struct vertex *u){
     int num;
-    struct listnode *head;
     time += 1;
+    printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
+    struct listnode *head;
     u->d = time;
     u->color = 1<<11; /* GRAY */
     num = u->nodenum;
@@ -131,6 +129,9 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
         head--;
     }
     u->color = 1 << 12; /* BLACK */
+    time += 1;
+    u->f = time;
+    printf("vertex %d is finished,time is %d, parent is %d\n", u->vernum, time, u->parent );
 }
 
 void DFS(struct Graph *G){
@@ -145,30 +146,28 @@ void DFS(struct Graph *G){
 }
 
 /*print path from s to one vertex */
-void print_path(struct vertex *Adj, char *c, int start, int dest, int limit){
-    if(start < 0 || start >= limit || dest < 0 || dest >= limit){
-        printf("Wrong Input, Vertexes range from 0 to %d\n", limit-1);
-        exit(1);
-    }
-
+void print_path(struct vertex *Adj, char *c, int start, int dest){
     if(Adj[start].vernum == Adj[dest].vernum)
         printf("%c ", c[start]);
     else if(Adj[dest].parent == UINT_MAX)
         printf("no path from %c to %c exits\n", c[start], c[dest]);
     else
        {
-        print_path(Adj, c, start, Adj[dest].parent, limit);
-        printf("%c ", c[dest]);
+        print_path(Adj, c, start, Adj[dest].parent);
+        printf("-> %c ", c[dest]);
        }
 }
 
 int main(){
     struct Graph *G; 
     int edge_vector[16] = {0, 1, 0, 3, 1, 4, 2, 4, 2, 5, 3, 1, 4, 3, 5, 5};
-    char vertexes[5] ={u, v, w, x, y, z};
-    G = graph_init(5,8);
+    char vertexes[6] ={'u', 'v', 'w', 'x', 'y', 'z'};
+    G = graph_init(6,8);
     add_edges(G, edge_vector);
-    print_path(G->Adj,vertexes,0,3);
+    DFS(G);
+    printf("path from %c to %c is ", vertexes[0],vertexes[4]);
+    print_path(G->Adj,vertexes,0,4);
+    printf("\nDFS Done!\n");
     graph_release(G);
     return 0;
 }
