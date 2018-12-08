@@ -49,7 +49,10 @@ struct Vertex{
     unsigned int nodenum;  /* the number of listnode this Vertex has */
 };
 
-/*vertexes init*/
+/*vertexes init,
+We distinguish between gray and black vertices to help us understand how breadth-first search operates.
+In fact, as Exercise 22.2-3 shows, we would get the same result even if we did not distinguish
+between gray and black vertices.*/
 struct Vertex* vertex_init(size_t vnum){
     struct Vertex *Adj;
     int i;
