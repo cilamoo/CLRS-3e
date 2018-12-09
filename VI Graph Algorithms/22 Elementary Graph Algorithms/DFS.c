@@ -33,20 +33,20 @@ struct listnode{
 };
 
 struct vertex {
-    int vernum;
+    int vernum; /*vernum denotes character vertex */ 
     unsigned int color;
-    unsigned int parent;
-    int d;
+    unsigned int parent; /*atrribute u.π */
+    int d; 
     int f;
-    unsigned int nodenum;
-    struct listnode *head;
+    unsigned int nodenum; /*number of listnodes this vertex has, or edges from this vertex to other */
+    struct listnode *head; /*pointer first listnode in list */
 };
 
 struct Graph {
-    unsigned int vercount;
-    unsigned int edgecount;
-    struct listnode *blockmemory;
-    struct vertex *Adj;
+    unsigned int vercount; /*  number of vertex */
+    unsigned int edgecount; /*number of edge */
+    struct listnode *blockmemory; /* block memory for all listnodes */
+    struct vertex *Adj; /* pointer to adjacency-list */
 };
 
 struct vertex* vertex_init(size_t vnum){
@@ -108,7 +108,7 @@ void add_edges(struct Graph *G, int *ev){
         bm->next = Adj[j].head;
         Adj[j].head = bm;
         bm->self = &Adj[k];
-        bm++;
+        bm++; /*get memory from block memory previously allocated, pointer to next listnode */
         Adj[j].nodenum++;
     }
 }
@@ -122,11 +122,11 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
     num = u->nodenum;
     head = u->head;
     while(num--){ /* or (head--) != NULL */
-        if((head->self->color >> 10) & 1){
+        if((head->self->color >> 10) & 1){ /*this vertex has just been discovered */
             head->self->parent = u->vernum;
             DFS_VISIT(G,head->self);
         }
-        head--;
+        head--; /*pointer to next listnode */
     }
     u->color = 1 << 12; /* BLACK */
     time += 1;
@@ -137,7 +137,7 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
 void DFS(struct Graph *G){
     int i;
     struct vertex *u;
-    for(i = 0; i < G->vercount; i++){
+    for(i = 0; i < G->vercount; i++){ /*try to discover each vertex*/
         u = &G->Adj[i];
         if((u->color>>10) & 1)
             DFS_VISIT(G,u);
