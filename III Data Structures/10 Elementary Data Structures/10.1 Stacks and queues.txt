@@ -1,0 +1,86 @@
+we present only the rudimentary ones: stacks, queues, linked lists,
+and rooted trees. We also show ways to synthesize objects and pointers from arrays.
+
+10.1 Stacks and queues
+stack,LIFO,last-in,first-out
+queue,FIFO,first-in,first-out
+
+There are several efficient ways to implement stacks and queues
+on a computer. In this section we show how to use a simple array to implement
+each.
+
+1.Stacks
+The INSERT operation on a stack is often called PUSH, and the DELETE operation,
+which does not take an element argument, is often called POP.
+
+pop an empty stack: stack underflows
+S.top exceeds n, the stack overflows
+
+attribute S.top indexes the most recently inserted element
+
+STACK-EMPTY(S)
+1 if S.top == 0
+2     return TRUE
+3 else return FALSE
+
+PUSH(S.x)
+1 S.top = S.top + 1
+2 S[S.top] = x
+
+POP(S)
+1 if STACK-EMPTY(S)
+2     error “underflow”
+3 else S.top = S.top - 1
+4     return S[S.top+1]
+
+Each of the three stack operations takes O(1) time.
+
+2.Queues
+We call the INSERT operation on a queue ENQUEUE, and we call the DELETE
+operation DEQUEUE; like the stack operation POP, DEQUEUE takes no element argument.
+The queue has a head and a tail.
+
+The queue has an attribute Q.head that indexes, or points
+to, its head. The attribute Q.tail indexes the next location at which a newly arriving
+element will be inserted into the queue. The elements in the queue reside in
+locations Q.head,Q.head + 1,...,Q.tail - 1, where we “wrap around” in the
+sense that location 1 immediately follows location n in a circular order.
+
+When Q.head = Q.tail, the queue is empty. Initially, we have Q.head = Q.tail = 1.
+If we attempt to dequeue an element from an empty queue, the queue underflows.
+When Q.head = Q.tail + 1, the queue is full, and if we attempt to enqueue an
+element, then the queue overflows.
+
+ENQUEUE(Q,x)
+1 Q[Q.tail] = x
+2 if Q.tail == Q.length
+3     Q.tail = 1
+4 else Q.tail = Q.tail + 1
+
+DEQUEUE(Q)
+1  x = Q[Q.head]
+2 if Q.head == Q.length
+3     Q.head = 1
+4 else Q.head = Q.head + 1
+5     return x
+
+Each operation takes O(1) time.
+
+add the error checking for underflow and overflow.
+ENQUEUE(Q,x)
+1 if Q.head = Q.tail + 1 or (Q.tail == Q.length and Q.head == 1)
+2     error "overflow"
+3 Q[Q.tail] = x
+4 if Q.tail == Q.length
+5     Q.tail = 1
+
+6 else Q.tail = Q.tail + 1
+
+DEQUEUE(Q)
+1 if Q.head = Q.tail
+2     error "underflows"
+3  x = Q[Q.head]
+4 if Q.head == Q.length
+5     Q.head = 1
+6 else Q.head = Q.head + 1
+7     return x
