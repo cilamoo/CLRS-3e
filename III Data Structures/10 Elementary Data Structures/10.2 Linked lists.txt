@@ -1,0 +1,77 @@
+10.2 Linked lists-doubly linked list
+
+A linked list is a data structure in which the objects are arranged in a linear order.
+Unlike an array, however, in which the linear order is determined by the array
+indices, the order in a linked list is determined by a pointer in each object.
+
+Each element of a doubly linked list L is an object with an attribute key and two 
+other pointer attributes: next and prev. The object may also contain other satellite data. 
+
+Given an element x in the list, x.next points to its successor in the linked list, 
+and x.prev points to its predecessor. 
+
+If x.prev = NIL,the element x has no predecessor and is therefore the first element, or head, of
+the list. 
+
+If x.next = NIL, the element x has no successor and is therefore the last element, or tail, of the list.
+
+An attribute L.head points to the first element of the list. If L.head = NIL, the list is empty.
+
+list forms:
+    singly linked or doubly linked, sorted or not, circular or not
+
+1.Searching a linked list
+LIST-SEARCH(L,k)
+1 x = L.head
+2 while x ≠ NIL and x.key ≠ k
+3     x = x.next
+4 return x
+
+in the worst case, running time is Θ(n), since it may have to search the entire list
+
+2.Inserting into a linked list
+the LIST-INSERT procedure “splices” x onto the front of the linked list
+LIST-INSERT(L,x)
+1 x.next = L.head
+2 if L.head ≠ NIL
+3     L.head.prev = x 
+4 L.head = x 
+5 x.prev = NIL 
+
+The running time for LIST-INSERT on a list of n elements is O(1).
+
+3.Deleting from a linked list
+If we wish to delete an element with a given key, we must first call LIST-SEARCH
+to retrieve a pointer to the element and should check this pointer that equals NIL or not.
+
+LIST-DELETE(L,x)
+1 if x.prev ≠ NIL 
+2     x.prev.next = next 
+3 else L.head = x.next 
+4 if x.next ≠ NIL
+5     x.next.prev = x.prev 
+
+LIST-DELETE runs in O(1) time, but if we wish to delete an element with a given key, Θ(n) time
+is required in the worst case because we must first call LIST-SEARCH to find the
+element.
+
+4.Sentinels
+LIST-DELETE'(L,x)
+1 x.prev.next = x.next 
+2 x.next.prev = x.prev
+
+LIST-SEARCH'(L,k)
+1 x = L.nil.next
+2 while x ≠ L.nil and x.key ≠ k 
+3     x = x.next 
+4 return x 
+
+LIST-INSERT(L,x)
+1 x.next = L.nil.next
+2 L.nil.next.prev = x
+3 L.nil.next = x
+4 x.prev = L.nil 
+
+The gain from using sentinels within loops is usually a matter of clarity of code rather than speed;
+When there are many small lists, the extra storage used by their sentinels can represent significant wasted memory. 
+
