@@ -1,1 +1,13 @@
-7
+The quicksort algorithm has a worst-case running time of Θ(n^2) on an input array
+of n numbers. Despite this slow worst-case running time, quicksort is often the best
+practical choice for sorting because it is remarkably efficient on the average: its
+expected running time is Θ(nlgn), and the constant factors hidden in the Θ(nlgn)
+notation are quite small. It also has the advantage of sorting in place (see page 17),
+and it works well even in virtual-memory environments.
+
+Section 7.3 presents a version of quicksort that uses random sampling. This algorithm has a good expected running time, and no
+particular input elicits its worst-case behavior. Section 7.4 analyzes the randomized
+algorithm, showing that it runs in Θ(n^2) time in the worst case and, assuming
+distinct elements, in expected O(nlgn) time.
+
+
