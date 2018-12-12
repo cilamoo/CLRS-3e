@@ -17,7 +17,7 @@ int partition(int *A, int p, int r){
             swap(&A[i],&A[j]);
         }
     }
-    swap(&A[i+1], &A[r)；
+    swap(&A[i+1], &A[r]);
     return i + 1;
     
 }
@@ -34,11 +34,15 @@ void quicksort(int *A, int p, int r){
 int main(){
     int i;
     int A[12] = {13, 19, 9, 5, 12, 8, 7, 4, 21, 2, 6, 11};
-    quicksort(A,0,11);
-    i = 12;
-    while(i--){
+    printf("Input: ");
+    for(i = 0; i < 12; i++){
         printf("%d ", A[i]);
     }
-    printf("\n")
+    quicksort(A,0,11);
+    printf(" Output: ");
+    for(i = 0; i < 12; i++){
+        printf("%d ", A[i]);
+    }
+    printf("\n");
     return 0;
 }

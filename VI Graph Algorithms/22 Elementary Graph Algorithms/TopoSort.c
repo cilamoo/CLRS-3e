@@ -1,21 +1,23 @@
 /* Topological sort for figure 22.7 on page 613.*/
-#include "dfs.h"
 
-/* quicksort algorithm, sorts graph vertexes after been discovered by atrribute f */
+#include "dfs.h"
+#include <stdlib.h>
+
+/* quicksort algorithm, sorts graph vertexes by atrribute f */
 void swap(struct vertex **v1, struct vertex **v2){
     struct vertex *tmp;
-    tmp = *v1;
-    *v1 = *v2;
-    *v2 = tmp;
+    tmp = &**v1;
+    *v1 = &**v2;
+    *v2 = &*tmp;
 }
 
 int partition(struct vertex **A, int p, int r){
     int x, i, j;
     i = p - 1;
     x = A[r]->f;
-    for(j = p; p < r; p++){
-        if(A[j]->f < x){
-            i = i + 1;
+    for(j = p; j < r; j++){
+        if(A[j]->f <= x){
+            i += 1;
             swap(&A[i],&A[j]);
         }
     }
@@ -44,12 +46,14 @@ void list_insert(struct list *L, struct listnode *v){
 
 /* output topological sort */
 void print_toposort(struct list *L, char **input){
-    struct list *head;
+    struct listnode *head;
     head = L->head;
+    printf("Topological Sort: ");
     while(head != NULL){
-        printf("[%s %d]->", input[head->self->vernum], head->self->f,);
+        printf("[%s %d]->", input[head->self->vernum], head->self->f);
         head = head->next;
     }
+    printf("Finished\n");
 }
 
 /*Inputs from figure 22.7
@@ -57,6 +61,7 @@ char *vertexes[9] = {"shirt", "tie", "jacket", "belt", "pants", "shoes","socks",
 int map[9] = {0,1,2,3,4,5,6,7,8};
 int edge_vector[20] = {0,1,1,2,0,3,3,2,4,3,4,5,6,5,7,5,7,4,8,8};
 */
+
 /*Maybe need randomization technique for graph search , or after being searched, quicksort should excute randomly*/
 int main(){
     int i; 
@@ -64,9 +69,8 @@ int main(){
     struct listnode *block, *freeptr;
     struct vertex* A[9];
     struct Graph *G; 
-    int edge_vector[20] = {0,1,1,2,0,3,3,2,4,3,4,5,6,5,7,5,7,4,8,8};
     char* vertexes[9] = {"shirt", "tie", "jacket", "belt", "pants", "shoes","socks","undershorts","watch" };;
-    
+    int edge_vector[20] = { 0,1, 0,3, 1,2, 3,2, 4,3, 4,5, 6,5, 7,5, 7,4,   8,8};
     if((list = malloc(sizeof(*list))) == NULL){
         printf("malloc call failed when allocated memory for list \n");
         return -1;    
@@ -87,15 +91,17 @@ int main(){
     }
 
     add_edges(G, edge_vector);
-
+   
+    print_graph(G);   
     DFS(G);
+    print_paren_structure(G);
     
     for(i = 0; i < 9; i++)
     {
         A[i] = &G->Adj[i];
     }
-
-    qucksort(&A,0,8);
+    
+    quicksort(&A[0],0,8);
     
     for(i = 0; i < 9; i++){
         struct listnode *tmp = block++; /* get memory address from block memory */
@@ -104,11 +110,11 @@ int main(){
         list_insert(list, tmp);
     }
 
-    print_toposort(L, vertexes);
+    print_toposort(list, vertexes);
     free(freeptr);
     free(list);
     graph_release(G);
-
+    
     return 0;
 }
 

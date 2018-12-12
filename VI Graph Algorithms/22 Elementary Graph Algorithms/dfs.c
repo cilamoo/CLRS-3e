@@ -20,35 +20,14 @@ DFS-VISIT(G,u)
 9 time = time + 1
 10 u.f = time 
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 #include "dfs.h"
 
 
-static int time = 0; /* global variable */
-
-struct listnode{
-    struct vertex *self;
-    struct listnode *next;
-};
-
-struct vertex {
-    int vernum; /*vernum denotes character vertex */ 
-    unsigned int color;
-    unsigned int parent; /*atrribute u.π */
-    int d; 
-    int f;
-    unsigned int nodenum; /*number of listnodes this vertex has, or edges from this vertex to other */
-    struct listnode *head; /*pointer first listnode in list */
-};
-
-struct Graph {
-    unsigned int vercount; /*  number of vertex */
-    unsigned int edgecount; /*number of edge */
-    struct listnode *blockmemory; /* block memory for all listnodes */
-    struct vertex *Adj; /* pointer to adjacency-list */
-};
+static int time = 0;    /* global variable */
 
 struct vertex* vertex_init(size_t vnum){
     int i;
@@ -72,6 +51,7 @@ struct Graph* graph_init(size_t vernum, size_t edgenum){
     struct Graph *G;
     if((G = malloc(sizeof(*G))) == NULL)
         return NULL;
+
     if((G->blockmemory = malloc(edgenum*sizeof(struct listnode))) == NULL )
         return NULL;
     if((G->Adj = vertex_init(vernum)) == NULL)
@@ -101,18 +81,18 @@ void add_edges(struct Graph *G, int *ev){
         bm->next = Adj[j].head;
         Adj[j].head = bm;
         bm->self = &Adj[k];
-        bm++; /*get memory from block memory previously allocated, pointer to next listnode */
+        bm++;     /*get memory from block memory previously allocated, pointer to next listnode */
         Adj[j].nodenum++;
     }
 }
 
 void DFS_VISIT(struct Graph *G, struct vertex *u){
-    int num;
+    int i,num;
     time += 1;
     printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
     struct listnode *head;
     u->d = time;
-    u->color = 1<<11; /* GRAY */
+    u->color = 1<<11;     /* GRAY */
     num = u->nodenum;
     head = u->head;
     while(num--){ /* or (head--) != NULL */
@@ -120,18 +100,21 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
             head->self->parent = u->vernum;
             DFS_VISIT(G,head->self);
         }
-        head--; /*pointer to next listnode */
+
+       if(num != 0){ 
+          head = head->next;
+       } /* pointer to next listnode */ 
     }
-    u->color = 1 << 12; /* BLACK */
     time += 1;
     u->f = time;
+    u->color = 1 << 12;    /* BLACK */
     printf("vertex %d is finished,time is %d, parent is %d\n", u->vernum, time, u->parent );
 }
 
 void DFS(struct Graph *G){
     int i;
     struct vertex *u;
-    for(i = 0; i < G->vercount; i++){ /*try to discover each vertex*/
+    for(i = 0; i < G->vercount; i++){    /*try to discover each vertex*/
         u = &G->Adj[i];
         if((u->color>>10) & 1)
             DFS_VISIT(G,u);
@@ -150,4 +133,28 @@ void print_path(struct vertex *Adj, char *c, int start, int dest){
         print_path(Adj, c, start, Adj[dest].parent);
         printf("-> %c ", c[dest]);
        }
+}
+
+void print_graph(struct Graph *G){
+      int i,j;
+      struct vertex *v = G->Adj;
+      struct listnode *head;
+      for(i = 0; i < G->vercount; i++){
+          head = v[i].head;
+          printf("vertex %d has %d edge(s):",v[i].vernum,v[i].nodenum);
+          for(j = 0;j < v[i].nodenum; j++){
+                printf("%d ", head->self->vernum);
+                head = head->next;
+            }
+            printf("\n");
+        }
+ }
+
+void print_paren_structure(struct Graph *G){
+    int i;
+    struct vertex *Adj = G->Adj;
+    printf("parenthesis structure:\n");
+    for(i = 0; i < G->vercount; i++){
+          printf("vertex %d  (d,f)->(%d,%d)\n", Adj[i].vernum, Adj[i].d, Adj[i].f);
+    }
 }
