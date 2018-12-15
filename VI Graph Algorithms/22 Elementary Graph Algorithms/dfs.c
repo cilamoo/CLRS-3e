@@ -62,6 +62,16 @@ struct Graph* graph_init(size_t vernum, size_t edgenum){
     return G;
 }
 
+struct Graph* tg_graph_init(struct Graph *G){  /* the transpose of G*/
+    struct Graph *TG;
+    unsigned int i;
+    TG = graph_init((size_t)G->vercount, (size_t)G->edgecount);
+    for(i = 0; i < G->vercount; i++){
+        TG->Adj[i].f = G->Adj[i].f; /* the transpose of G stores finishing times computed first DFS call*/
+    }
+    return TG;
+}    
+
 void graph_release(struct Graph *G){
     free(G->blockmemory);
     free(G->Adj);
@@ -114,12 +124,73 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
 void DFS(struct Graph *G){
     int i;
     struct vertex *u;
+    time = 0;                            /* reset time */
     for(i = 0; i < G->vercount; i++){    /*try to discover each vertex*/
         u = &G->Adj[i];
         if((u->color>>10) & 1)
             DFS_VISIT(G,u);
     }
 
+}
+
+void sccDFS_VISIT(struct Graph *G, struct SCC *SCC, struct vertex *u){
+    int i,num;
+    time += 1;
+    printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
+    struct listnode *head;
+
+    SCC->scca[index++] = u->vernum ; /*discovery a vertex of SCC*/
+    SCC->vercount++;                 /* vertex count, SCC->vercount == SCC->index */
+    
+    u->d = time;
+    u->color = 1<<11;     /* GRAY */
+    num = u->nodenum;
+    head = u->head;
+    while(num--){ /* or (head--) != NULL */
+        if((head->self->color >> 10) & 1){ /*this vertex has just been discovered */
+            head->self->parent = u->vernum;
+            sccDFS_VISIT(G,SCC,head->self);
+        }
+
+       if(num != 0){ 
+          head = head->next;
+       } /* pointer to next listnode */ 
+    }
+    time += 1;
+    u->f = time;
+    u->color = 1 << 12;    /* BLACK */
+    printf("vertex %d is finished,time is %d, parent is %d\n", u->vernum, time, u->parent );
+}
+
+/*Alarm: make sure each vertex in TG belongs to one SCC, otherwise programm must be coded by 
+the definition of SCC. That is, function sccDFS can be applied just for Figure 22.9. */
+struct SCClist* sccDFS(struct Graph *TG, struct vertex **vertex){
+    int i;
+    struct SCCList *SCClist;
+    struct vertex *u;
+
+    if((SCClist = malloc(sizeof(*SCClist))) == NULL)
+        return NULL;
+    SCClist->head = NULL:
+
+    i = TG->vercount;
+    while(i--){
+       u = vertex[i];
+        if((u->color>>10) & 1){
+            if((SCC = malloc(sizeof(*SCC))) == NULL){ /* Alarm */ 
+               return NULL;
+            }
+
+            SCC->next = SCClist->head;
+            SCC->vercount = 0;
+            SCC->index = 0;
+            SCC->scca[8] = {-1,-1,-1,-1,-1,-1,-1,-1};
+            SCClist->scccount++;
+            DFS(TG,SCC,u);
+        }
+
+    }
+    return SCC；
 }
 
 /*print path from s to one vertex */
@@ -156,5 +227,19 @@ void print_paren_structure(struct Graph *G){
     printf("parenthesis structure:\n");
     for(i = 0; i < G->vercount; i++){
           printf("vertex %d  (d,f)->(%d,%d)\n", Adj[i].vernum, Adj[i].d, Adj[i].f);
+    }
+}
+
+void print_SCC(struct SCClist, char *vermap){
+    unsigned int order = 1;
+    struct SCC *head = SCClist->head;
+    printf("STRONGLY CONNECTED COMPONENTS: \n");
+    while(head != NULL){
+        printf(" The %dth SCC: ", order++);
+        int idx;
+        for(idx = 0; idx < head->vercount; idx ++){
+            printf(" %c ", vermap[ (head->scca[idx]) ]);
+        }
+        head = head->next;
     }
 }
