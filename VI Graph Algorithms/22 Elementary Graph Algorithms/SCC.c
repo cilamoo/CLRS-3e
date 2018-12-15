@@ -2,6 +2,7 @@
 
 #include "dfs.h"
 #include "quicksort.h"
+#include <stdlib.h>
 
 /*Input from figure 22.9 on page 616:
 char vertexes[8] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
@@ -21,12 +22,13 @@ int main(){
      int j;
     for(j = 0; j < 14; j++){
         reverse_edge_vector[2*j] = edge_vector[2*j+1];
-        reverse_edge_vector[2*j+1] = edge_vector[2j];        
+        reverse_edge_vector[2*j+1] = edge_vector[2*j];        
     }
     }
 
     G = graph_init(8,14);
     add_edges(G, edge_vector);
+    printf("==== 1st DFS ==== \n");
     DFS(G);                  /* compute finishing times u.f for each vertex u */
 
     {/*use quicksort to sort vertex by finishing times */
@@ -34,14 +36,20 @@ int main(){
     for(j = 0; j < 8; j++){
         A[j] = &G->Adj[j];
     }
-    quicksort(&A[0], 0, 8);
+    
+    quicksort(&A[0], 0, 7);
     }
 
     TG = tg_graph_init(G);                   /* the transpose of G*/
     add_edges(TG, reverse_edge_vector);      /*add reverse edges */
+    printf("===== 2nd DFS ====\n");
     SCClist = sccDFS(TG, &A[0]);                      /* consider the vertices in order of decreasing u.f */
-    print_SCC(SCClist, vertexes);
+    if(SCClist == NULL){
+       printf("sccDFS failed\n");
+       return -1;
+   }
    
+   print_SCC(SCClist, vertexes);
    {    
     struct SCC *next;
     struct SCC *head = SCClist->head;

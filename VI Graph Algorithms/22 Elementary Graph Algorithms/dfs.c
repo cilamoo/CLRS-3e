@@ -124,7 +124,6 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
 void DFS(struct Graph *G){
     int i;
     struct vertex *u;
-    time = 0;                            /* reset time */
     for(i = 0; i < G->vercount; i++){    /*try to discover each vertex*/
         u = &G->Adj[i];
         if((u->color>>10) & 1)
@@ -139,7 +138,7 @@ void sccDFS_VISIT(struct Graph *G, struct SCC *SCC, struct vertex *u){
     printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
     struct listnode *head;
 
-    SCC->scca[index++] = u->vernum ; /*discovery a vertex of SCC*/
+    SCC->scca[SCC->index++] = u->vernum ; /*discovery a vertex of SCC*/
     SCC->vercount++;                 /* vertex count, SCC->vercount == SCC->index */
     
     u->d = time;
@@ -166,31 +165,38 @@ void sccDFS_VISIT(struct Graph *G, struct SCC *SCC, struct vertex *u){
 the definition of SCC. That is, function sccDFS can be applied just for Figure 22.9. */
 struct SCClist* sccDFS(struct Graph *TG, struct vertex **vertex){
     int i;
-    struct SCCList *SCClist;
+    struct SCClist *SCClist;
+    struct SCC *SCC;
     struct vertex *u;
-
+    
+    time = 0;       /* reset time */
     if((SCClist = malloc(sizeof(*SCClist))) == NULL)
         return NULL;
-    SCClist->head = NULL:
+    SCClist->head = NULL;
 
     i = TG->vercount;
     while(i--){
-       u = vertex[i];
+       u = &TG->Adj[vertex[i]->vernum];
         if((u->color>>10) & 1){
             if((SCC = malloc(sizeof(*SCC))) == NULL){ /* Alarm */ 
                return NULL;
             }
 
             SCC->next = SCClist->head;
+            SCClist->head = SCC;
             SCC->vercount = 0;
             SCC->index = 0;
-            SCC->scca[8] = {-1,-1,-1,-1,-1,-1,-1,-1};
+           {int i;
+            for(i = 0;i < 8;i++){
+               SCC->scca[i] = -1;
+            }
+           }
             SCClist->scccount++;
-            DFS(TG,SCC,u);
+           sccDFS_VISIT(TG,SCC,u);
         }
 
     }
-    return SCC；
+    return SCClist;
 }
 
 /*print path from s to one vertex */
@@ -230,7 +236,7 @@ void print_paren_structure(struct Graph *G){
     }
 }
 
-void print_SCC(struct SCClist, char *vermap){
+void print_SCC(struct SCClist *SCClist, char *vermap){
     unsigned int order = 1;
     struct SCC *head = SCClist->head;
     printf("STRONGLY CONNECTED COMPONENTS: \n");
@@ -240,6 +246,8 @@ void print_SCC(struct SCClist, char *vermap){
         for(idx = 0; idx < head->vercount; idx ++){
             printf(" %c ", vermap[ (head->scca[idx]) ]);
         }
+        printf("\n");
         head = head->next;
     }
+   printf("\n");
 }
