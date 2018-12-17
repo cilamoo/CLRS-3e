@@ -4,9 +4,9 @@
 
 void swap(struct vertex **v1, struct vertex **v2){
     struct vertex *tmp;
-    tmp = &**v1;
-    *v1 = &**v2;
-    *v2 = &*tmp;
+    tmp = *v1;
+    *v1 = *v2;
+    *v2 = tmp;
 }
 
 int partition(struct vertex **A, int p, int r){

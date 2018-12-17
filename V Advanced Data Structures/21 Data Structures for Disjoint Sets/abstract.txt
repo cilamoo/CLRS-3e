@@ -42,3 +42,34 @@ SAME-COMPONENT(u,v)
 21.2 Linked-list representation of disjoint sets
 A simple implementation of union
 A weighted-union heuristic
+
+21.3 Disjoint-set forests
+Heuristics to improve the running time
+union by rank;
+path compression;
+
+Pseudocode for disjoint-set forests
+MAKE-SET(x)
+1 x.p = x
+2 x.rank = 0;
+
+UNION(x,y)
+1 LINK(FIND-SET(x), FIND-SET(y))
+
+LINK(x,y)
+1 if x.rank > y.rank
+2     y.p = x
+3 else x.p = y
+4     if x.rank == y.rank 
+5         y.rank = y.rank + 1
+
+FIND-SET(x)
+1 if x ≠ x.p
+2     x.p = FIND-SET(x.p)
+3 return x.p
+
+When we use both union by rank and path compression, the worst-case running
+time is O(m α(n)), where α(n) is a very slowly growing function, which we define
+in Section 21.4. In any conceivable application of a disjoint-set data structure,
+α(n) ≤ 4; thus, we can view the running time as linear in m in all practical situations.
+

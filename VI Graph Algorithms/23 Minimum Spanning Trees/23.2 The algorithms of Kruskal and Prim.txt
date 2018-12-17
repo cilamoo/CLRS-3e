@@ -1,6 +1,6 @@
 23.2 The algorithms of Kruskal and Prim
 
-MST-KRUSKAL(G)
+MST-KRUSKAL(G,w)
 1 A = Ø ;
 2 for each vertex u ∈ G.V
 3     MAKE-SET(u)
