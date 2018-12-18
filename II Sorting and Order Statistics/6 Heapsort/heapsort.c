@@ -1,4 +1,5 @@
 /*heapsort*/
+#include <stdio.h>
 
 int PARENT(int i){
     return i>>1;
@@ -31,9 +32,10 @@ void max_heapify(int *A, int i, int heap_size){
     if(r <= heap_size && A[r-1] > A[largest-1])
         largest = r;
     
-    if(largest != i)
+    if(largest != i){
         swap(A,largest,i);
         max_heapify(A,largest,heap_size);
+    }
 }
 
 void min_heapify(int *A, int i, int heap_size){
@@ -49,9 +51,10 @@ void min_heapify(int *A, int i, int heap_size){
     if(r <= heap_size && A[r-1] < A[smallest-1])
         smallest = r;
 
-    if(smallest != i)
+    if(smallest != i){
         swap(A,smallest,i);
         min_heapify(A,smallest,heap_size);
+    }
 }
 
 void build_max_heap(int *A, int length){
@@ -96,19 +99,19 @@ void min_heapsort(int *A, int length){
 
 int main(){
     int i;
-    int A[9] = {5, 3, 17, 10, 84, 19, 6, 22, 9};
-    int A2[9] = {5, 3, 17, 10, 84, 19, 6, 22, 9};
-    max_heapsort(A,9);
-    min_heapsort(A2,9);
+    int A[10] = {4 ,1, 3, 2, 16, 9, 10, 14, 8, 7};
+    int A2[10] = {4 ,1, 3, 2, 16, 9, 10, 14, 8, 7};
+    max_heapsort(A,10);
+    min_heapsort(A2,10);
     printf("MAX-HEAP: ");
-    for(i = 0; i < 9; i++){
-        printf("%d ", A[i]);
-    }
-
-    printf("\nMIN-HEAP: ");
-    for(i = 0; i < 9; i++){
+    for(i = 0; i < 10; i++){
         printf("%d ", A[i]);
     }
     
+    printf("\nMIN-HEAP: ");
+    for(i = 0; i < 10; i++){
+        printf("%d ", A2[i]);
+    }
+    printf("\n");    
     return 0;
 }
