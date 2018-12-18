@@ -1,0 +1,15 @@
+6.4 The heapsort algorithm
+
+HEAPSORT(A)
+1 BUILD-MAX-HEAP(A)
+2 for i = A.length downto 2
+3     exchange A[1] with A[i]
+4     A.heap-size = A.heap-size - 1
+5     MAX-HEAPIFY(A,1)
+
+The HEAPSORT procedure takes time O(nlgn), since the call to BUILD-MAXHEAP
+takes time O(n) and each of the n-1 calls to MAX-HEAPIFY takes
+time O(lgn).
+
+
+

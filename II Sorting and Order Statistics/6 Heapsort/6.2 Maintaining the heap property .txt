@@ -1,0 +1,33 @@
+6.2 Maintaining the heap property
+
+MAX-HEAPIFY assumes that the binary trees rooted at LEFT(i) and RIGHT(i) are maxheaps,
+but that A[i] might be smaller than its children, thus violating the max-heap
+property. MAX-HEAPIFY lets the value at A[i] “float down” in the max-heap so
+that the subtree rooted at index i obeys the max-heap property.
+
+MAX-HEAPIFY(A,i)
+1 l = LEFT(i)
+2 r = RIGHT(i)
+3 if l ≤ A.heap-size and A[l] > A[i]
+4     largest = l
+5 esle largest = i
+6 if r ≤ A.heap-size and A[r] > A[largest]
+7     largest = r
+8 if largest ≠ i
+9     exchange A[i] with A[largest] 
+10     MAX-HEAPIFY(A,largest)
+
+At each step, the largest of the elements is determined.
+
+The running time of MAX-HEAPIFY on a subtree of size n rooted at a given
+node i is the Θ(1) time to fix up the relationships among the elements A[i],
+A[LEFT(i)], and A[RIGHT(i)], plus the time to run MAX-HEAPIFY on a subtree
+rooted at one of the children of node i (assuming that the recursive call occurs).
+The children’s subtrees each have size at most 2n/3—the worst case occurs when
+the bottom level of the tree is exactly half full—and therefore we can describe the
+running time of MAX-HEAPIFY by the recurrence
+T(n) ≤ T(2n/3) + Θ(1)
+The solution to this recurrence, by case 2 of the master theorem (Theorem 4.1),
+is T(n) = O(lgn). Alternatively, we can characterize the running time of MAX-HEAPIFY
+on a node of height h as O(h).
+

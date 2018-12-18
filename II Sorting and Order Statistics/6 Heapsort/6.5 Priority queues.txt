@@ -1,0 +1,72 @@
+6.5 Priority queues
+
+Heapsort is an excellent algorithm, but a good implementation of quicksort, presented
+in Chapter 7, usually beats it in practice. Nevertheless, the heap data structure
+itself has many uses.
+
+one of the most popular applications of a heap: as an efficient priority queue.
+
+A priority queue is a data structure for maintaining a set S of elements, each
+with an associated value called a key. A max-priority queue supports the following
+operations:
+INSERT(S,x),
+MAXIMUM(S),
+EXTRACT-MAX(S) removes and returns the element of S with the largest key,
+INCREASE-KEY(S,x,k),
+
+Applications:
+1)use max-priority queues to schedule jobs on a shared computer.
+2)A min-priority queue can be used in an event-driven simulator.
+
+When we use a heap to implement a priority queue, therefore, we often need to
+store a handle to the corresponding application object in each heap element. The
+exact makeup of the handle (such as a pointer or an integer) depends on the application.
+Similarly, we need to store a handle to the corresponding heap element
+in each application object. Here, the handle would typically be an array index.
+Because heap elements change locations within the array during heap operations,
+an actual implementation, upon relocating a heap element, would also have to update
+the array index in the corresponding application object
+
+The procedure HEAP-MAXIMUM implements the MAXIMUM operation in Θ(1) time.
+HEAP-MAXIMUM(A)
+1 return A[1]
+
+HEAP-EXTRACT-MAX(A)
+1 if A.heap-size < 1
+2    error “heap underflow”
+3 max = A[1]
+4 A[1] = A[A.heap-size]
+5 A.heap-size = A.heap-size - 1
+6 MAX-HEAPIFY(A,1)
+7 return max
+
+The running time of HEAP-EXTRACT-MAX is O(lgn), since it performs only a
+constant amount of work on top of the O(lgn) time for MAX-HEAPIFY.
+
+HEAP-INCREASE-KEY(A,i,key)
+1 if key < A[i]
+2     error “new key is smaller than current key”
+3 A[i] = key
+4 while i > 1 and A[PARENT(i)] < A[i]
+5     exchange A[i] with A[PARENT(i)]
+6     i = PARENT(i)
+
+Figure 6.5 shows an example of a HEAP-INCREASE-KEY operation. The running
+time of HEAP-INCREASE-KEY on an n-element heap is O(lgn), since the path
+traced from the node updated in line 3 to the root has length O(lgn).
+
+MAX-HEAP-INSERT(A,key)
+1 A.heap-size = A.heap-size + 1
+2 A[A.heap-size] = -∞
+3 HEAP-INCREASE-KEY(A,A.heap-size,key)
+
+In summary, a heap can support any priority-queue operation on a set of size n
+in O(lgn) time.
+
+
+
+
+
+
+
+

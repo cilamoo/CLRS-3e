@@ -1,0 +1,22 @@
+6.3 Building a heap
+
+the elements in the subarray A[(⌊n/2⌋+1)...n] are all leaves of the tree.
+
+BUILD-MAX-HEAP(A)
+1 A.heap-size = A.length
+2 for i = ⌊A.length/2⌋ downto 1
+3     MAX-HEAPIFY(A,i)
+
+Each call to MAX-HEAPIFY costs O(lgn) time, and BUILDMAX-HEAP 
+makes O(n) such calls. Thus, the running time is O(nlgn). This
+upper bound, though correct, is not asymptotically tight.
+
+We can derive a tighter bound by observing that the time for MAX-HEAPIFY to
+run at a node varies with the height of the node in the tree, and the heights of most
+nodes are small. Our tighter analysis relies on the properties that an n-element heap
+has height ⌊lgn⌋ (see Exercise 6.1-2) and at most  ⌈n/2^(h+1)⌉nodes of any height h
+(see Exercise 6.3-3).
+
+O(n):build a max-heap from an unordered array in linear time.
+BUILD-MIN-HEAP produces a min-heap from an unordered linear array in linear time.
+
