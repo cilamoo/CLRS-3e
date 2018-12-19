@@ -1,9 +1,11 @@
 /* Prim’s algorithm */
 
 #include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
 
 typedef struct listnode {
-    struct vertex *self;
+    struct Vertex *self;
     struct listnode *next;
     int weight;
 }listnode;
@@ -12,7 +14,8 @@ typedef struct Vertex{
     int ver;                     /* use number to denote a vertex, not character */
     int index;                   /*index locates this vetex within min-priority queue */
     int parent;                  
-    unsigned int  key;           /* the attribute key is the minimum weight of any edge connecting this vertex to a vertex in the tree */
+    unsigned int  key;           /* the attribute key is the minimum weight of any edge \
+                                    connecting this vertex to a vertex in the tree */
     unsigned int nodenum;             /* the number of edges leaving this vertex */
     struct listnode *head;       /* pointer to adjacency-list of this vertex */
 }Vertex;
@@ -23,12 +26,6 @@ typedef struct Graph{
     struct listnode *blockmemory;    /* block memory for all listnodes */
     struct Vertex *Adj;             /* pointer to adjacency-list */
 }Graph;
-
-typedef struct Edge{
-    int s;            /* start vertex */
-    int d;            /* destination vertex */
-    int weight;     
-}Edge;
 
 /*min-priority queue*/
 int PARENT(int i){
@@ -43,8 +40,8 @@ int RIGHT(int i){
     return (i<<1)+1;
 }
 
-void swap(struct Vertex **v1, struct vertex **v2){
-    struct Vertex *tmp;
+void swap(Vertex **v1, Vertex **v2){
+    Vertex *tmp;
     tmp = *v1;
     *v1 = *v2;
     *v2 = tmp;
@@ -95,7 +92,8 @@ Vertex* heap_extract_min(min_heap *Q){
     }
     
     min = Q->A[0];
-    min->index = -1;              /*-1 means that the vertex is not in set Q, use this index for testing in function MST_PRIM */
+    min->index = -1;              /*-1 means that the vertex is not in set Q,
+                                    use this index for testing in function MST_PRIM */
     Q->A[0] = Q->A[Q->heap_size-1];
     Q->heap_size -= 1;
     min_heapify(Q->A,1,Q->heap_size);
@@ -105,8 +103,8 @@ Vertex* heap_extract_min(min_heap *Q){
 
 void heap_decrease_key(Vertex **A, int i, unsigned int key){
     if(key > A[i-1]->key){
-        exit(1);
         printf("error: new key is bigger than current key\n");
+        exit(1);
     }
 
     int j = i;
@@ -114,11 +112,12 @@ void heap_decrease_key(Vertex **A, int i, unsigned int key){
     while(j >1 && A[PARENT(j)-1]->key > A[j-1]->key){
         A[PARENT(j)-1]->index = j;
         A[j-1]->index = PARENT(j);
+        swap(&A[PARENT(j)-1],&A[j-1]);
         j = PARENT(j);
     }
 }
 
-min_heap* min_heap_alloc(Graph *G, int i){
+min_heap* min_heap_alloc(Graph *G, int r){
     size_t i;
     min_heap *p;
     Vertex **A;
@@ -129,7 +128,7 @@ min_heap* min_heap_alloc(Graph *G, int i){
         return NULL;
     }
     A = p->A =(Vertex**)(p+1);
-    p->heap_size = n = (unsigned int)size;
+    p->heap_size = p->n = (unsigned int)size;
 
     for(i = 0; i < size; i++){
         A[i] = &Adj[i];
@@ -172,8 +171,8 @@ Graph* graph_alloc(size_t vernum, size_t edgenum){
     if((G->Adj = vertex_init(vernum)) == NULL)
        return NULL;
 
-    G->vercount = vernum;
-    G->edgecount = edgenum;
+    G->vernum = vernum;
+    G->edgenum = edgenum;
     return G;
 }
 
@@ -183,23 +182,23 @@ void graph_release(Graph *G){
     free(G);
 }
 
-void add_edges(Graph *G, int *ev){     /*Can be reconstructed for undirected graph, since the path u->v means v->u */
+void add_edges(Graph *G, int *ev){ /*Can be reconstructed for undirected graph, since the path u->v means v->u*/
     unsigned int i, j, k, w;
-    struct vertex *Adj;
-    struct listnode *bm;
+    Vertex *Adj;
+    listnode *bm;
     Adj = G->Adj;
     bm = G->blockmemory;
 
-    for(i = 0; i < G->edgecount; i++){
+    for(i = 0; i < G->edgenum/2; i++){
         /*path j->k*/
         j = ev[3*i];
         k = ev[3*i+1];
-        w = ev[3*i+2]
+        w = ev[3*i+2];
         bm->next = Adj[j].head;
         bm->weight = w;
         Adj[j].head = bm;     
         bm->self = &Adj[k];
-        bm++;                        /*get memory from block memory previously allocated, pointer to next listnode */   
+        bm++;                 /*get memory from block memory previously allocated, pointer to next listnode */   
         Adj[j].nodenum++;
         
         /*path k->j */
@@ -225,11 +224,13 @@ void MST_PRIM(Graph *G, int r){
 
     while(Q->heap_size != 0){
         u = heap_extract_min(Q);
+        printf("Extracted vertex %d from min-heap\n",u->ver);
         head = u->head;
         while(head != NULL){
             v = head->self;
             w = head->weight;
             if(v->index != -1 && w < v->key){
+                printf("Changing vertex %d's key %u to %u\n",v->ver, v->key, w);
                 v->parent = u->ver;
                 heap_decrease_key(A, v->index, w);
             }
@@ -243,11 +244,11 @@ void MST_PRIM(Graph *G, int r){
 void print_PRIM(Graph *G, char *pc, int r){
     unsigned int i;
     Vertex *Adj = G->Adj;
-    printf("MST-PRIM starts from vertex %c\n",pc[r]);
+    printf("\nMST-PRIM starts from vertex %c\n",pc[r]);
 
     for(i = 0; i < G->vernum; i++){
         if(i != r)
-            printf("vertex %c's parent is %c\n", pc[Adj[i]->ver], pc[Adj[i].parent]);
+            printf("Vertex %c's parent is %c\n", pc[Adj[i].ver], pc[Adj[i].parent]);
     }
     printf("\n");
 }
@@ -261,10 +262,9 @@ int main(){
 
     Graph *G;
     G = graph_alloc(9,28);
-    add_edges(G,adges_weight);
+    add_edges(G,edges_weight);
     MST_PRIM(G,r);
     print_PRIM(G,vertexes,r);
-
     graph_release(G);
     
     return 0;
