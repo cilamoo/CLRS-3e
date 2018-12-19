@@ -124,10 +124,11 @@ min_heap* min_heap_alloc(Graph *G, int r){
     Vertex* Adj = G->Adj;
     size_t size =(size_t)G->vernum;
 
-    if((p = (min_heap*)malloc(sizeof(*p)+size*sizeof(Vertex*))) == NULL){
+    if((p = (min_heap*)malloc(sizeof(*p)+size*sizeof(Vertex*))) == NULL){ /*a continuous memory including the\
+                                                                         size of struct min_heap and array A */
         return NULL;
     }
-    A = p->A =(Vertex**)(p+1);
+    A = p->A =(Vertex**)(p+1);                /* make array A point right address */ 
     p->heap_size = p->n = (unsigned int)size;
 
     for(i = 0; i < size; i++){
