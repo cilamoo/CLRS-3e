@@ -230,7 +230,8 @@ void MST_PRIM(Graph *G, int r){
         while(head != NULL){
             v = head->self;
             w = head->weight;
-            if(v->index != -1 && w < v->key){
+            if(v->index != -1 && w < v->key){ /*keeping a bit for each vertex that tells whether or not it is in Q,
+                                               and updating the bit when the vertex is removed from Q.*/
                 printf("Changing vertex %d's key %u to %u\n",v->ver, v->key, w);
                 v->parent = u->ver;
                 heap_decrease_key(A, v->index, w);

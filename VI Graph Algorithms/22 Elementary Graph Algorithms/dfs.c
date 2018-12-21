@@ -97,23 +97,20 @@ void add_edges(struct Graph *G, int *ev){
 }
 
 void DFS_VISIT(struct Graph *G, struct vertex *u){
-    int i,num;
+    int i;
     time += 1;
     printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
     struct listnode *head;
     u->d = time;
     u->color = 1<<11;     /* GRAY */
-    num = u->nodenum;
     head = u->head;
-    while(num--){ /* or (head--) != NULL */
+    while(head!=NULl){ /* or (head--) != NULL */
         if((head->self->color >> 10) & 1){ /*this vertex has just been discovered */
             head->self->parent = u->vernum;
             DFS_VISIT(G,head->self);
         }
-
-       if(num != 0){ 
-          head = head->next;
-       } /* pointer to next listnode */ 
+        
+        head = head->next; /* pointer to next listnode */ 
     }
     time += 1;
     u->f = time;
