@@ -1,4 +1,5 @@
 /* BELLMAN-FORD Algorithm, which edge weights may be negative */
+/*TO: reconstuct */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,10 +18,10 @@ typedef struct Edge{
 }Edge;
 
 typedef struct Graph{
-    struct Vertex *V;
-    struct Edge *E;
     int vernum;
     int edgenum;
+    struct Edge *E;
+    struct Vertex *V;
 }Graph;
 
 Graph* graph_init(size_t vernum, size_t edgenum, int *input){
@@ -29,20 +30,20 @@ Graph* graph_init(size_t vernum, size_t edgenum, int *input){
     Edge *etmp;
     size_t  i;
 
-    if((G = (Graph*)malloc(sizeof(*G) + vernum*sizeof(Vertex) + edgenum*sizeof(Edge))) == NULL)
+if((G = (Graph*)malloc(sizeof(*G) + vernum*sizeof(Vertex) + edgenum*sizeof(Edge))) == NULL)
         return NULL;
     
-    vtmp = G->V = (Vertex*)G+1;
-    etmp = G->E = (Edge*)G->V+vernum;
-
+    vtmp = G->V = (Vertex*)(G+1);
+    etmp = G->E = (Edge*)(G->V+vernum);
     G->vernum = (int)vernum;
     G->edgenum = (int)edgenum;
     
     for(i = 0; i < vernum; i++){
         vtmp[i].ver = i;
         vtmp[i].p = INT_MIN; 
-        vtmp[i].d = INT_MAX;
+        vtmp[i].d = 1<<10;
     }
+
     for(i = 0; i < edgenum; i++){
         etmp[i].s = input[3*i];
         etmp[i].d = input[3*i+1];
@@ -74,7 +75,7 @@ int is_true_flase(Graph *G){
         u = E[i].s;
         v = E[i].d;
         w = E[i].w;
-        if(V[v].d > V[w].d + w){
+        if(V[v].d > V[u].d + w){
             return 0;
         }
     }
@@ -86,7 +87,6 @@ int BellmanFord(Graph *G, int r){
     Vertex *V;
     Edge *E;
     int i,j,k;
-
     V = G->V;
     E = G->E;
     V[r].d = 0;
@@ -97,12 +97,16 @@ int BellmanFord(Graph *G, int r){
         }
     }
 
+    for(i=0;i<G->vernum;i++){
+        printf("vertex %d distance = %d, parent = %d\n", V[i].ver, V[i].d, V[i].p);
+    }
+   
     return is_true_flase(G);
 }
 
 void print_path(Vertex *V, int s, int v, char *map){
     if(s == v)
-        printf("%c ", map[s]);
+        printf("%c", map[s]);
     else if(V[v].p == INT_MIN)
         printf("no path from %c to %c exists \n" ,map[s], map[v]);
     else{
@@ -112,25 +116,25 @@ void print_path(Vertex *V, int s, int v, char *map){
 }
 
 int main(){
-    char map[5] = {'s','t','x','y','z'};
+    char map[5] = {'s','t','x','z','y'};
     int vertex[5] = {0,1,2,3,4};
     int edges[30] ={1,2,5, 1,4,8, 1,3,-4, 2,1,-2, 4,2,-3, 4,3,9, 3,2,7, 3,0,2, 0,1,6, 0,4,7};
     Graph *G;
-    int r;
+    int rv;
 
-    if((G = Graph_init(5,10,edges)) == NULL){
+    if((G = graph_init(5,10,edges)) == NULL){
         printf("Graph_init call failed \n");
         exit(1);
     }
 
-   if((rv = BellmanFord(G, 0)) == 0){
+  if((rv = BellmanFord(G, 0)) == 0){
        printf("Encouter a negative weight cycle\n");
        exit(1);
    }
-
-   print_path(G->V,0,4,map);
-
+  
+  print_path(G->V,0,4,map);
+  printf("\n");
    graph_release(G);
-
+   
    return 0;
 }

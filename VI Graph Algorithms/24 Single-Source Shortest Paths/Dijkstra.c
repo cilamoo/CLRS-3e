@@ -120,11 +120,11 @@ min_heap* min_heap_alloc(Graph *G, int r){
     Vertex* Adj = G->Adj;
     size_t size =(size_t)G->vernum;
 
-    if((p = (min_heap*)malloc(sizeof(*p)+size*sizeof(Vertex*))) == NULL){ /*a continuous memory including the\
+    if((p = (min_heap*)malloc(sizeof(*p)+size*sizeof(*A))) == NULL){ /*a continuous memory including the\
                                                                          size of struct min_heap and array A */
         return NULL;
     }
-    A = p->A =(Vertex**)p+1;                /* make array A point right address */ 
+    A = p->A =(Vertex**)(p+1);                /* make array A point right address */ 
     p->heap_size = (unsigned int)size;
 
     for(i = 0; i < size; i++){
@@ -200,10 +200,12 @@ void add_edges(Graph *G, int *ev){
     }
 }
 
+/* Danger:That key equals UINT_MAX is safe in Dijkstra,but in other situation, 
+key is easily greater than UINT_MAX */
 void relax(Vertex **A, Vertex *u, Vertex *v, int w){
     if(v->key > u->key + w){
-        heap_decrease_key(A, v->index, w);
-        v->parent = u-> vernum;
+       heap_decrease_key(A, v->index, u->key+w);
+        v->parent = u-> ver;
     }
 }
 
@@ -213,6 +215,7 @@ Vertex** Dijkstra(Graph *G, int r){
     Vertex *u,*v;
     listnode *head;
     int index;
+    unsigned int w;
 
     if((spset =(Vertex**)malloc((size_t)G->vernum*sizeof(*spset))) == NULL){
         return NULL; 
@@ -220,12 +223,13 @@ Vertex** Dijkstra(Graph *G, int r){
 
     if((Q = min_heap_alloc(G,r)) == NULL){
         printf("min_heap_alloc call allocated memory failed\n");
-        exit(1)
+        exit(1);
     }
 
     index = 0;
     while(Q->heap_size != 0){
         u = heap_extract_min(Q);
+        printf("Extracted vertex %d\n",u->ver);
         spset[index++] = u;
         head = u->head;
         while(head != NULL){
@@ -243,7 +247,7 @@ Vertex** Dijkstra(Graph *G, int r){
 
 void print_shortest_path(Vertex **s, char *c, int r, int n){
     int i;
-
+    int j;
     printf("Shortest-path starts from %c\n",c[r]);
     for(i = 1; i < n; i++){
         j = s[i]->ver;

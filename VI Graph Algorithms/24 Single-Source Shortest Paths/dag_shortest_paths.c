@@ -14,7 +14,7 @@ struct listnode{
 struct vertex {
     int vernum;     /*vernum denotes character vertex */
     unsigned int color;
-    unsigned int distance; 
+    int distance; 
     unsigned int parent;    /*atrribute u.π */
     int d;
     int f;
@@ -41,7 +41,7 @@ struct vertex* vertex_init(size_t vnum){
         vertex[i].vernum = i;
         vertex[i].color = 1 << 10;  /* WHITE */
         vertex[i].parent = UINT_MAX;
-        vertex[i].distance = UINT_MAX;
+        vertex[i].distance = 1024;
         vertex[i].d = -1;
         vertex[i].f = -1;
         vertex[i].nodenum = 0;
@@ -93,12 +93,12 @@ void add_edges(struct Graph *G, int *ev){
 void DFS_VISIT(struct Graph *G, struct vertex *u){
     int i;
     time += 1;
-    printf("vertex %d is discovered, time is %d, parent is %d \n", u->vernum, time, u->parent);
+    printf("vertex %d is discovered, time is %d, parent is %u \n", u->vernum, time, u->parent);
     struct listnode *head;
     u->d = time;
     u->color = 1<<11;     /* GRAY */
     head = u->head;
-    while(num--){ /* or (head--) != NULL */
+    while(head != NULL){
         if((head->self->color >> 10) & 1){ /*this vertex has just been discovered */
             head->self->parent = u->vernum;
             DFS_VISIT(G,head->self);
@@ -109,7 +109,7 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
     time += 1;
     u->f = time;
     u->color = 1 << 12;    /* BLACK */
-    printf("vertex %d is finished,time is %d, parent is %d\n", u->vernum, time, u->parent );
+    printf("vertex %d is finished,time is %d, parent is %u\n", u->vernum, time, u->parent );
 }
 
 void DFS(struct Graph *G){
@@ -121,19 +121,6 @@ void DFS(struct Graph *G){
             DFS_VISIT(G,u);
     }
 
-}
-
-/*print path from s to one vertex */
-void print_path(struct vertex *Adj, char *c, int start, int dest){
-    if(Adj[start].vernum == Adj[dest].vernum)
-        printf("%c ", c[start]);
-    else if(Adj[dest].parent == UINT_MAX)
-        printf("no path from %c to %c exits\n", c[start], c[dest]);
-    else
-       {
-        print_path(Adj, c, start, Adj[dest].parent);
-        printf("-> %c ", c[dest]);
-       }
 }
 
 /*quicksort*/
@@ -149,7 +136,7 @@ int partition(struct vertex **A, int p, int r){
     i = p - 1;
     x = A[r]->f;
     for(j = p; j < r; j++){
-        if(A[j]->f <= x){
+        if(A[j]->f > x){
             i += 1;
             swap(&A[i],&A[j]);
         }
@@ -166,6 +153,13 @@ void quicksort(struct vertex **A, int p, int r){
         quicksort(A, q+1, r);
     }
 }
+void print_topo(struct vertex **a, int n){
+    int i;
+    for(i=0;i<n;i++){
+        printf("[%dth vertex:%d parent:%u d:%d f:%d]\n",i, \
+              a[i]->vernum, a[i]->parent,a[i]->d,a[i]->f);
+    }
+}
 
 struct vertex** toposort_array_create(struct vertex *Adj, unsigned int n){
     struct vertex **a;
@@ -180,7 +174,7 @@ struct vertex** toposort_array_create(struct vertex *Adj, unsigned int n){
     }
     
     quicksort(a,0,n-1);
-
+    print_topo(a,n);
     return a;
 }
 
@@ -220,12 +214,11 @@ void dag_shorted_paths(struct Graph *G, int s){
             head = head->next;
         }
     }
-    
     toposort_array_release(sorted_array);
 }
 
-void print_path(strcut vertex *Adj, int s, int v, char *map){
-    if(s == v)
+void print_path(struct vertex *Adj, int s,  int v, char *map){
+    if(Adj[s].vernum == Adj[v].vernum)
         printf("%c ", map[s]);
     else if(Adj[v].parent == UINT_MAX)
         printf("no path from %c to %c exists \n" ,map[s], map[v]);
@@ -235,14 +228,23 @@ void print_path(strcut vertex *Adj, int s, int v, char *map){
     }
 }
 
+void print_distance(struct vertex *Adj, char *c,int n){
+    int i;
+    printf("\ndistance from %c:\n",c[0]);
+    for(i=1;i<n;i++){
+       printf("to vertex %c is %d\n",c[i],Adj[i].distance);
+   }
+}
+/*Input from figure is not a dag.Although,topological sort is applied to dag,int this example,
+ DFS starts at source vertex 0 , topo sort still works */
 int main(){
-    char map[5] = {'s','t','x','y','z'};
+    char map[5] = {'s','t','x','z','y'};
     int vertex[5] = {0,1,2,3,4};
     int edges[30] ={1,2,5, 1,4,8, 1,3,-4, 2,1,-2, 4,2,-3, 4,3,9, 3,2,7, 3,0,2, 0,1,6, 0,4,7};
     int r = 0;
-    Graph *G;
+    struct Graph *G;
 
-    if((G = Graph_init(5,10)) == NULL){
+    if((G = graph_init(5,10)) == NULL){
         printf("Graph_init call failed \n");
         exit(1);
     }
@@ -250,8 +252,8 @@ int main(){
     add_edges(G,edges);
     DFS(G);
     dag_shorted_paths(G,r);
-    print_path(G->Adj,0,4,map);
-
+    print_path(G->Adj,0,3,map);
+    print_distance(G->Adj,map,5);
     graph_release(G);
 
     return 0;
