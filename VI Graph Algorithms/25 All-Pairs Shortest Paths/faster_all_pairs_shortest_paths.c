@@ -76,7 +76,7 @@ int main(){
 
     int input[25] = {0,3,8,INFT,-4, INFT,0,INFT,1,7, INFT,4,0,INFT,INFT,\
              2,INFT,-5,0,INFT, INFT,INFT,INFT,6,0};               /* Graph, Input Matrix*/
-    memcpy(W,input,(size_t)100);
+    memcpy(W,input,(size_t)N*N*sizeof(int));    /* N*N*4 = 100 charaters */
     result = faster_all_pairs_shortest_paths(W);
     print_result(result);
 
