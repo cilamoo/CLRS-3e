@@ -1,0 +1,29 @@
+7.2 Performance of quicksort
+
+The running time of quicksort depends on whether the partitioning is balanced or
+unbalanced, which in turn depends on which elements are used for partitioning.
+
+1.Worst-case partitioning
+The worst-case behavior for quicksort occurs when the partitioning routine produces
+one subproblem with n - 1 elements and one with 0 elements.
+
+Thus, if the partitioning is maximally unbalanced at every recursive level of the
+algorithm, the running time is T(n) = Θ(n^2).Therefore the worst-case running time of
+quicksort is no better than that of insertion sort. Moreover, the Θ(n^2) running time
+occurs when the input array is already completely sorted—a common situation in
+which insertion sort runs in O(n) time.
+
+2.Best-case partitioning
+In the most even possible split, PARTITION produces two subproblems, each of size no more than n=2,
+since one is of size ⌊n/2-1⌋and one of size ⌈n/2-1⌉.
+
+T(n) = Θ(nlgn)
+
+3.Balanced partitioning
+The average-case running time of quicksort is much closer to the best case than to
+the worst case.
+
+In fact, any split of constant proportionality yields a recursion tree of depth Θ(lgn), where the cost at each level
+is O(n). The running time is therefore O(nlgn) whenever the split has constant proportionality.
+
+4.Intuition for the average case

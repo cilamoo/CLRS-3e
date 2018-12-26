@@ -1,0 +1,18 @@
+7.3 A randomized version of quicksort
+
+random sampling:
+We do so by first exchanging element A[r] with an element chosen at random
+from A[p..r]. By randomly sampling the range p,...,r, we ensure that the pivot
+element x = A[r] is equally likely to be any of the r - p +1 elements in the
+subarray.
+
+RANDOMIZED-PARTITION(A,p,r)
+1 i = RANDOM(p,r)
+2 exchange A[r] with A[i]
+3 return PARTITION(A,p,r)
+
+RANDOMIZED-QUICKSORT(A,p,r)
+1 ifp < r
+2     q = RANDOMIZED-PARTITION(A,p,r)
+3     RANDOMIZED-QUICKSORT(A,p,q-1)
+4     RANDOMIZED-QUICKSORT(A,q+1,r)

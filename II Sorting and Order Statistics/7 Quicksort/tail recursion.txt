@@ -1,0 +1,16 @@
+7-4 tail recursion ———— Stack depth for quicksort
+
+The QUICKSORT algorithm of Section 7.1 contains two recursive calls to itself.
+After QUICKSORT calls PARTITION, it recursively sorts the left subarray and then
+it recursively sorts the right subarray. The second recursive call in QUICKSORT
+is not really necessary; we can avoid it by using an iterative control structure.
+This technique, called tail recursion, is provided automatically by good compilers.
+Consider the following version of quicksort, which simulates tail recursion:
+
+TAIL-RECURSIVE-QUICKSORT(A,p,r)
+1 while p < r
+2     // Partition and sort left subarray
+3     q = PARTITION(A,p,r)
+4     TAIL-RECURSIVE-QUICKSORT(A,p,q-1)
+5     p = q + 1 
+
