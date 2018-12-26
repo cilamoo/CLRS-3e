@@ -24,10 +24,13 @@ int partition(int *A, int p, int r){
     
 }
 int randomized_partition(int *A, int p, int r){
-    int i = rand()%(r + 1);
+    int i = -1;
+     while(i < p){
+          i = rand()%(r + 1);
+    }
     printf("radom index is %d\n", i);
     swap(&A[i],&A[r]);
-    partition(A,p,r);
+    return  partition(A,p,r);
 }
 
 void randomized_quicksort(int *A, int p, int r){
