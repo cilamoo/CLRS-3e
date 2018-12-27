@@ -1,0 +1,13 @@
+8.3 Radix sort
+
+In a typical computer, which is a sequential random-access machine, we sometimes
+use radix sort to sort records of information that are keyed by multiple fields.
+For example, we might wish to sort dates by three keys: year, month, and day.
+
+RADIX-SORT(A,d)
+1 for i = 1 to d
+2 use a stable sort to sort array A on digit i
+
+should see the analysis
+Lemma 8.3 
+Lemma 8.4

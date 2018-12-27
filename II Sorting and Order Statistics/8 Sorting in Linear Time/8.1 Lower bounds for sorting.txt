@@ -1,0 +1,23 @@
+8.1 Lower bounds for sorting
+
+1.The decision-tree model
+A decision tree is a full binary tree that represents the comparisons between elements that
+are performed by a particular sorting algorithm operating on an input of a given
+size.
+
+2.A lower bound for the worst case
+The length of the longest simple path from the root of a decision tree to any of
+its reachable leaves represents the worst-case number of comparisons that the corresponding
+sorting algorithm performs. Consequently, the worst-case number of
+comparisons for a given comparison sort algorithm equals the height of its decision
+tree. A lower bound on the heights of all decision trees in which each permutation
+appears as a reachable leaf is therefore a lower bound on the running time of any
+comparison sort algorithm. The following theorem establishes such a lower bound
+
+Theorem 8.1
+Any comparison sort algorithm requires Ω(nlgn) comparisons in the worst case.
+Proof On page 193.
+
+Corollary 8.2
+Heapsort and merge sort are asymptotically optimal comparison sorts.
+Proof On page 193.

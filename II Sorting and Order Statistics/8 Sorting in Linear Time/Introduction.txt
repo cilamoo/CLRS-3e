@@ -1,0 +1,12 @@
+We have now introduced several algorithms that can sort n numbers in O(nlgn)
+time. Merge sort and heapsort achieve this upper bound in the worst case; quicksort
+achieves it on average.
+
+These algorithms share an interesting property: the sorted order they determine
+is based only on comparisons between the input elements. We call such sorting
+algorithms comparison sorts.
+
+Sections 8.2, 8.3, and 8.4 examine three sorting algorithms—counting sort, radix
+sort, and bucket sort—that run in linear time. Of course, these algorithms use
+operations other than comparisons to determine the sorted order. Consequently,
+the O(nlgn) lower bound does not apply to them.
