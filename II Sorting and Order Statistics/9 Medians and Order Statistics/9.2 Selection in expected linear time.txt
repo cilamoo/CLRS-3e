@@ -1,0 +1,30 @@
+9.2 Selection in expected linear time
+
+present a divide-and-conquer algorithm for the selection problem.
+
+But unlike quicksort, which recursively processes both sides of the
+partition, RANDOMIZED-SELECT works on only one side of the partition. This
+difference shows up in the analysis: whereas quicksort has an expected running
+time of Θ(nlgn), the expected running time of RANDOMIZED-SELECT is Θ(n),
+assuming that the elements are distinct.
+
+RANDOMIZED-SELECT(A,p,r,i)
+1 if p == r
+2     return A[p]
+3 q = RANDOMIZED-PARTITION(A,p,r)
+4 k = q - p + 1
+5 if i == k
+6     return A[q]
+7 elseif i < k
+8     return RANDOMIZED-SELECT(A,p,q-1,i)
+9 else 
+10    return RANDOMIZED-SELECT(A,q+1,r,i-k)
+
+The worst-case running time for RANDOMIZED-SELECT is Θ(n^2), even to find
+the minimum, because we could be extremely unlucky and always partition around
+the largest remaining element, and partitioning takes Θ(n) time.
+
+We conclude that we can find any order statistic, and in particular the median, in
+expected linear time, assuming that the elements are distinct.
+
+
