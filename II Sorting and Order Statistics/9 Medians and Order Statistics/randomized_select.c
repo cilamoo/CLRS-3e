@@ -29,7 +29,7 @@ int randomized_partition(int *A, int p, int r){
      while(i < p){
           i = rand()%(r + 1);
     }
-    printf("radom index is %d\n", i);
+    printf("random index is %d\n", i);
     swap(&A[i],&A[r]);
     return  partition(A,p,r);
 }
@@ -42,18 +42,18 @@ int randomized_select(int *A, int p, int r, int i){
     q = randomized_partition(A,p,r);
     k = q - p + 1;
     if(k == i)
-        return A[k-1];
+        return A[q];
     else if(i < k)
         return randomized_select(A,p,q-1,i);
     else
-        return randomized_select(A,p,q+1,k-i);
+        return randomized_select(A,q+1,r,i-k);
 }
 
 
 int main(){
     int r;
     int i = 5;
-    int A[8] = {4,6,3,8,2,7,1,5};
+    int A[8] = {4,6,3,8,1,2,7,5}; /* distinct elements */
     srand((int)time(0));
     r = randomized_select(A,0,7,i);
     printf("the %dth smallest number is %d\n", i, r);

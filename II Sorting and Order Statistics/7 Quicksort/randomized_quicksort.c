@@ -28,7 +28,7 @@ int randomized_partition(int *A, int p, int r){
      while(i < p){
           i = rand()%(r + 1);
     }
-    printf("radom index is %d\n", i);
+    printf("random index is %d\n", i);
     swap(&A[i],&A[r]);
     return  partition(A,p,r);
 }

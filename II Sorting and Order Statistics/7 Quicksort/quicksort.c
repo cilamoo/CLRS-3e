@@ -7,6 +7,7 @@ void swap(int *s1, int *s2){
     *s2 = tmp;
 }
 
+/* p and r are indexes, initially, p = 0, r = n-1 */
 int partition(int *A, int p, int r){
     int x, i, j;
     x = A[r];
