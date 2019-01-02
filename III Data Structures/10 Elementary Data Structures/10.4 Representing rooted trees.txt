@@ -1,0 +1,17 @@
+10.4 Representing rooted trees
+
+The methods for representing lists given in the previous section extend to any homogeneous
+data structure.
+
+
+1.Binary trees、
+
+2.Rooted trees with unbounded branching
+
+left-child, right-sibling representation
+
+3.Other tree representations
+
+a heap, which is based on a complete binary tree, by a single array
+plus the index of the last node in the heap.
+

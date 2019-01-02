@@ -1,0 +1,8 @@
+10.3 Implementing pointers and objects
+
+1.A multiple-array representation of objects
+
+2.A single-array representation of objects
+
+3.Allocating and freeing objects
+
