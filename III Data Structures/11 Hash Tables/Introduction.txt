@@ -1,0 +1,16 @@
+Many applications require a dynamic set that supports only the dictionary operations
+INSERT, SEARCH, and DELETE.
+
+A hash table is an effective data structure for implementing dictionaries. Although searching
+for an element in a hash table can take as long as searching for an element in a
+linked list—Θ(n) time in the worst case—in practice, hashing performs extremely
+well. Under reasonable assumptions, the average time to search for an element in
+a hash table is O(1).
+
+A hash table generalizes the simpler notion of an ordinary array.
+
+When the number of keys actually stored is small relative to the total number of
+possible keys, hash tables become an effective alternative to directly addressing an
+array, since a hash table typically uses an array of size proportional to the number
+of keys actually stored.
+

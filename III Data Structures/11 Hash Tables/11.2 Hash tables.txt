@@ -1,0 +1,83 @@
+11.2 Hash tables
+
+The downside of direct addressing is obvious: if the universe U is large, storing
+a table T of size |U| may be impractical, or even impossible, given the memory
+available on a typical computer. Furthermore, the set K of keys actually stored
+may be so small relative to U that most of the space allocated for T would be
+wasted.
+
+When the set K of keys stored in a dictionary is much smaller than the universe
+U of all possible keys, a hash table requires much less storage than a direct-address
+table. Specifically, we can reduce the storage requirement to Θ(|K|) while
+we maintain the benefit that searching for an element in the hash table still requires
+only O(1) time. The catch is that this bound is for the average-case time, whereas
+for direct addressing it holds for the worst-case time
+
+hash function  maps the universe U of keys into the slots of a hash
+table T[0..m-1]:
+h: U -> {0,1,...,m-1}
+where the size m of the hash table is typically much less than |U| 
+
+The hash function reduces the range of array indices and hence the size of the array.
+
+One idea is to make h appear to be “random,” thus avoiding collisions or at least minimizing
+their number
+
+Because |U| > m, however, there must be at least two keys that have the same hash
+value; avoiding collisions altogether is therefore impossible.
+
+The linked list can be either singly or doubly linked; we show it as doubly linked
+because deletion is faster that way.
+
+1.Collision resolution by chaining
+Slot j contains a pointer to the head of the list of all stored elements that hash to j.
+
+CHAINED-HASH-INSERT(T,x)
+1 insert x at the head of list T[h(x.key)]
+
+CHAINED-HASH-SEARCH(T,k)
+1 search for an element with key k in list T[h(k)]
+
+CHAINED-HASH-DELETE(T,x)
+1 delete x from the list T[h(x.key)]
+
+The worst-case running time for insertion is O(1). The insertion procedure is fast
+in part because it assumes that the element x being inserted is not already present in
+the table; if necessary, we can check this assumption (at additional cost) by searching
+for an element whose key is x.key before we insert. For searching, the worst-case
+running time is proportional to the length of the list.
+
+We can delete an element in O(1) time if the lists are doubly linked.
+
+2.Analysis of hashing with chaining
+Given a hash table T with m slots that stores n elements, we define the load
+factor α for T as n/m, that is, the average number of elements stored in a chain.
+
+The average-case performance of hashing depends on how well the hash function
+h distributes the set of keys to be stored among the m slots, on the average.
+
+simple uniform hashing —— any given element is equally likely to hash into any of the m slots, independently of where
+any other element has hashed to.  
+
+Theorem 11.1
+In a hash table in which collisions are resolved by chaining, an unsuccessful search
+takes average-case time Θ(1+α), under the assumption of simple uniform hashing.
+
+the expected number of elements examined in an unsuccessful search is α, and the total time required
+(including the time for computing h(k)) is Θ(1+α).
+
+The situation for a successful search is slightly different, since each list is not
+equally likely to be searched. Instead, the probability that a list is searched is proportional
+to the number of elements it contains. Nonetheless, the expected search
+time still turns out to be Θ(1+α).
+
+Theorem 11.2
+In a hash table in which collisions are resolved by chaining, a successful search
+takes average-case time Θ(1+α), under the assumption of simple uniform hashing.
+
+If the number of hash-table slots is at least proportional
+to the number of elements in the table, we have n=O(m) and, consequently,
+α = n/m = O(m)/m = O(1). Thus, searching takes constant time
+on average. Since insertion takes O(1) worst-case time and deletion takes O(1)
+worst-case time when the lists are doubly linked, we can support all dictionary
+operations in O(1) time on average.

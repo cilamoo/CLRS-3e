@@ -1,0 +1,70 @@
+11.3 Hash functions
+
+In this section, we discuss some issues regarding the design of good hash functions
+and then present three schemes for their creation. Two of the schemes, hashing by
+division and hashing by multiplication, are heuristic in nature, whereas the third
+scheme, universal hashing, uses randomization to provide provably good performance.
+
+1.What makes a good hash function?
+
+A good hash function satisfies (approximately) the assumption of simple uniform
+hashing: each key is equally likely to hash to any of the m slots, independently of
+where any other key has hashed to. Unfortunately, we typically have no way to
+check this condition, since we rarely know the probability distribution from which
+the keys are drawn. Moreover, the keys might not be drawn independently.
+
+In practice, we can often employ heuristic techniques to create a hash function
+that performs well. Qualitative information about the distribution of keys may be
+useful in this design process. ———— pt and pts 
+
+A good approach derives the hash value in a way that we expect to be independent
+of any patterns that might exist in the data.For example, division method , choose a prime number 
+that is unrelated to any patterns in the distribution of keys
+
+Finally, we note that some applications of hash functions might require stronger
+properties than are provided by simple uniform hashing.
+
+2.Interpreting keys as natural numbers
+interpret the identifier pt as the pair of decimal integers (112,116), since p = 112 and t = 116
+in the ASCII character set; then, expressed as a radix-128 integer, pt becomes
+(112·128)+116 = 14452;
+
+11.3.1 The division method
+h(k) = k mod m 
+m should not be a power of 2, since if m = 2^p, then h(k) is just the p
+lowest-order bits of k. Unless we know that all low-order p-bit patterns are equally
+likely, we are better off designing the hash function to depend on all the bits of the
+key.
+
+A prime not too close to an exact power of 2 is often a good choice for m.
+
+11.3.2 The multiplication method
+
+The multiplication method for creating hash functions operates in two steps. First,
+we multiply the key k by a constant A in the range 0 < A < 1 and extract the fractional 
+part of kA. Then, we multiply this value by m and take the floor of the
+result. In short, the hash function is
+h(k) = ⌊ m(kA mod 1)⌋
+where “kA mod 1” means the fractional part of kA, that is, kA - ⌊kA⌋.
+
+An advantage of the multiplication method is that the value of m is not critical.
+We typically choose it to be a power of 2 (m = 2^p for some integer p).
+
+See implementation on page 264
+
+11.3.3 Universal hashing
+Any fixed hash function is vulnerable to such terrible
+worst-case behavior; the only effective way to improve the situation is to choose
+the hash function randomly in a way that is independent of the keys that are actually
+going to be stored. This approach, called universal hashing, can yield provably
+good performance on average, no matter which keys the adversary chooses.
+
+In universal hashing, at the beginning of execution we select the hash function
+at random from a carefully designed class of functions. As in the case of quicksort,
+randomization guarantees that no single input will always evoke worst-case
+behavior. Because we randomly select the hash function, the algorithm can behave
+differently on each execution, even for the same input, guaranteeing good
+average-case performance for any input.
+
+Designing a universal class of hash functions, p267
+

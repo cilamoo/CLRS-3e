@@ -1,0 +1,16 @@
+11.1 Direct-address tables
+
+Direct addressing is a simple technique that works well when the universe U of
+keys is reasonably small.
+
+DIRECT-ADDRESS-SEARCH(T,k)
+1 return T[k]
+
+DIRECT-ADDRESS-INSERT(T,x)
+1 T[x.key] = x
+
+DIRECT-ADDRESS-DELETE(T,x)
+1 T[x.key] = NIL
+
+Moreover, it is often unnecessary to store the key of the object, since if we have the index of an object
+in the table, we have its key.
