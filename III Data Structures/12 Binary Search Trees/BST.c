@@ -151,27 +151,27 @@ void inoder_tree_walk(node *x){
 }
 
 int main(){
-    node *tmp,*rt;
+    node *tmp,*rt,*val;
     tree t;
-    t->root = NULL;
+    t.root = NULL;
 
     int a[8] = {12, 5, 18, 2, 9, 15, 19, 17};
     size_t n = 8;
 
     tmp = create_tree(&t, a, n);
-    printf("print elements in tree after insertion");
-    inoder_tree_walk(&t.root);
-    printf("\n minimum: %d",minimum(&t)->key);
-    printf("\n maximum: %d",maximum(&t)->key);
+    printf("After inserting:");
+    inoder_tree_walk(t.root);
+    printf("\nminimum: %d",tree_minimum(t.root)->key);
+    printf("\nmaximum: %d",tree_maximum(t.root)->key);
     
-    rt = tree_search(t->root,9);
+    rt = tree_search(t.root,9);
     printf("\n%d's successor is %d",9,tree_successor(rt)->key);
     printf("\n%d's predecessor is %d",9,tree_predecessor(rt)->key);
     
-    printf("\n  print elements after deleting 9");
+    printf("\nAfter deleting 9:");
     tree_delete(&t,rt);
-    inoder_tree_walk(&t.root);
-
+    inoder_tree_walk(t.root);
+    printf("\n");
     tree_free(tmp);
 
     return 0;
