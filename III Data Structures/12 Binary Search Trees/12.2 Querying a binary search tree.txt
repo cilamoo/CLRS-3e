@@ -1,0 +1,75 @@
+12.2 Querying a binary search tree
+
+All these operations take time O(h) on any binary search tree of height h.
+
+1.Searching
+Given a pointer to the root of the tree and a key k, TREE-SEARCH
+returns a pointer to a node with key k if one exists; otherwise, it returns NIL
+
+TREE-SEARCH(x,k)
+1 if x == NIL or k == x.key
+2     return x
+3 if k < x.key
+4     return TREE-SEARCH(x.left,k)
+5 else return TREE-SEARCH(x.right,k)
+
+We can rewrite this procedure in an iterative fashion by “unrolling” the recursion
+into a while loop. On most computers, the iterative version is more efficient.
+
+ITERATIVE-TREE-SEARCH(x,k)
+1 while x ≠ NIL and k ≠ x.key
+2     if k < x.key
+3         x = x.left
+4     else x = x.right
+5 return x 
+
+2.Minimum and maximum
+We can always find an element in a binary search tree whose key is a minimum by
+following left child pointers from the root until we encounter a NIL.
+
+TREE-MINIMUM(x) 
+1 while x.left ≠ NIL 
+2     x = x.left 
+3 return x
+
+TREE-MAXIMUM(x)
+1 while x.right ≠ NIL
+2     x = x.right
+3 return x
+
+3.Successor and predecessor
+The structure of a binary search tree allows us to determine the successor of a node
+without ever comparing keys.
+
+TREE-SUCCESSOR(x)
+1 if x.right ≠ NIL 
+2     return MINIMUM(x.right)
+3 y = x.p
+4 while y ≠ NIL and x == y.right
+5     x = y
+6     y = y.p
+7 return y 
+
+TREE-PREDECESSOR(x)
+1 if x.left ≠ NIL 
+2     return MAXIMUM(x.left)
+3 y = x.p 
+4 while y ≠ NIL and x == y.left 
+5     x = y 
+6     y = y.p
+7 return y 
+
+We break the code for TREE-SUCCESSOR into two cases. If the right subtree
+of node x is nonempty, then the successor of x is just the leftmost node in x’s
+right subtree, which we find in line 2 by calling TREE-MINIMUM.x:right/.
+
+On the other hand, as Exercise 12.2-6 asks you to show, if the right subtree of
+node x is empty and x has a successor y, then y is the lowest ancestor of x whose
+left child is also an ancestor of x.To find y, we simply go up the tree from x until we
+encounter a node that is the left child of its parent.
+
+Theorem 12.2
+We can implement the dynamic-set operations SEARCH, MINIMUM, MAXIMUM,
+SUCCESSOR, and PREDECESSOR so that each one runs in O(h) time on a binary
+search tree of height h.
+

@@ -1,0 +1,16 @@
+12 Binary Search Trees
+
+The search tree data structure supports many dynamic-set operations, including
+SEARCH, MINIMUM, MAXIMUM, PREDECESSOR, SUCCESSOR, INSERT, and
+DELETE. Thus, we can use a search tree both as a dictionary and as a priority
+queue.
+
+Basic operations on a binary search tree take time proportional to the height of
+the tree. For a complete binary tree with n nodes, such operations run in Θ(lgn)
+worst-case time. If the tree is a linear chain of n nodes, however, the same operations
+take Θ(n) worst-case time.
+
+In practice, we can’t always guarantee that binary search trees are built randomly,
+but we can design variations of binary search trees with good guaranteed
+worst-case performance on basic operations, such as reb-black trees, B-trees.
+

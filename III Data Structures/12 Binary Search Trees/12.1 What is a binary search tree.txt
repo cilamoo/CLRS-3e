@@ -1,0 +1,34 @@
+12.1 What is a binary search tree?
+
+We can represent such a tree by a linked data structure in which
+each node is an object. In addition to a key and satellite data, each node contains
+attributes left, right, and p that point to the nodes corresponding to its left child,
+its right child, and its parent, respectively. If a child or the parent is missing, the
+appropriate attribute contains the value NIL. The root node is the only node in the
+tree whose parent is NIL.
+
+The keys in a binary search tree are always stored in such a way as to satisfy the
+binary-search-tree property:
+Let x be a node in a binary search tree. If y is a node in the left subtree
+of x, then y.key ≤ x.key. If y is a node in the right subtree of x, then
+y.key ≥ x.key.
+
+The binary-search-tree property allows us to print out all the keys in a binary
+search tree in sorted order by a simple recursive algorithm, called an inorder tree
+walk. This algorithm is so named because it prints the key of the root of a subtree
+between printing the values in its left subtree and printing those in its right subtree.
+Similarly, a preorder tree walk prints the root before the values in either subtree,
+and a postorder tree walk prints the root after the values in its subtrees
+
+INORDER-TREE-WALK(x)
+1 if x ≠ NIL
+2     INORDER-TREE-WALK(x.left)
+3     print x.key
+4     INORDER-TREE-WALK(x.right)
+
+It takes Θ(n) time to walk an n-node binary search tree.
+
+Theorem 12.1
+If x is the root of an n-node subtree, then the call INORDER-TREE-WALK(x)
+takes Θ(n) time.
+

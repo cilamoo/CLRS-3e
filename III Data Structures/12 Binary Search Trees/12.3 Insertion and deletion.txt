@@ -1,0 +1,49 @@
+12.3 Insertion and deletion
+
+1.Insertion
+TREE-INSERT(z)
+1 y = NIL
+2 x = T.root
+3 while x ≠ NIL 
+4     y = x 
+5     if z.key < x.key
+6         x = x.left
+7     else x = x.right 
+8 z.p = y
+9 if y = NIL
+10     T.root = z
+11 elseif z.key < y.key
+12        y.left = z 
+13 else y.right = z 
+
+Like the other primitive operations on search trees, the procedure TREE-INSERT
+runs in O(h) time on a tree of height h.
+
+2.Deletion
+On page 296
+
+TRANSPLANT(T,u,v)
+1 if u.p = NIL
+2     T.root = v 
+3 elseif u == u.p.left
+4        u.p.left = v 
+5 else u.p.right = v 
+6 if v ≠ NIL 
+7     v.p = u.p 
+Lines 1–2 handle the case in which u is the root of T. Otherwise, u is either a left
+child or a right child of its parent.
+
+TREE-DELETE(T,z)
+1  if z.left == NIL 
+2      TRANSPLANT(T,z,z.right)
+3  elseif z.right == NIL
+4      TRANSPLANT(T,z,z.left)
+5  else y = TREE-MINIMUM(z.right)
+6      if y.p ≠ z 
+7          TRANSPLANT(T,y,y.right)
+8           y.right = z.right 
+9           z.right.p = y 
+10      TRANSPLANT(T,z,y)
+11      y.left = z.lfet 
+12      z.left.p = y 
+
