@@ -121,14 +121,14 @@ void tree_delete(tree *t, node *z){
 }
 
 node* create_tree(tree *t, int *a, size_t n){
-    int i,k;
+    int i;
     node *pre_mem;
     if((pre_mem= malloc(n*sizeof(node))) == NULL){
         printf("malloc failed in function create_tree\n");
         exit(1);
     }
 
-    for(i = 0;i < n; i++){
+    for(i = 0; i < n; i++){
         pre_mem[i].key = a[i];
         pre_mem[i].p = NULL;
         pre_mem[i].left = NULL;
