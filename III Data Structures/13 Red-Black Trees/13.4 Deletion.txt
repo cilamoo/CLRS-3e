@@ -1,0 +1,98 @@
+13.4 Deletion
+
+RB-TRANSPLANT(T,u,v)
+1  if u.p == T.nil
+2      T.root = v
+3  elseif u == u.p.left 
+4      u.p.left = v
+5  else u.p.right = v 
+6  v.p = u.p 
+
+In fact, we shall exploit the ability to assign to v.p when v=T.nil.
+
+When we want to delete node z and z has fewer than two children, then z is removed from the tree, and we
+want y to be z. When z has two children, then y should be z’s successor, and y
+moves into z’s position in the tree. We also remember y’s color before it is removed
+from or moved within the tree, and we keep track of the node x that moves
+into y’s original position in the tree, because node x might also cause violations
+of the red-black properties.
+
+RB-DELETE(T,z)
+1   y = z 
+2   y-original-color = y.color 
+3   if z.left == T.nil
+4       x = z.right 
+5       RB-TRANSPLANT(T,z,z.right)
+6   elseif z.right == T.nil 
+7       x = z.left 
+8       RB-TRANSPLANT(T,z,z.lef)
+9   else y = TREE-MINIMUM(z.right)
+10      y-original-color = y.color 
+11      x = y.right 
+12      if y.p == z 
+13          x.p = y 
+14      else RB-TRANSPLANT(T,y,y.right)
+15          y.right = z.right 
+16          y.right.p = y 
+17      RB-TRANSPLANT(T,z,y)
+18      y.left = z.left 
+19      y.left.p = y 
+20      y.color = z.color 
+21  if y-original-color == BLACK 
+22      RB-DELETE-FIXUP(T,x)
+
+RB-DELETE-FIXUP(T,x)
+1   while x ≠ T.root and x.color == BLACK 
+2       if x == x.p.left 
+3           w = x.p.right 
+4           if w.color == RED 
+5               w.color = BLACK                                    // case 1
+6               x.p.color = RED                                    // case 1
+7               LEFT-ROTATE(T,x.p)                                 // case 1
+8               w = x.p.right                                      // case 1
+9           if w.left.color == BLACK and w.right.color == BLACK 
+10              w.color = RED                                      // case 2 
+11              x = x.p                                            // case 2 
+12          elseif w.right.color == BLACK 
+13                 w.left.color = BLACK                            // case 3 
+14                 w.color = RED                                   // case 3 
+15                 RIGHT-ROTATE(T,w)                               // case 3 
+16                 w = x.p.right                                   // case 3 
+17             w.color = x.p.color                                 // case 4
+18             x.p.color = BLACK                                   // case 4
+19             w.right.color = BALCK                               // case 4
+20             LEFT-ROTATE(T,x.p)                                  // case 4
+21             x = T.root                                          // case 4 
+22       else 
+23           w = x.p.left 
+24           if w.color = RED 
+25               w.color = BLACK                                   // case 1
+26               x.p.color = RED                                   // case 1
+27               RIGHT-ROTATE(T,x.p)                               // case 1
+28               w = x.p.left                                      // case 1
+29           if w.left.color == BLACK and w.right.color == BLACK 
+30               w.color = RED                                     // case 2 
+31               x = x.p                                           // case 2 
+32           elseif w.left.color == BLACK 
+33                  w.right.color = BLACK                          // case 3
+34                  w.color = RED                                  // case 3
+35                  LEFT-ROTATE(T,w)                               // case 3
+36                  w = x.p.left                                   // case 3
+37               w.color = x.p.color                               // case 4
+38               x.p.color = BLACK                                 // case 4
+39               w.left.color = BLACK                              // case 4
+40               RIGHT-ROTATE(T,x.p)                               // case 4
+41               x = T.root 
+42   x.color = BLACK 
+
+Since the height of a red-black tree of n
+nodes is O(lgn), the total cost of the procedure without the call to RB-DELETEFIXUP
+takes O(lgn) time. Within RB-DELETE-FIXUP, each of cases 1, 3, and 4
+lead to termination after performing a constant number of color changes and at
+most three rotations. Case 2 is the only case in which the while loop can be repeated,
+and then the pointer x moves up the tree at most O(lgn) times, performing
+no rotations. Thus, the procedure RB-DELETE-FIXUP takes O(lgn) time and performs
+at most three rotations, and the overall time for RB-DELETE is therefore
+also O(lgn).
+
+

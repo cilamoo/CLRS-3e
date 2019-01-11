@@ -1,0 +1,64 @@
+13.3 Insertion
+
+RB-INSERT(T,z)
+1   y = T.nil
+2   x = T.root
+3   while x ≠ T.nil
+4       y = x 
+5       if z.key < x.key 
+6           x = x.left 
+7       else x = x.right 
+8   z.p = y
+9   if y == T.nil
+10      T.root = z 
+11  elseif z.key < y.key
+12         y.left = z 
+13  else y.right = z 
+14  z.left = T.nil
+15  z.right = T.nil
+16  z.color = RED 
+17  RB-INSERT-FIXUP(T,z)
+
+Case 1: z’s uncle y is red;
+Case 2: z’s uncle y is black and z is a right child;
+Case 3: z’s uncle y is black and z is a left child;
+
+RB-INSERT-FIXUP(T,z)
+1    while z.p.color == RED 
+2        if z.p == z.p.p.left 
+3            y = z.p.p.right 
+4            if y.color == RED 
+5                z.p.color = BLACK              // case 1
+6                y.color = BLACK                // case 1
+7                z.p.p.color = RED              // case 1
+8                z = z.p.p                      // case 1
+9            elseif z == z.p.right 
+10                  z = z.p                     // case 2
+11                  LEFT-ROTATE(T,z)            // case 2
+12              z.p.color = BLACK               // case 3
+13              z.p.p.color = RED               // case 3
+14              RIGHT-ROTATE(z,z.p.p)           // case 3
+15       else 
+16           y = z.p.p.left 
+17           if y == RED 
+18               z.p.color = BLACK
+19               y.color = BLACK
+20               z.p.p.color = RED 
+21               z = z.p.p
+22           elseif z == z.p.left 
+23                  z = z.p 
+24                  RIGHT-ROTATE(T,z)
+25               z.p.color = BLACK
+26               z.p.p.color = RED 
+27               LEFT-ROTATE(z,z.p.p)
+28    T.root.color = BLACK 
+
+Since the height of a red-black tree on n
+nodes is O(lgn), lines 1–16 of RB-INSERT take O(lgn) time. In RB-INSERTFIXUP,
+the while loop repeats only if case 1 occurs, and then the pointer z moves
+two levels up the tree. The total number of times the while loop can be executed
+is therefore O(lgn). Thus, RB-INSERT takes a total of O(lgn) time. Moreover, it
+never performs more than two rotations, since the while loop terminates if case 2
+or case 3 is executed.
+
+
