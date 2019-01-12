@@ -63,7 +63,7 @@ node* rb_tree_successor(tree *T, node *x){
 node* rb_tree_predecessor(tree *T, node *x){
     node *y;
     if(x->left != T->nil)
-        return rb_tree_maximum(x->left);
+        return rb_tree_maximum(T,x->left);
     y = x->p;
     while(y != T->nil && x == y->left){
         x = y;
@@ -106,7 +106,7 @@ void right_rotate(tree *T, node *x){
 
 void rb_insert_fixup(tree *T, node *z){
     node *y;
-    while(z->p-color == 0){ /* number 0 denotes RED */
+    while(z->p->color == 0){ /* number 0 denotes RED */
         if(z->p == z->p->p->left){
             y = z->p->p->right;
             if(y->color == 0){
@@ -153,7 +153,7 @@ void rb_insert(tree *T, node *z){
     while(x != T->nil){
         y = x;
         if(z->key < x->key)
-            x = x->left 
+            x = x->left;
         else 
             x = x->right;
     }
@@ -171,8 +171,8 @@ void rb_insert(tree *T, node *z){
 }
 
 void rb_transplant(tree *T, node *u, node *v){
-    if(u->p == T.nil)
-        T->root = u;
+    if(u->p == T->nil)
+        T->root = v;
     else if(u == u->p->left)
         u->p->left = v;
     else
@@ -246,7 +246,7 @@ void rb_delete(tree *T, node *z){
 
     if(z->left == T->nil){
         x = z->right;
-        rb_transplant(T,z,z->right)
+        rb_transplant(T,z,z->right);
     }
     else if(z->right == T->nil){
         x = z->left;
@@ -284,7 +284,7 @@ void nil_init(node *nn){
     nn->right = NULL;
 }
 
-tree* create_rb_tree(tree *T, int *a, int n){
+node* create_rb_tree(tree *T, int *a, int n){
     int i;
     node *pre_mem;
     if((pre_mem = malloc(n*sizeof(node))) == NULL){
@@ -308,31 +308,41 @@ void rb_free(node *node){
 
 void inoder_rb_tree_walk(tree *T, node *x){
     if(x != T->nil){
-        inoder_tree_walk(x->left);
-        printf("key:%d p:%d left:%d right:%d color:%s \n", x->key,x->p->key,x->left->key,x->right->key,(x->color?"BLACK":"RED"));
-        inoder_tree_walk(x->right);
+        inoder_rb_tree_walk(T,x->left);
+        printf("key:%d p:%d left:%d right:%d color:%s \n",\
+            x->key,x->p->key,x->left->key,x->right->key,(x->color?"BLACK":"RED"));
+        inoder_rb_tree_walk(T,x->right);
     }
 }
 
 int main(){
     tree T;
-    tree *rt;
+    node *rt,*tmp_node;
     node node_nil;
     nil_init(&node_nil);
     T.root = T.nil = &node_nil;
     
-    int input_array[7] = {13,8,15,6,17,20,3};
-    int n = 7;
+    int input_array[12] = {19,4,13,8,12,15,6,11,17,2,20,3};
+    int n = 12;
     
     rt = create_rb_tree(&T,input_array,n);
     inoder_rb_tree_walk(&T,T.root);
     printf("Search key 6, the result is %d\n",rb_iterative_tree_search(&T,T.root,6)->key);
     printf("root——%d's successor is %d\n",T.root->key,rb_tree_successor(&T,T.root)->key);
     printf("root——%d's predecessor is %d\n",T.root->key,rb_tree_predecessor(&T,T.root)->key);
-    printf("minimum is %d\n",rb_tree_minimum(&T,T.root));
-    printf("maximum is %d\n",rb_tree_maximum(&T,T.root));
+    printf("minimum is %d\n",rb_tree_minimum(&T,T.root)->key);
+    printf("maximum is %d\n",rb_tree_maximum(&T,T.root)->key);
+    /* Test 1
     printf("Deleting root——%d,after deleting,red black tree output is \n",T.root->key);
     rb_delete(&T,T.root);
     inoder_rb_tree_walk(&T,T.root);
+    */
+   
+    /* Test 2 */ 
+    tmp_node = rb_iterative_tree_search(&T,T.root,17);
+    printf("Deleting node(17), key is %d\n",tmp_node->key);
+    rb_delete(&T,tmp_node);
+    inoder_rb_tree_walk(&T,T.root);
+    
     rb_free(rt);
 }
