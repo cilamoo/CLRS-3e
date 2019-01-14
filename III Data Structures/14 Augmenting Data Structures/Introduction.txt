@@ -1,0 +1,10 @@
+Some engineering situations require no more than a “textbook” data structure—
+such as a doubly linked list, a hash table, or a binary search tree—but many
+others require a dash of creativity. Only in rare situations will you need to create
+an entirely new type of data structure, though. More often, it will suffice to
+augment a textbook data structure by storing additional information in it. You can
+then program new operations for the data structure to support the desired application.
+Augmenting a data structure is not always straightforward, however, since the
+added information must be updated and maintained by the ordinary operations on
+the data structure.
+

@@ -1,0 +1,42 @@
+14.3 Interval trees
+
+A closed interval is an ordered pair of real numbers [t1,t2] with
+t1 ≤ t2. The interval [t1,t2] represents the set {t∈R: t1 ≤ t ≤ t2}. Open and
+half-open intervals omit both or one of the endpoints from the set, respectively.
+
+Intervals are convenient for representing events that each occupy a continuous
+period of time. We might, for example, wish to query a database of time intervals
+to find out what events occurred during a given interval.
+
+We can represent an interval [t1,t2] as an object i , with attributes i.low = t1
+(the low endpoint) and i.high = t2 (the high endpoint). We say that intervals i
+and i' overlap if i ∩ i' ≠ Ø , that is, if i.low ≤ i'.high and i'.low ≤ i.high. As
+Figure 14.3 shows, any two intervals i and i 0 satisfy the interval trichotomy; that
+is, exactly one of the following three properties holds:
+a. i and i' overlap,
+b. i is to the left of i' (i.e., i.high < i'.low),
+c. i is to the right of i' (i.e., i'.high < i.low).
+
+An interval tree is a red-black tree that maintains a dynamic set of elements, with
+each element x containing an interval x.int. Interval trees support the following
+operations:
+
+INTERVAL-INSERT(T,x) adds the element x, whose int attribute is assumed to
+contain an interval, to the interval tree T .
+INTERVAL-DELETE(T,x) removes the element x from the interval tree T .
+INTERVAL-SEARCH(T,i) returns a pointer to an element x in the interval tree T
+such that x:int overlaps interval i , or a pointer to the sentinel T:nil if no such
+element is in the set.
+
+INTERVAL-SEARCH(T,i)
+1 x = T.root
+2 while x ≠ T.nil and i does not overlap x.int
+3     if x.left ≠  T:nil and x.left.max ≥ i.low
+4         x = x.left
+5     else x = x:right
+6 return x
+
+Theorem 14.2
+Any execution of INTERVAL-SEARCH(T,i) either returns a node whose interval
+overlaps i , or it returns T.nil and the tree T contains no node whose interval overlaps
+i .

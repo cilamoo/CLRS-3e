@@ -1,0 +1,56 @@
+14.1 Dynamic order statistics
+
+An order-statistic tree T is simply a red-black tree with additional information
+stored in each node. Besides the usual red-black tree attributes x.key, x.color, x.p,
+x.left, and x.right in a node x, we have another attribute, x.size. This attribute
+contains the number of (internal) nodes in the subtree rooted at x (including x
+itself), that is, the size of the subtree. If we define the sentinel’s size to be 0—that
+is, we set T.nil.size to be 0—then we have the identity
+
+x.size = x.left.size + x.right.size + 1
+
+We do not require keys to be distinct in an order-statistic tree.
+
+Defining the rank of an element as the position at which it would be printed 
+in an inorder walk of the tree.
+
+1.Retrieving an element with a given rank
+OS-SELECT(x,i)
+1 r = x.left.size + 1
+2 if i == r
+3     return x
+4 elseif i < r
+5     return OS-SELECT(x.left,i)
+6 else return OS-SELECT(x.right,i-r)
+
+In line 1 of OS-SELECT, we compute r, the rank of node x within the subtree
+rooted at x.
+
+Since the subtree rooted at x contains r elements that come before x’s right 
+subtree in an inorder tree walk, the i th smallest element in the subtree rooted 
+at x is the (i-r)th smallest element in the subtree rooted at x.right.
+
+Because each recursive call goes down one level in the order-statistic tree, the
+total time for OS-SELECT is at worst proportional to the height of the tree. Since
+the tree is a red-black tree, its height is O(lgn), where n is the number of nodes.
+Thus, the running time of OS-SELECT is O(lgn) for a dynamic set of n elements.
+
+2.Determining the rank of an element
+OS-RANK(T,x)
+1 r = x.left.size + 1
+2 y = x
+3 while y ≠ T.root
+4     if y == y.p.right
+5         r = r + y.p.left.size + 1
+6     y - y.p
+7 return r
+
+Since each iteration of the while loop takes O(1) time, and y goes up one level in
+the tree with each iteration, the running time of OS-RANK is at worst proportional
+to the height of the tree: O(lgn) on an n-node order-statistic tree.
+
+3.Maintaining subtree sizes
+on page 343
+
+14.1-3
+Write a nonrecursive version of OS-SELECT.
