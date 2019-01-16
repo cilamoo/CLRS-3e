@@ -1,0 +1,63 @@
+2.3 Designing algorithms
+
+We can choose from a wide range of algorithm design techniques. For insertion
+sort, we used an incremental approach: having sorted the subarray A[1..j-1],
+we inserted the single element A[j] into its proper place, yielding the sorted
+subarray A[1..j]
+
+2.3.1 The divide-and-conquer approach
+Many useful algorithms are recursive in structure: to solve a given problem, they
+call themselves recursively one or more times to deal with closely related subproblems.
+These algorithms typically follow a divide-and-conquer approach: they
+break the problem into several subproblems that are similar to the original problem
+but smaller in size, solve the subproblems recursively, and then combine these
+solutions to create a solution to the original problem.
+
+Divide the problem into a number of subproblems that are smaller instances of the
+same problem.
+
+Conquer the subproblems by solving them recursively. If the subproblem sizes are
+small enough, however, just solve the subproblems in a straightforward manner.
+
+Combine the solutions to the subproblems into the solution for the original problem.
+
+The merge sort algorithm closely follows the divide-and-conquer paradigm. Intuitively,
+it operates as follows.
+
+Divide: Divide the n-element sequence to be sorted into two subsequences of n=2
+elements each.
+Conquer: Sort the two subsequences recursively using merge sort.
+Combine: Merge the two sorted subsequences to produce the sorted answer.
+
+MERGE(A,p,q,r)
+1   n1 = p-q+1
+2   n2 = r - q 
+3   let L[1..n1+1] and R[1..n2+1] be new arrays 
+4   for i = 1 to n1
+5       L[i] = A[p+i-1]
+6   for j = 1 to n2 
+7       R[j] = A[q+j]
+8   L[n1+1] = ∞ 
+9   R[n2+1] = ∞ 
+10  i = 1 
+11  j = 1 
+12  for k = p to r 
+13      if L[i] ≤ R[j]
+14          A[k] = L[i]
+15          i = i + 1
+16      else A[k] = R[j]
+17          j = j + 1 
+
+MERGE-SORT(A,p,r)
+1   if p < r 
+2       q = ⌊(p+r)/2⌋
+3       MERGE-SORT(A,p,q)
+4       MERGE-SORT(A,q+1,r)
+5       MERGE(A,p,q,r)
+
+2.3.2 Analyzing divide-and-conquer algorithms
+When an algorithm contains a recursive call to itself, we can often describe its
+running time by a recurrence equation or recurrence, which describes the overall
+running time on a problem of size n in terms of the running time on smaller inputs.
+
+Running time is Θ(nlgn);

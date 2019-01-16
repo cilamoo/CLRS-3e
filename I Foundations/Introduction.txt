@@ -1,0 +1,25 @@
+Introduction
+
+The sorting algorithms we examine are insertion sort,
+which uses an incremental approach, and merge sort, which uses a recursive technique
+known as “divide-and-conquer.”
+
+Chapter 4 contains methods for solving recurrences, which are useful for describing
+the running times of recursive algorithms. One powerful technique is the “master
+method,” which we often use to solve recurrences that arise from divide-andconquer
+algorithms.
+
+Chapter 5 introduces probabilistic analysis and randomized algorithms. We typically
+use probabilistic analysis to determine the running time of an algorithm in
+cases in which, due to the presence of an inherent probability distribution, the
+running time may differ on different inputs of the same size. In some cases, we
+assume that the inputs conform to a known probability distribution, so that we are
+averaging the running time over all possible inputs. In other cases, the probability
+distribution comes not from the inputs but from random choices made during the
+course of the algorithm. An algorithm whose behavior is determined not only by its
+input but by the values produced by a random-number generator is a randomized
+algorithm. We can use randomized algorithms to enforce a probability distribution
+on the inputs—thereby ensuring that no particular input always causes poor performance—
+or even to bound the error rate of algorithms that are allowed to produce
+incorrect results on a limited basis.
+

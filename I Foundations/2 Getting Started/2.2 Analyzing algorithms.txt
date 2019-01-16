@@ -1,0 +1,61 @@
+2.2 Analyzing algorithms
+
+In the RAM model, instructions are executed one after another,
+with no concurrent operations.
+
+1.Analysis of insertion sort
+The time taken by the INSERTION-SORT procedure depends on the input: sorting a
+thousand numbers takes longer than sorting three numbers. Moreover, INSERTIONSORT
+can take different amounts of time to sort two input sequences of the same
+size depending on how nearly sorted they already are. In general, the time taken
+by an algorithm grows with the size of the input, so it is traditional to describe the
+running time of a program as a function of the size of its input. To do so, we need
+to define the terms “running time” and “size of input” more carefully.
+
+The best notion for input size depends on the problem being studied. For many
+problems, such as sorting or computing discrete Fourier transforms, the most natural
+measure is the number of items in the input—for example, the array size n
+for sorting. For many other problems, such as multiplying two integers, the best
+measure of input size is the total number of bits needed to represent the input in
+ordinary binary notation. Sometimes, it is more appropriate to describe the size of
+the input with two numbers rather than one. For instance, if the input to an algorithm
+is a graph, the input size can be described by the numbers of vertices and
+edges in the graph. We shall indicate which input size measure is being used with
+each problem we study.
+
+The running time of an algorithm on a particular input is the number of primitive
+operations or “steps” executed. It is convenient to define the notion of step so
+that it is as machine-independent as possible. For the moment, let us adopt the
+following view. A constant amount of time is required to execute each line of our
+pseudocode. One line may take a different amount of time than another line, but
+we shall assume that each execution of the i th line takes time ci, where ci is a
+constant. This viewpoint is in keeping with the RAM model, and it also reflects
+how the pseudocode would be implemented on most actual computers.
+
+2.Worst-case and average-case analysis
+For the remainder of this book, though, we shall usually concentrate on
+finding only the worst-case running time, that is, the longest running time for any
+input of size n. We give three reasons for this orientation.
+
+1)The worst-case running time of an algorithm gives us an upper bound on the
+running time for any input.
+
+2)For some algorithms, the worst case occurs fairly often.
+
+3)The “average case” is often roughly as bad as the worst case.
+
+In some particular cases, we shall be interested in the average-case running time
+of an algorithm; we shall see the technique of probabilistic analysis applied to
+various algorithms throughout this book. The scope of average-case analysis is
+limited, because it may not be apparent what constitutes an “average” input for
+a particular problem. Often, we shall assume that all inputs of a given size are
+equally likely. In practice, this assumption may be violated, but we can sometimes
+use a randomized algorithm, which makes random choices, to allow a probabilistic
+analysis and yield an expected running time. We explore randomized algorithms
+more in Chapter 5 and in several other subsequent chapters.
+
+3.Order of growth
+rate of growth,or order of growth;
+
+We usually consider one algorithm to be more efficient than another if its worstcase
+running time has a lower order of growth.
