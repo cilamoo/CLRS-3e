@@ -16,12 +16,12 @@ void merge(int *A, int p, int q, int r){
     }
     
     L[n1] = 999;
-    R[n2] - 999;
+    R[n2] = 999;
 
     i = 1;
     j = 1;
     for(k = p; k <= r; k++){
-        if(L[i-1] <= R[j]){
+        if(L[i-1] <= R[j-1]){
             A[k-1] = L[i-1];
             i += 1;
         }
@@ -57,8 +57,8 @@ int main(){
 
     merge_sort(A,1,length);
 
-    printf("After sorting:\n");
+    printf("\nAfter sorting:\n");
     print_array(A,length);
-
+    printf("\n");
     return 0;
 }
