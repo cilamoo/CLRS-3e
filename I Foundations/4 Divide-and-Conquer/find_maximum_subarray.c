@@ -19,7 +19,7 @@ rt_val find_max_crossing_subarray(int *A, int low, int mid, int high){
 
     left_sum = -999;
     sum = 0;
-    for(i = mid; i >0; i--){
+    for(i = mid; i >= low; i--){
         sum += A[i-1];
         if(sum > left_sum){
             left_sum = sum;
@@ -33,7 +33,7 @@ rt_val find_max_crossing_subarray(int *A, int low, int mid, int high){
         sum += A[j-1];
         if(sum > right_sum){
             right_sum = sum;
-            right_max = j;
+            max_right = j;
         }
     }
 
@@ -42,15 +42,15 @@ rt_val find_max_crossing_subarray(int *A, int low, int mid, int high){
 }
 
 rt_val find_maximum_subarray(int *A, int low, int high){
-    rt_val tmp,left,right;
+    rt_val tmp,left,right,cross;
     int mid;
 
     if(low == high){
-        assign_rt_val(&tmp,low,high,A[low]);
+        assign_rt_val(&tmp,low,high,A[low-1]);
         return tmp;
     }
     else{
-        mid = (low+hign)/2;
+        mid = (low+high)/2;
         left = find_maximum_subarray(A,low,mid);
         right = find_maximum_subarray(A,mid+1,high);
         cross = find_max_crossing_subarray(A,low,mid,high);
