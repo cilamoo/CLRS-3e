@@ -1,0 +1,68 @@
+4.1 The maximum-subarray problem
+
+1.A brute-force solution
+
+2.A transformation
+
+find the nonempty, contiguous subarray of A whose values have
+the largest sum. We call this contiguous subarray the maximum subarray.
+
+The maximum-subarray problem is interesting only when the array contains
+some negative numbers. If all the array entries were nonnegative, then the
+maximum-subarray problem would present no challenge, since the entire array
+would give the greatest sum.
+
+3.A solution using divide-and-conquer
+We can easily find a maximum subarray crossing the midpoint in time linear
+in the size of the subarray A[low..high]. This problem is not a smaller instance
+of our original problem, because it has the added restriction that the subarray it
+chooses must cross the midpoint.
+
+FIND-MAX-CROSSING-SUBARRAY(A,low,mid,high)
+1   left-sum = -∞
+2   sum = 0
+3   for i = mid downto low 
+4       sum = sum + A[i]
+5       if sum > left-sum
+6           left-sum = sum 
+7           max-left = i 
+8   right-sum = -∞
+9   sum = 0
+10  for j = mid + 1 to high 
+11      sum = sum + A[j]
+12      if sum > right-sum 
+13          right-sum = sum 
+14          max-right = j 
+15  return (max-left,max-right,left-sum + right-sum)
+
+FIND-MAXIMUM-SUBARRAY(A,low,high)
+1   if high == low
+2       return (low,high,A[low])        // base case: only one element
+3   else mid = ⌊(low+high)/2⌋
+4       (left-low, left-high, left-sum) = 
+            FIND-MAXIMUM-SUBARRAY(A,low,mid)
+5       (right-low, right-high, right-sum) = 
+            FIND-MAXIMUM-SUBARRAY(A,mid+1,high)
+6       (cross-low, cross-high, cross-sum) = 
+            FIND-MAX-CROSSING-SUBARRAY(A, low, mid, high)
+7       if left-sum ≥ right-sum and left-sum ≥ cross-sum
+8           return (left-low, left-high, left-sum)
+9       elseif right-sum ≥ left-sum and right-sum ≥ cross-sum
+10          return (right-low, right-high, right-sum)
+11      else return (cross-low, cross-high, cross-sum)
+
+4.Analyzing the divide-and-conquer algorithm
+T(n)= Θ(nlgn)
+
+As Exercise 4.1-5 shows, there is in fact a linear-time algorithm for the maximum-subarray problem,
+and it does not use divide-and-conquer.
+
+Exercise 4.1-5
+Use the following ideas to develop a nonrecursive, linear-time algorithm for the
+maximum-subarray problem. Start at the left end of the array, and progress toward
+the right, keeping track of the maximum subarray seen so far. Knowing a maximum
+subarray of A[1..j], extend the answer to find a maximum subarray ending at index
+j+1 by using the following observation: a maximum subarray of A[1..j+1]
+is either a maximum subarray of A[1..j] or a subarray A[i..j+1], for some
+1 ≤ i ≤ j + 1. Determine a maximum subarray of the form A[i..j+1] in
+constant time based on knowing a maximum subarray ending at index j.

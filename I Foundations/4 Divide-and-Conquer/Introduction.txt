@@ -1,0 +1,7 @@
+1.Recurrences
+
+Recurrences go hand in hand with the divide-and-conquer paradigm, because they
+give us a natural way to characterize the running times of divide-and-conquer algorithms.
+A recurrence is an equation or inequality that describes a function in terms
+of its value on smaller inputs.
+
