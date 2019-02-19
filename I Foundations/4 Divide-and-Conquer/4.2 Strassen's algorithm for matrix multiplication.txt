@@ -1,0 +1,5 @@
+4.2 Strassen’s algorithm for matrix multiplication
+
+1.A simple divide-and-conquer algorithm
+2.Strassen’s method
+T(n) = Θ(n^lg7)
