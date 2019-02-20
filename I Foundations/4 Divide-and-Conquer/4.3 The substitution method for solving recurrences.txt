@@ -1,0 +1,39 @@
+The substitution method for solving recurrences comprises two steps:
+1. Guess the form of the solution.
+2. Use mathematical induction to find the constants and show that the solution
+works.
+
+Mathematical induction now requires us to show that our solution holds for the
+boundary conditions. Typically, we do so by showing that the boundary conditions
+are suitable as base cases for the inductive proof.
+
+1.Making a good guess
+Fortunately,though, you can use some heuristics to help you become a good guesser. You
+can also use recursion trees, which we shall see in Section 4.4, to generate good
+guesses.
+
+If a recurrence is similar to one you have seen before, then guessing a similar
+solution is reasonable.
+
+Another way to make a good guess is to prove loose upper and lower bounds on
+the recurrence and then reduce the range of uncertainty.
+
+2.Subtleties
+Sometimes you might correctly guess an asymptotic bound on the solution of a
+recurrence, but somehow the math fails to work out in the induction. The problem
+frequently turns out to be that the inductive assumption is not strong enough to
+prove the detailed bound. If you revise the guess by subtracting a lower-order term
+when you hit such a snag, the math often goes through.
+
+When proving an upper bound by induction, it may actually be
+more difficult to prove that a weaker upper bound holds, because in order to prove
+the weaker bound, we must use the same weaker bound inductively in the proof.
+
+3.Avoiding pitfalls
+The error is that we have not proved the exact form of the
+inductive hypothesis
+
+4.Changing variables
+Sometimes, a little algebraic manipulation can make an unknown recurrence similar
+to one you have seen before.
+

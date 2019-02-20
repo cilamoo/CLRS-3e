@@ -25,7 +25,7 @@ asymptotically tight bound for f(n).
 
 5).o-notation
 The asymptotic upper bound provided by O-notation may or may not be asymptotically
-tight. The bound 2n2 = O(n^2) is asymptotically tight, but the bound
+tight. The bound 2n^2 = O(n^2) is asymptotically tight, but the bound
 2n = O(n^2) is not. We use o-notation to denote an upper bound that is not asymptotically
 tight.
 
