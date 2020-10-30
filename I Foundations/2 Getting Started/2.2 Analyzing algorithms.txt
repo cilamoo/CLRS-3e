@@ -12,17 +12,24 @@ by an algorithm grows with the size of the input, so it is traditional to descri
 running time of a program as a function of the size of its input. To do so, we need
 to define the terms “running time” and “size of input” more carefully.
 
-The best notion for input size depends on the problem being studied. For many
+//不同的问题有不同输入大小的衡量方法
+The best notion for input size depends on the problem being studied.
+//对于计算，是输入项的大小 
+For many
 problems, such as sorting or computing discrete Fourier transforms, the most natural
-measure is the number of items in the input—for example, the array size n
-for sorting. For many other problems, such as multiplying two integers, the best
+measure is the number of items in the input, for example, the array size n
+for sorting. 
+//对于乘法，是二进制位数目 
+For many other problems, such as multiplying two integers, the best
 measure of input size is the total number of bits needed to represent the input in
 ordinary binary notation. Sometimes, it is more appropriate to describe the size of
-the input with two numbers rather than one. For instance, if the input to an algorithm
+the input with two numbers rather than one.
+//对于图，是顶点和边 
+ For instance, if the input to an algorithm
 is a graph, the input size can be described by the numbers of vertices and
 edges in the graph. We shall indicate which input size measure is being used with
 each problem we study.
-
+//抽象：算法的每一行执行时间就相当于计算机执行指令
 The running time of an algorithm on a particular input is the number of primitive
 operations or “steps” executed. It is convenient to define the notion of step so
 that it is as machine-independent as possible. For the moment, let us adopt the
@@ -32,6 +39,8 @@ we shall assume that each execution of the i th line takes time ci, where ci is 
 constant. This viewpoint is in keeping with the RAM model, and it also reflects
 how the pseudocode would be implemented on most actual computers.
 
+//主要关注最差运行时间：最差运行时间给出上界;大多数算法的最差运行时间经常出现；平均运行时间
+//通常和最差运行时间大致相同
 2.Worst-case and average-case analysis
 For the remainder of this book, though, we shall usually concentrate on
 finding only the worst-case running time, that is, the longest running time for any
@@ -46,7 +55,9 @@ running time for any input.
 
 In some particular cases, we shall be interested in the average-case running time
 of an algorithm; we shall see the technique of probabilistic analysis applied to
-various algorithms throughout this book. The scope of average-case analysis is
+various algorithms throughout this book.
+//平均case的分析受限, 因为什么是平均输入不明显 
+ The scope of average-case analysis is
 limited, because it may not be apparent what constitutes an “average” input for
 a particular problem. Often, we shall assume that all inputs of a given size are
 equally likely. In practice, this assumption may be violated, but we can sometimes
@@ -57,5 +68,5 @@ more in Chapter 5 and in several other subsequent chapters.
 3.Order of growth
 rate of growth,or order of growth;
 
-We usually consider one algorithm to be more efficient than another if its worstcase
+We usually consider one algorithm to be more efficient than another if its worst case
 running time has a lower order of growth.

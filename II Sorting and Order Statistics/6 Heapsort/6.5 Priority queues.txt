@@ -1,5 +1,5 @@
 6.5 Priority queues
-
+//快速排序在实践中击败堆排序
 Heapsort is an excellent algorithm, but a good implementation of quicksort, presented
 in Chapter 7, usually beats it in practice. Nevertheless, the heap data structure
 itself has many uses.
@@ -30,7 +30,7 @@ the array index in the corresponding application object
 The procedure HEAP-MAXIMUM implements the MAXIMUM operation in Θ(1) time.
 HEAP-MAXIMUM(A)
 1 return A[1]
-
+//最大值与最小值交换, 将最大值换出去,再维持队列
 HEAP-EXTRACT-MAX(A)
 1 if A.heap-size < 1
 2    error “heap underflow”

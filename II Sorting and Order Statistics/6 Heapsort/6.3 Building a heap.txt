@@ -1,7 +1,10 @@
 6.3 Building a heap
 
 the elements in the subarray A[(⌊n/2⌋+1)...n] are all leaves of the tree.
-
+//the subarray A[(⌊n/2⌋+1)...n]是叶子, 自底向上构建最大堆
+//MAX-HEAPIFY假定A[i]的left、right子树维持了max-heap的性质
+//在BUILD-MAX-HEAP中，自底向上构建max-heap，最开始，第一个元素
+//A[A.length/2]的子树只是叶子，默认遵守max-heap的性质
 BUILD-MAX-HEAP(A)
 1 A.heap-size = A.length
 2 for i = ⌊A.length/2⌋ downto 1

@@ -1,11 +1,12 @@
 2.3 Designing algorithms
-
+//插入排序使用incremental approach设计技术
 We can choose from a wide range of algorithm design techniques. For insertion
 sort, we used an incremental approach: having sorted the subarray A[1..j-1],
 we inserted the single element A[j] into its proper place, yielding the sorted
 subarray A[1..j]
 
 2.3.1 The divide-and-conquer approach
+//递归、分而治之
 Many useful algorithms are recursive in structure: to solve a given problem, they
 call themselves recursively one or more times to deal with closely related subproblems.
 These algorithms typically follow a divide-and-conquer approach: they
@@ -24,7 +25,7 @@ Combine the solutions to the subproblems into the solution for the original prob
 The merge sort algorithm closely follows the divide-and-conquer paradigm. Intuitively,
 it operates as follows.
 
-Divide: Divide the n-element sequence to be sorted into two subsequences of n=2
+Divide: Divide the n-element sequence to be sorted into two subsequences of n/2
 elements each.
 Conquer: Sort the two subsequences recursively using merge sort.
 Combine: Merge the two sorted subsequences to produce the sorted answer.
@@ -33,7 +34,7 @@ MERGE(A,p,q,r)
 1   n1 = p-q+1
 2   n2 = r - q 
 3   let L[1..n1+1] and R[1..n2+1] be new arrays 
-4   for i = 1 to n1
+4   for i = 1 to n1       //复制一份子数组
 5       L[i] = A[p+i-1]
 6   for j = 1 to n2 
 7       R[j] = A[q+j]
@@ -41,13 +42,16 @@ MERGE(A,p,q,r)
 9   R[n2+1] = ∞ 
 10  i = 1 
 11  j = 1 
-12  for k = p to r 
-13      if L[i] ≤ R[j]
-14          A[k] = L[i]
+12  for k = p to r         //逐一比较L和R两个子数组
+13      if L[i] ≤ R[j]     //左子数组的元素小于等于右子树的元素
+14          A[k] = L[i]    //修改原始数组A中的元素
 15          i = i + 1
 16      else A[k] = R[j]
 17          j = j + 1 
 
+//MERGE-SORT递归式二分原始数组, 直到子数组的元素只有一个元素(不能再分了), 然后MERGE
+//将两个只有一个元素的子数组合并.
+//自底向上的方法
 MERGE-SORT(A,p,r)
 1   if p < r 
 2       q = ⌊(p+r)/2⌋

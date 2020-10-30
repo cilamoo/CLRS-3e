@@ -7,7 +7,7 @@ HEAPSORT(A)
 4     A.heap-size = A.heap-size - 1
 5     MAX-HEAPIFY(A,1)
 
-The HEAPSORT procedure takes time O(nlgn), since the call to BUILD-MAXHEAP
+The HEAPSORT procedure takes time O(nlgn), since the call to BUILD-MAX-HEAP
 takes time O(n) and each of the n-1 calls to MAX-HEAPIFY takes
 time O(lgn).
 

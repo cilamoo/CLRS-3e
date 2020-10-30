@@ -1,5 +1,5 @@
 9.3 Selection in worst-case linear time
-
+//找出中位数的中位数
 The SELECT algorithm determines the i th smallest of an input array of n > 1
 distinct elements by executing the following steps. (If n = 1, then SELECT merely
 returns its only input value as the i th smallest.)

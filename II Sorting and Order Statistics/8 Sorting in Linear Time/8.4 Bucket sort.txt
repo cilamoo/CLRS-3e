@@ -1,5 +1,5 @@
 8.4 Bucket sort
-
+//输入是由随机过程生成, 均匀分布且独立在区间(0,1]
 Bucket sort assumes that the input is drawn from a uniform distribution and has an
 average-case running time of O(n). Like counting sort, bucket sort is fast because
 it assumes something about the input. Whereas counting sort assumes that the input

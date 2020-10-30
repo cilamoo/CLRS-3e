@@ -7,6 +7,7 @@ is not really necessary; we can avoid it by using an iterative control structure
 This technique, called tail recursion, is provided automatically by good compilers.
 Consider the following version of quicksort, which simulates tail recursion:
 
+//伪代码的表示并没有减小栈深度
 TAIL-RECURSIVE-QUICKSORT(A,p,r)
 1 while p < r
 2     // Partition and sort left subarray

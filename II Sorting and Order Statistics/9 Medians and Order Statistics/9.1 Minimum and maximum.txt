@@ -7,7 +7,8 @@ MINIMUM(A)
 4         min = A[i]
 5 return min
 
-Think of any algorithm that determines the minimum as a tournament among the elements. Each comparison
+Think of any algorithm that determines the minimum as a tournament among the elements.
+Each comparison
 is a match in the tournament in which the smaller of the two elements wins.
 Observing that every element except the winner must lose at least one match, we
 conclude that n - 1 comparisons are necessary to determine the minimum.
@@ -18,7 +19,10 @@ comparisons.
 
 We compare pairs of elements from the input first with each other, and then we compare
 the smaller with the current minimum and the larger to the current maximum, at a cost
-of 3 comparisons for every 2 elements.How we set up initial values for the current minimum and maximum depends
+of 3 comparisons for every 2 elements.
+//如果n为奇数,初始最大值和最小值为第一个数; 如果n为偶数,先比较开始的两个元素,决定初始最大值和最小值
+How we set up initial values for the current minimum 
+and maximum depends
 on whether n is odd or even. If n is odd, we set both the minimum and maximum
 to the value of the first element, and then we process the rest of the elements in
 pairs. If n is even, we perform 1 comparison on the first 2 elements to determine

@@ -7,6 +7,9 @@ unbalanced, which in turn depends on which elements are used for partitioning.
 The worst-case behavior for quicksort occurs when the partitioning routine produces
 one subproblem with n - 1 elements and one with 0 elements.
 
+//比如按顺序排列[1,2,3,4],插入排序只遍历一遍for循环,内部while循环条件不成立;
+//对于快速排序每次执行返回一个one subproblem with n - 1 elements and one with 0 elements,
+//出现最差的情况 
 Thus, if the partitioning is maximally unbalanced at every recursive level of the
 algorithm, the running time is T(n) = Θ(n^2).Therefore the worst-case running time of
 quicksort is no better than that of insertion sort. Moreover, the Θ(n^2) running time
@@ -14,7 +17,7 @@ occurs when the input array is already completely sorted—a common situation in
 which insertion sort runs in O(n) time.
 
 2.Best-case partitioning
-In the most even possible split, PARTITION produces two subproblems, each of size no more than n=2,
+In the most even possible split, PARTITION produces two subproblems, each of size no more than n/2,
 since one is of size ⌊n/2-1⌋and one of size ⌈n/2-1⌉.
 
 T(n) = Θ(nlgn)

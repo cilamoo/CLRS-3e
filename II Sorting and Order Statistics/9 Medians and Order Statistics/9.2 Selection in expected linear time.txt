@@ -4,10 +4,13 @@ present a divide-and-conquer algorithm for the selection problem.
 
 But unlike quicksort, which recursively processes both sides of the
 partition, RANDOMIZED-SELECT works on only one side of the partition. This
-difference shows up in the analysis: whereas quicksort has an expected running
+difference shows up in the analysis: 
+//假定元素互异
+whereas quicksort has an expected running
 time of Θ(nlgn), the expected running time of RANDOMIZED-SELECT is Θ(n),
 assuming that the elements are distinct.
 
+//随机找一个值, 将数组分成两部分, 决定下一步怎么走 
 RANDOMIZED-SELECT(A,p,r,i)
 1 if p == r
 2     return A[p]

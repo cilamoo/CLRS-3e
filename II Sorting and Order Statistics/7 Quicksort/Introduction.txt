@@ -1,3 +1,19 @@
+//we can sometimes
+//use a randomized algorithm, which makes random choices, to allow a probabilistic
+//analysis and yield an expected running time
+
+//average-case running time的输入呈现概率分布, 
+//expected running time, 算法本身做出随机选择 
+/*When analyzing the running time of a randomized algorithm, we take the expectation
+of the running time over the distribution of values returned by the random
+number generator. We distinguish these algorithms from those in which the input
+is random by referring to the running time of a randomized algorithm as an expected
+running time. In general, we discuss the average-case running time when
+the probability distribution is over the inputs to the algorithm, and we discuss the
+expected running time when the algorithm itself makes random choices.
+*/
+
+//快速排序的优点：expected running time is Θ(nlgn), 隐藏在Θ(nlgn)的常数因子非常小,原址排序 
 The quicksort algorithm has a worst-case running time of Θ(n^2) on an input array
 of n numbers. Despite this slow worst-case running time, quicksort is often the best
 practical choice for sorting because it is remarkably efficient on the average: its
@@ -5,8 +21,12 @@ expected running time is Θ(nlgn), and the constant factors hidden in the Θ(nlg
 notation are quite small. It also has the advantage of sorting in place (see page 17),
 and it works well even in virtual-memory environments.
 
-Section 7.3 presents a version of quicksort that uses random sampling. This algorithm has a good expected running time, and no
-particular input elicits its worst-case behavior. Section 7.4 analyzes the randomized
+//随机抽样
+Section 7.3 presents a version of quicksort that uses random sampling. This algorithm has
+ a good expected running time, and no
+particular input elicits its worst-case behavior.
+
+ Section 7.4 analyzes the randomized
 algorithm, showing that it runs in Θ(n^2) time in the worst case and, assuming
 distinct elements, in expected O(nlgn) time.
 

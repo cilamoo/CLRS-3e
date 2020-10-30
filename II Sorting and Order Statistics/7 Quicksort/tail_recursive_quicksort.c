@@ -22,6 +22,7 @@ int partition(int *A, int p, int r){
     
 }
 
+//并没有尾递归
 void tail_recursive_quicksort(int *A, int p, int r){
     int q;
     while(p < r){

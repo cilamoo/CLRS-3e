@@ -10,15 +10,18 @@ running-time function T(n), which usually is defined only on integer input sizes
 Asymptotic notation actually applies to functions;
 
 1).Θ-notation
-
+//asymptotically tight bound
 Figure 3.1(a) gives an intuitive picture of functions f(n) and g(n), where
 f(n) = Θ(g(n)). For all values of n at and to the right of n0, the value of f(n)
 lies at or above c1g(n) and at or below c2g(n). In other words, for all n ≥ n0, the
 function f(n) is equal to g(n) to within a constant factor. We say that g(n) is an
 asymptotically tight bound for f(n).
 
+//asymptotic upper bound，“big-oh of g of n”, oh of g of n
 2).O-notation
 
+//asymptotic lower bound
+//“big-omega of g of n” or sometimes just “omega of gof n”)
 3).Ω-notation
 
 4).Asymptotic notation in equations and inequalities

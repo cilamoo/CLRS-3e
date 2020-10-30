@@ -10,10 +10,11 @@ other pointer attributes: next and prev. The object may also contain other satel
 Given an element x in the list, x.next points to its successor in the linked list, 
 and x.prev points to its predecessor. 
 
-If x.prev = NIL,the element x has no predecessor and is therefore the first element, or head, of
-the list. 
+If x.prev = NIL,the element x has no predecessor and is therefore the first element, or head, 
+of the list. 
 
-If x.next = NIL, the element x has no successor and is therefore the last element, or tail, of the list.
+If x.next = NIL, the element x has no successor and is therefore the last element, or tail,
+ of the list.
 
 An attribute L.head points to the first element of the list. If L.head = NIL, the list is empty.
 
@@ -30,6 +31,7 @@ LIST-SEARCH(L,k)
 in the worst case, running time is Θ(n), since it may have to search the entire list
 
 2.Inserting into a linked list
+//粘接到链表头
 the LIST-INSERT procedure “splices” x onto the front of the linked list
 LIST-INSERT(L,x)
 1 x.next = L.head
@@ -44,9 +46,10 @@ The running time for LIST-INSERT on a list of n elements is O(1).
 If we wish to delete an element with a given key, we must first call LIST-SEARCH
 to retrieve a pointer to the element and should check this pointer that equals NIL or not.
 
+//首先,调用LIST-SEARCH查找x
 LIST-DELETE(L,x)
 1 if x.prev ≠ NIL 
-2     x.prev.next = next 
+2     x.prev.next = x.next 
 3 else L.head = x.next 
 4 if x.next ≠ NIL
 5     x.next.prev = x.prev 
@@ -55,6 +58,7 @@ LIST-DELETE runs in O(1) time, but if we wish to delete an element with a given 
 is required in the worst case because we must first call LIST-SEARCH to find the
 element.
 
+//Sentinels增加代码清晰度 
 4.Sentinels
 LIST-DELETE'(L,x)
 1 x.prev.next = x.next 

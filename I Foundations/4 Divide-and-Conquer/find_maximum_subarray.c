@@ -44,7 +44,7 @@ rt_val find_max_crossing_subarray(int *A, int low, int mid, int high){
 rt_val find_maximum_subarray(int *A, int low, int high){
     rt_val tmp,left,right,cross;
     int mid;
-
+    
     if(low == high){
         assign_rt_val(&tmp,low,high,A[low-1]);
         return tmp;

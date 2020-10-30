@@ -9,6 +9,7 @@ void swap(int *s1, int *s2){
     *s2 = tmp;
 }
 
+/* 快速排序中用到的过程partition*/
 int partition(int *A, int p, int r){
     int x, i, j;
     x = A[r];

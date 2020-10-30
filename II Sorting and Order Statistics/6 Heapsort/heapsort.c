@@ -60,7 +60,7 @@ void min_heapify(int *A, int i, int heap_size){
 void build_max_heap(int *A, int length){
     int heap_size, i;
     heap_size = length;
-    
+    //the elements in the subarray A[(⌊n/2⌋+1)...n] are all leaves of the tree.
     for(i=length/2; i > 0; i--){
         max_heapify(A,i,heap_size);
     }

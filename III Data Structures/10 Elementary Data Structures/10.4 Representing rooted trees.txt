@@ -4,7 +4,7 @@ The methods for representing lists given in the previous section extend to any h
 data structure.
 
 
-1.Binary trees、
+1.Binary trees
 
 2.Rooted trees with unbounded branching
 

@@ -4,7 +4,7 @@ void merge(int *A, int p, int q, int r){
     int n1,n2,i,j,k;
     n1 = q - p + 1;
     n2 = r - q;
-
+    
     int L[n1+1],R[n2+1];
     
     for(i = 0; i < n1; i++){

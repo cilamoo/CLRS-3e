@@ -1,5 +1,7 @@
 7.1 Description of quicksort
 
+//算法思路：选择一个主元A[r],将小于主元的挪动到主元左边,大于主元的值挪动到
+//主元右边
 QUICKSORT(A,p,r)
 1 if p < r
 2     q = PARTITION(A,p,r)
@@ -7,6 +9,8 @@ QUICKSORT(A,p,r)
 4     QUICKSORT(A,q+1,r)
 
 Partitioning the array
+//如果数组只有两个元素, 比如[2,1], 2>1,那么行4不会成立,7会交换[2,1],结果为[1,2]
+//如果为[2,8],2<8,那么行4成立,交换2-2,行7交换8-8,结果为[2,8]
 PARTITION(A,p,r)
 1 x = A[r]
 2 i = p - 1;
