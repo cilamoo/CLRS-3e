@@ -8,7 +8,7 @@ returns a pointer to a node with key k if one exists; otherwise, it returns NIL
 
 TREE-SEARCH(x,k)
 1 if x == NIL or k == x.key
-2     return x
+2     return x 
 3 if k < x.key
 4     return TREE-SEARCH(x.left,k)
 5 else return TREE-SEARCH(x.right,k)
@@ -40,29 +40,29 @@ TREE-MAXIMUM(x)
 3.Successor and predecessor
 The structure of a binary search tree allows us to determine the successor of a node
 without ever comparing keys.
-
+//分两种情况, 右子树是否存在与否
 TREE-SUCCESSOR(x)
-1 if x.right ≠ NIL 
-2     return MINIMUM(x.right)
+1 if x.right ≠ NIL            //一般而言,后继是右子树中key最小的元素
+2     return TREE-MINIMUM(x.right) 
 3 y = x.p
-4 while y ≠ NIL and x == y.right
-5     x = y
+4 while y ≠ NIL and x == y.right //y=NIL的情况是:x为root且右子树为NIL;x的后继出现在东北方向,
+5     x = y                      //先沿西北方向走, 再拐向东北方向,形状像 <
 6     y = y.p
 7 return y 
 
 TREE-PREDECESSOR(x)
-1 if x.left ≠ NIL 
-2     return MAXIMUM(x.left)
+1 if x.left ≠ NIL              //一般而言,前驱是左子树中key最大的元素
+2     return TREE-MAXIMUM(x.left)
 3 y = x.p 
-4 while y ≠ NIL and x == y.left 
-5     x = y 
+4 while y ≠ NIL and x == y.left //当x==y.left时,x一直小于y,直到拐弯
+5     x = y                     //先沿东北方向走, 再拐向西北方向,形状像>
 6     y = y.p
 7 return y 
 
 We break the code for TREE-SUCCESSOR into two cases. If the right subtree
 of node x is nonempty, then the successor of x is just the leftmost node in x’s
-right subtree, which we find in line 2 by calling TREE-MINIMUM.x:right/.
-
+right subtree, which we find in line 2 by calling TREE-MINIMUM(x.right).
+//y是最底层祖先 
 On the other hand, as Exercise 12.2-6 asks you to show, if the right subtree of
 node x is empty and x has a successor y, then y is the lowest ancestor of x whose
 left child is also an ancestor of x.To find y, we simply go up the tree from x until we

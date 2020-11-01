@@ -1,5 +1,6 @@
 11.2 Hash tables
-
+//直接寻址法：比如, 三个键对应三个对象,需要6个单位内存空间;使用字典后,三个键可能映射
+//到同一个槽位, 节省了两个单位的内存空间 
 The downside of direct addressing is obvious: if the universe U is large, storing
 a table T of size |U| may be impractical, or even impossible, given the memory
 available on a typical computer. Furthermore, the set K of keys actually stored
@@ -26,6 +27,8 @@ their number
 Because |U| > m, however, there must be at least two keys that have the same hash
 value; avoiding collisions altogether is therefore impossible.
 
+//如果链表删除时, 要调用search, 对于单向链表可以在search时找到要删除节点的前驱;
+//如果不调用search, 双向链表的删除比单向列表快, 因为有prev
 The linked list can be either singly or doubly linked; we show it as doubly linked
 because deletion is faster that way.
 
@@ -40,7 +43,7 @@ CHAINED-HASH-SEARCH(T,k)
 
 CHAINED-HASH-DELETE(T,x)
 1 delete x from the list T[h(x.key)]
-
+//假定待插入元素不在表中
 The worst-case running time for insertion is O(1). The insertion procedure is fast
 in part because it assumes that the element x being inserted is not already present in
 the table; if necessary, we can check this assumption (at additional cost) by searching
@@ -50,6 +53,7 @@ running time is proportional to the length of the list.
 We can delete an element in O(1) time if the lists are doubly linked.
 
 2.Analysis of hashing with chaining
+//装载因子
 Given a hash table T with m slots that stores n elements, we define the load
 factor α for T as n/m, that is, the average number of elements stored in a chain.
 
@@ -74,7 +78,7 @@ time still turns out to be Θ(1+α).
 Theorem 11.2
 In a hash table in which collisions are resolved by chaining, a successful search
 takes average-case time Θ(1+α), under the assumption of simple uniform hashing.
-
+//哈希表的所有操作是O(1) time on average
 If the number of hash-table slots is at least proportional
 to the number of elements in the table, we have n=O(m) and, consequently,
 α = n/m = O(m)/m = O(1). Thus, searching takes constant time

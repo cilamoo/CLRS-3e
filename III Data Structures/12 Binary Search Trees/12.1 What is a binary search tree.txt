@@ -1,5 +1,6 @@
 12.1 What is a binary search tree?
 
+//节点的属性：key,left,right,parent
 We can represent such a tree by a linked data structure in which
 each node is an object. In addition to a key and satellite data, each node contains
 attributes left, right, and p that point to the nodes corresponding to its left child,
@@ -7,6 +8,8 @@ its right child, and its parent, respectively. If a child or the parent is missi
 appropriate attribute contains the value NIL. The root node is the only node in the
 tree whose parent is NIL.
 
+//二叉搜索树的属性：一个节点的左子树的节点的key都小于等于该节点的key,一个节点的右子树的所有节点的key
+//大于等于该节点的key
 The keys in a binary search tree are always stored in such a way as to satisfy the
 binary-search-tree property:
 Let x be a node in a binary search tree. If y is a node in the left subtree

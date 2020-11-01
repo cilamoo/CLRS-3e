@@ -1,5 +1,5 @@
 11.3 Hash functions
-
+//除法和乘法在CPU层面是位移指令, 所以, 可以按位移设计哈希函数 
 In this section, we discuss some issues regarding the design of good hash functions
 and then present three schemes for their creation. Two of the schemes, hashing by
 division and hashing by multiplication, are heuristic in nature, whereas the third
@@ -30,12 +30,18 @@ in the ASCII character set; then, expressed as a radix-128 integer, pt becomes
 (112·128)+116 = 14452;
 
 11.3.1 The division method
+//p54: For any integer a and any positive integer n, the value a mod n is the remainder
+//(or residue) of the quotient a/n, 
+//a mod n = a - n⌊a/n⌋
+//It follows that
+//0 ≤ a mod n < n
 h(k) = k mod m 
 m should not be a power of 2, since if m = 2^p, then h(k) is just the p
 lowest-order bits of k. Unless we know that all low-order p-bit patterns are equally
 likely, we are better off designing the hash function to depend on all the bits of the
 key.
 
+//m为一个接近2的幂次方的质数
 A prime not too close to an exact power of 2 is often a good choice for m.
 
 11.3.2 The multiplication method
@@ -45,6 +51,7 @@ we multiply the key k by a constant A in the range 0 < A < 1 and extract the fra
 part of kA. Then, we multiply this value by m and take the floor of the
 result. In short, the hash function is
 h(k) = ⌊ m(kA mod 1)⌋
+//取分数部分
 where “kA mod 1” means the fractional part of kA, that is, kA - ⌊kA⌋.
 
 An advantage of the multiplication method is that the value of m is not critical.

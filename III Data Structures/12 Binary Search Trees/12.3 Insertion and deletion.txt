@@ -1,14 +1,16 @@
 12.3 Insertion and deletion
 
 1.Insertion
-TREE-INSERT(z)
-1 y = NIL
-2 x = T.root
+//维持一个追踪指针y，指向x的父节点,遍历到最后,y是z的父节点；
+//从root开始向下，直到找到一个NIL。
+TREE-INSERT(T,z)
+1 y = NIL              //初始时 x为root, 则y为nil
+2 x = T.root           
 3 while x ≠ NIL 
-4     y = x 
-5     if z.key < x.key
+4     y = x            //y是x的parent
+5     if z.key < x.key 
 6         x = x.left
-7     else x = x.right 
+7     else x = x.right //这种判断法,等于root的key的Node都被插入到root的右子树
 8 z.p = y
 9 if y = NIL
 10     T.root = z
@@ -22,6 +24,7 @@ runs in O(h) time on a tree of height h.
 2.Deletion
 On page 296
 
+//用 v 代替 u , 更新u.p.left/right和v.p
 TRANSPLANT(T,u,v)
 1 if u.p = NIL
 2     T.root = v 
@@ -34,16 +37,16 @@ Lines 1–2 handle the case in which u is the root of T. Otherwise, u is either 
 child or a right child of its parent.
 
 TREE-DELETE(T,z)
-1  if z.left == NIL 
+1  if z.left == NIL                 //没有左孩子
 2      TRANSPLANT(T,z,z.right)
-3  elseif z.right == NIL
+3  elseif z.right == NIL            //没有右孩子
 4      TRANSPLANT(T,z,z.left)
-5  else y = TREE-MINIMUM(z.right)
-6      if y.p ≠ z 
-7          TRANSPLANT(T,y,y.right)
-8           y.right = z.right 
+5  else y = TREE-MINIMUM(z.right)   //有两个孩子;算法的运行时间大部分花销在这行
+6      if y.p ≠ z                   //后继不是z的右孩子 
+7          TRANSPLANT(T,y,y.right)  //更新y和y.right的父子关系
+8           y.right = z.right       //更新y和z.right的父子关系
 9           z.right.p = y 
-10      TRANSPLANT(T,z,y)
-11      y.left = z.lfet 
+10      TRANSPLANT(T,z,y)           //更新y和z.p的父子关系
+11      y.left = z.lfet             //更新y和z.left的父子关系 
 12      z.left.p = y 
 

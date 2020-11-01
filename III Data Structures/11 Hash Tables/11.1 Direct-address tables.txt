@@ -2,7 +2,7 @@
 
 Direct addressing is a simple technique that works well when the universe U of
 keys is reasonably small.
-
+//对象的key就是索引, 索引就是key
 DIRECT-ADDRESS-SEARCH(T,k)
 1 return T[k]
 
