@@ -5,9 +5,14 @@
 
 1.Optimal substructure
 The first step in solving an optimization problem by dynamic programming is to
-characterize the structure of an optimal solution. Recall that a problem exhibits
+characterize the structure of an optimal solution. 
+//一个问题展现出最优子结构：原问题的一个最优解包含子问题的最优解.
+//一个问题展现出最优子结构, 并不能说明可以用DP解决它
+Recall that a problem exhibits
 optimal substructure if an optimal solution to the problem contains within it optimal
-solutions to subproblems. Whenever a problem exhibits optimal substructure,
+solutions to subproblems. 
+
+Whenever a problem exhibits optimal substructure,
 we have a good clue that dynamic programming might apply. (As Chapter 16 discusses,
 it also might mean that a greedy strategy applies, however.) In dynamic
 programming, we build an optimal solution to the problem from optimal solutions
@@ -19,12 +24,14 @@ we consider includes those used in an optimal solution.
 To characterize the space of subproblems, a good rule of thumb says to try to
 keep the space as simple as possible and then expand it as necessary.
 1.2
+//see annotation on p380 , 如何抽象表示子问题 
 Optimal substructure varies across problem domains in two ways:
 1. how many subproblems an optimal solution to the original problem uses, and
 2. how many choices we have in determining which subproblem(s) to use in an
-optimal solution.(see annotation on p380)
+optimal solution.
 
 1.3
+//p380举例钢条切割和矩阵链条乘法
 Informally, the running time of a dynamic-programming algorithm depends on
 the product of two factors: the number of subproblems overall and how many
 choices we look at for each subproblem. 
@@ -57,19 +64,21 @@ G = (V, E) and vertices u,v ∈ V.
 Unweighted shortest path: Find a path from u to v consisting of the fewest
 edges. Such a path must be simple, since removing a cycle from a path produces
 a path with fewer edges.
-
+//注释：We can use the breadth-first search technique of Chapter 22 to solve the unweighted problem.
 Unweighted longest simple path: Find a simple path from u to v consisting of
 the most edges. We need to include the requirement of simplicity because otherwise
 we can traverse a cycle as many times as we like to create paths with an
 arbitrarily large number of edges.
 
+//最优子结构的子问题要相互独立
 2.2
+//具有最优子结构
 The unweighted shortest-path problem exhibits optimal substructure,
 
 for longest simple paths, not only does the problem lack optimal substructure, 
 but we cannot necessarily assemble a “legal” solution to the problem from solutions 
 to subproblems.
-
+//无权最长简单路径是个NP-complete;子问题不独立
 Indeed, the problem of finding an unweighted longest simple path does not 
 appear to have any sort of optimal substructure. No efficient dynamic-programming 
 algorithm for this problem has ever been found. In fact, this problem is
@@ -80,14 +89,14 @@ two subproblems, the subproblems in finding the longest simple path are not inde
 whereas for shortest paths they are.(p383，explanation in detail)
 
 3.Overlapping subproblems
-
+//子问题规模要小
  The second ingredient that an optimization problem must have for dynamic programming
  to apply is that the space of subproblems must be “small” in the sense
  that a recursive algorithm for the problem solves the same subproblems over and
  over, rather than always generating new subproblems. Typically, the total number
  of distinct subproblems is a polynomial in the input size. When a recursive algorithm
  revisits the same problem repeatedly, we say that the optimization problem
- has overlapping subproblems.4 In contrast, a problem for which a divide-andconquer
+ has overlapping subproblems.4 In contrast, a problem for which a divide-and-conquer
  approach is suitable usually generates brand-new problems at each step
  of the recursion. Dynamic-programming algorithms typically take advantage of
  overlapping subproblems by solving each subproblem once and then storing the
@@ -95,9 +104,9 @@ whereas for shortest paths they are.(p383，explanation in detail)
  lookup.
 
  Two subproblems of the same problem are independent if they do not share resources.
- Two subproblems are overlapping if they are really the samesubproblem that occurs
+ Two subproblems are overlapping if they are really the same subproblem that occurs
   as a subproblem of different problems.
-
+//低效率算法 
  RECURSIVE-MATRIX-CHAIN(p, i, j)
  1 if i == j
  2     return 0

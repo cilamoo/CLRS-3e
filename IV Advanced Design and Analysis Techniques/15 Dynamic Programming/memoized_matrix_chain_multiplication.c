@@ -2,13 +2,13 @@
  * 1.Memoization
  * Each subsequent time that we encounter this subproblem, we simply look up the
  * value stored in the table and return it.
- * 
+ * //用散列表作备忘录
  *  Another, more general,approach is to memoize by using hashing with the
  *  subproblem parameters as keys.
  * 
  * MEMOIZED-MATRIX-CHAIN(p)
  * 1 n = p.length - 1
- * 2 let m[1..n, 1..n] be new arrar
+ * 2 let m[1..n, 1..n] be new array
  * 3 for i = 1 to n
  * 4     for j = 1 to n 
  * 5         m[i, j] = ∞
@@ -26,12 +26,13 @@
  * 8        if q < m[i,j]
  * 9            m[i,j] = q 
  * 10 return m[i,j]
- * 
+ * //自顶向下：一些子问题没有被解决时，使用该方法
+ * //自底向上：解决所有子问题，没有递归压力，
  * In general practice, if all subproblems must be solved at least once, a bottom-up
  * dynamic-programming algorithm usually outperforms the corresponding top-down
  * memoized algorithm by a constant factor, because the bottom-up algorithm has no
  * overhead for recursion and less overhead for maintaining the table. Moreover, for
- * some problems we can exploit the regular pattern of table accesses in the dynamicprogramming
+ * some problems we can exploit the regular pattern of table accesses in the dynamic programming
  * algorithm to reduce time or space requirements even further. Alternatively,
  * if some subproblems in the subproblem space need not be solved at all,
  * the memoized solution has the advantage of solving only those subproblems that

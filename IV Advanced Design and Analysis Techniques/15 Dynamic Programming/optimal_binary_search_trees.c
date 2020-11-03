@@ -2,8 +2,8 @@
  * 15.5 Optimal binary search trees
  *
  * Words appear with different frequencies, however, and a frequently 
- * used word such as the may appear far from the root while a rarely 
- * used word suchas machicolation appears near the root.
+ * used word such as “the” may appear far from the root while a rarely 
+ * used word such as “machicolation” appears near the root.
  * 
  * optimal binary search tree: organize a binary search tree so as to minimize 
  * the number of nodes visited in all searches

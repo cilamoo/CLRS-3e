@@ -1,8 +1,10 @@
 /**
- * 1.length i | 1 2 3 4 5 6 7 8 9 10
+ * //动态规划的核心：最优子结构 重复子问题
+ * 
+ * 1.length i | 1 2 3 4 5 6 7 8 9 10      
  *  price pi  |1 5 8 9 10 17 17 20 24 30
  * 
- * 2.optimal substructure: optimal solutions to a problem 
+ * 2.the rod-cutting problem exhibits optimal substructure: optimal solutions to a problem 
  * incorporate optimal solutions to related subproblems
  * 
  * 3.Using dynamic programming for optimal rod cutting
@@ -34,7 +36,7 @@
  *         1 if r[n] ≥ 0 
  *         2     return r[n]
  *         3 if n == 0
- *         4    q == 0
+ *         4    q = 0
  *         5 else q = -∞
  *         6     for i = 1 to n 
  *         7         q = max(q,p[i] + MEMOIZED-CUT-ROD-AUX(p,n-i,r))
@@ -60,23 +62,23 @@
  *          6         q = max(q,p[i]+r[j - i])
  *          7     r[j] = q
  *          8 return r[n]
- *    .Runing time of top-down with memoization and bottom-up method :
+ *    3.Runing time of top-down with memoization and bottom-up method :
  *       The bottom-up and top-down versions have the same asymptotic 
  *       running time. The running time of procedure BOTTOM-UP-CUT-ROD 
  *       is Θ(n^2), due to its doubly-nested loop structure. BOTTOM-UP-CUT-ROD(p,n)—— 
  *       The number of iterations of its inner for loop, in lines 5–6, forms an 
  *       arithmetic series. MEMOIZED-CUT-ROD —— The total number of iterations 
  *       of this for loop, over all recursive calls of MEMOIZED-CUT-ROD, 
- *       forms an arithmetic series,
+ *       forms an arithmetic series(等差数列)
  *       
  * 6.These two approaches yield algorithms with the same asymptotic running 
  *   time,except in unusual circumstances where the top-down approach does 
- *   not actually recurse to examine all possible subproblems. The bottom-up
+ *   not actually recurse to examine all possible subproblems(?). The bottom-up
  *   approach often has much better constant factors, since it has less overhead 
  *   for procedure calls
  * 
  * 7.Subproblem graphs
- * The size of the subproblem graph G D .V;E/ can help us determine the running 
+ * The size of the subproblem graph G=(V,E) can help us determine the running 
  * time of the dynamic programming algorithm. Since we solve each subproblem just 
  * once, the running time is the sum of the times needed to solve each subproblem.
  * Typically, the time to compute the solution to a subproblem is proportional to 
@@ -86,10 +88,11 @@
  *  is linear in the number of vertices and edges.
  * 
  * 8.Reconstructing a solution
+ *     //自底向上方法求解了所有子问题的解
  *     EXTENDED-BOTTOM-UP-CUT-ROD(p,n)
  *     1 let r[0..n] and s[0..n] be new arrays
  *     2 r[0] = 0 
- *     3 for j = i to n
+ *     3 for j = 1 to n
  *     4     q = -∞
  *     5     for i = 1 to j 
  *     6         if q < p[i] + r[j - i]
@@ -99,8 +102,9 @@
  *     10 return r and s 
  *     s[j] in line 8 to hold the optimal size i of the first piece to cut off 
  *     when solving a subproblem of size j 
- * 
+ *  
  *     PRINT-CUT-ROD-SOLUTION(p,n)
+ * 
  *     1 (r,s) = EXTENDED-BOTTOM-UP-CUT-ROD(p,n)
  *     2 while n > 0 
  *     3     print s[n]

@@ -1,4 +1,5 @@
 /**
+ * //结合教材看
  * 1. A product of matrices is fully parenthesized if it is either a 
  * single matrix or the product of two fully parenthesized matrix 
  * products, surrounded by parentheses.
@@ -38,19 +39,20 @@
  * 
  *  matrix     A1    A2    A3    A4    A5    A6
  * dimension 30×35 35×15  15×5  5×10 10×20  20×25
- * 
+ * p376 Figure 15.5,说明自底向上递归过程
+ * //p是上面的dimension
  *  MATRIX-CHAIN-ORDER(p) ———— bottom-up approach
  *  1 n = p.length - 1 
  *  2 let m[1..n, 1..n] and s[1..n-1, 2..n] be new tables
  *  3 for i = 1 to n 
  *  4     m[i,i] = 0 
- *  5 for l = 2 to n 
+ *  5 for l = 2 to n                //l是子问题包含的矩阵的个数
  *  6     for i = 1 to n - l + 1 
  *  7         j = i + l - 1
  *  8         m[i,j] = ∞
  *  9         for k = i to j - 1 
- *  10            q = m[i,k] + m[k+1,j] +p    p  p   p
- *                                           i-1  k   j (subscript)
+ *  10            q = m[i,k] + m[k+1,j] +p    p  p   
+ *                                        i-1  k   j (subscript)
  *  11            if q < m[i, j]
  *  12               m[i,j] = q
  *  13               s[i,j] = k 
