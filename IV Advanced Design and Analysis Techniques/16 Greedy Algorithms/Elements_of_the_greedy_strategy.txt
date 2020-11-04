@@ -1,5 +1,7 @@
 16.2 Elements of the greedy strategy
-
+//贪婪算法具有最优子结构的属性, 贪婪选择一个最优解, 再求解子问题;
+//贪婪算法是动态规划的一个特例;
+//0-1背包问题不能用贪婪算法解决,可以使用DP
 More generally, we design greedy algorithms according to the following sequence
 of steps:
 1. Cast the optimization problem as one in which we make a choice and are left

@@ -5,7 +5,7 @@
  * 
  * Greedy algorithms do not always yield optimal solutions, but for many problems 
  * they do. 
- * 
+ * //活动选择与greedy algorithm
  * assume that the n input activities are already ordered by monotonically 
  * increasing finish time, according to equation (16.1). If not, we can sort
  * them into this order in O(nlgn) time, breaking ties arbitrarily. In order 
