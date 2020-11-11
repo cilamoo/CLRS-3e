@@ -25,6 +25,8 @@ once. (We have used an aggregate analysis here.) Because each iteration of the
 inner for loop takes Θ(1) time, the total running time is Θ(V+E), which is linear
 in the size of an adjacency-list representation of the graph.
 
+//算法的一个应用,PERT,p657 
+//“PERT” is an acronym for “program evaluation and review technique.”
 An interesting application of this algorithm arises in determining critical paths
 in PERT chart analysis.(“PERT” is an acronym for “program evaluation and review technique.”)
 

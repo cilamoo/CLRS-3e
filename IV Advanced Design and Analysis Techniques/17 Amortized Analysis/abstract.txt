@@ -8,6 +8,7 @@ be expensive. Amortized analysis differs from average-case analysis in that prob
 is not involved; an amortized analysis guarantees the average performance
 of each operation in the worst case.
 
+//aggregate analysis, accounting method, potential method
 The first three sections of this chapter cover the three most common techniques
 used in amortized analysis. Section 17.1 starts with aggregate analysis, in which
 we determine an upper bound T(n) on the total cost of a sequence of n operations.

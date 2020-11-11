@@ -2,16 +2,21 @@
 
 Breadth-first search is the archetype for Prim’s minimum-spanning tree algorithm
 and Dijkstra’s single-source shortest-paths algorithm.
-
+//发现所有从源顶点s可达的所有顶点v,计算最小边数;生成宽度优先树
 Given a graph G = (V,E) and a distinguished source vertex s, breadth-first search 
 systematically explores the edges of G to “discover” every vertex that is
 reachable from s. It computes the distance (smallest number of edges) from s
 to each reachable vertex. It also produces a “breadth-first tree” with root s that
-contains all reachable vertices. For any vertex v reachable from s, the simple path
+contains all reachable vertices.
+
+//简单路径包含最小边数; 算法适用于有向和无向图
+ For any vertex v reachable from s, the simple path
 in the breadth-first tree from s to v corresponds to a “shortest path” from s to v
 in G, that is, a path containing the smallest number of edges. The algorithm works
 on both directed and undirected graphs.
 
+//算法的关键实现是：遇到一个未被考察的节点时，加入队列Q，考察完该节点的邻接链表
+//中的每一个链后，再踢出队列；
 BFS(G,s)
 1 for each vertex u ∈ G.V - {s}
 2     u.color = WHITE
@@ -37,7 +42,7 @@ of a given vertex are visited in line 12: the breadth-first tree may vary, but t
 distances d computed by the algorithm will not. (See Exercise 22.2-5.)
 
 Analysis
-
+//算法运行时间是O(V+E), 线性于邻接链表大小
 The operations of enqueuing and dequeuing take O(1) time, and so the total time devoted to queue
 operations is O(V). Because the procedure scans the adjacency list of each vertex
 only when the vertex is dequeued, it scans each adjacency list at most once. Since
@@ -45,7 +50,6 @@ the sum of the lengths of all the adjacency lists is Θ(E), the total time spent
 scanning adjacency lists is O(E). The overhead for initialization is O(V), and
 thus the total running time of the BFS procedure is O(V+E). Thus, breadth-first
 search runs in time linear in the size of the adjacency-list representation of G.
-
 
 Shortest paths
 
@@ -62,6 +66,7 @@ PRINT-PATH(G,s,v)
 5 else PRINT-PATH(G,s,v.∏)
 6     print v 
 
+//一系列证明 推论 引理 
 Lemma 22.1 - 22.3, Corollary 22.4, Theorem 22.5 (Correctness of breadth-first search),
 Lemma 22.6
 

@@ -1,9 +1,10 @@
 23 Minimum Spanning Trees
-
+//最小生成树的一个应用：联接线路的引脚, 找出最小耗材
 We can easily make each of them run in time O(ElgV) using ordinary binary heaps. By using
 Fibonacci heaps, Prim’s algorithm runs in time O(E + VlgV), which improves
 over the binary-heap implementation if |V| is much smaller than |E|.
 
+//是贪婪算法 
 The two algorithms are greedy algorithms.
 
 The phrase “minimum spanning tree” is a shortened form of the phrase “minimum-weight spanning

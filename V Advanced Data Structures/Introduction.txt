@@ -27,7 +27,7 @@ MINIMUM, MAXIMUM, SUCCESSOR, and PREDECESSOR—— in O(lglgu) time.
 1).Dynamic trees,maintain a forest of disjoint rooted trees, are used in some of the
  asymptotically fastest network-flow algorithms.
 
-2)Splay trees,are a form of binary search tree on which the standard searchtree
+2)Splay trees,are a form of binary search tree on which the standard search tree
 operations run in O(lgn) amortized time. One application of splay trees simplifies dynamic trees.
 
 3)Persistent data structures,fusion trees and exponential search trees

@@ -14,6 +14,8 @@ RELAX(u,v,w)
 2     v.d = u.d + w(u,v)
 3     v.π = u 
 
+//算法分三步：初始化; 循环：外层执行|G.V|-1循环, 内层对于每条边执行一次RELAX循环;
+//最后再检测每条边 
 BELLMAN-FORD(G,w,s)
 1 INITIALIZE-SINGLE-SOURCE(G,s)
 2 for i = 1 to |G.V|-1

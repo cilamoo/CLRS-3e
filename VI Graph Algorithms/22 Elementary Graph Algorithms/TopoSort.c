@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "quicksort.h"
 
+//这个拓扑排序实现使用了quicksort,是错误的,看22.4 note 关于
+//伪代码的注释 
 /*linked list, store sorted vertexes by atrribute f */
 struct list{
     struct listnode *head;

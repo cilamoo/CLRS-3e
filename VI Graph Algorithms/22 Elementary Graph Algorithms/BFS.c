@@ -24,7 +24,7 @@ PRINT-PATH(G,s,v)
 2     print s
 3 elseif v.∏ == NIL 
 4     print “no path from” s “to” v “exists”
-5 else PRINT-PATH.G(G,s,v.∏)
+5 else PRINT-PATH(G,s,v.∏)
 6     print v 
 */
 
@@ -79,7 +79,7 @@ void add_list(struct Vertex *Adj, int v1, int v2){
     
     ver1 = &Adj[v1];
     ver2 = &Adj[v2];
-    /* maybe have memory fragment,should allloc continuous block */
+    /* maybe have memory fragment,should alloc continuous block */
     if((ln1 = malloc(sizeof(struct listnode))) == NULL)
         return;
     

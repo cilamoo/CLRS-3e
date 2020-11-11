@@ -1,14 +1,18 @@
 22.4 Topological sort —— directed acyclic graph,dag
-
+//拓扑排序是图的所有顶点线性序列 
 A topological sort of a dag G = (V,E) is a linear ordering of all its vertices such that 
 if G contains an edge (u,v), then u appears before v in the ordering. (If the graph contains a cycle,
 then no linear ordering is possible.) We can view a topological sort of a graph as
 an ordering of its vertices along a horizontal line so that all directed edges go from
 left to right.
 
+//许多应用使用拓扑排序指示事件的优先权 
 Many applications use directed acyclic graphs to indicate precedences among
 events.
 
+//行2,只要一个顶点被完全访问了,那么将它插入链表的前头, 由于该顶点最先完成，
+//则结束时间要比后续的结束时间小,因此, 整个链表是线性有序的,按结束时间从大到小
+//排列
 TOPOLOGICAL-SORT(G)
 1 call DFS(G) to compute finishing times v.f for each vertex v
 2 as each vertex is finished, insert it onto the front of a linked list

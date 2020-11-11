@@ -104,7 +104,7 @@ void DFS_VISIT(struct Graph *G, struct vertex *u){
     u->d = time;
     u->color = 1<<11;     /* GRAY */
     head = u->head;
-    while(head!=NULl){ /* or (head--) != NULL */
+    while(head!=NULL){ /* or (head--) != NULL */
         if((head->self->color >> 10) & 1){ /*this vertex has just been discovered */
             head->self->parent = u->vernum;
             DFS_VISIT(G,head->self);

@@ -18,13 +18,14 @@ of vertices u and v.
 
 Shortest-paths algorithms typically rely on the property that a shortest path between
 two vertices contains other shortest paths within it. 
-
+//Dijkstra算法是贪婪算法,Floyd-Warshall是动态规划算法 
 Dijkstra’s algorithm, which we shall see in Section 24.3, is a greedy algorithm, and the
 Floyd-Warshall algorithm, which finds shortest paths between all pairs of vertices (see
 Section 25.2), is a dynamic-programming algorithm.
 
 3.Negative-weight edges
-
+//Dijkstra算法假定不能有边的权重非负,Bellman-Ford算法允许环路,只要从源点s到环路
+//不可达 
 Some shortest-paths algorithms, such as Dijkstra’s algorithm, assume that all
 edge weights in the input graph are nonnegative, as in the road-map example. Others,
 such as the Bellman-Ford algorithm, allow negative-weight edges in the input
@@ -33,10 +34,14 @@ reachable from the source. Typically, if there is such a negative-weight cycle, 
 algorithm can detect and report its existence.
 
 4.Cycles
-
+//最短路径不包含正权环和负权环,仅仅是简单路径 
 Can a shortest path contain a cycle? Nor can it contain a positive-weight cycle, since removing
 the cycle from the path produces a path with the same source and destination
 vertices and a lower path weight.
+
+without loss of
+generality we can assume that when we are finding shortest paths, they have no
+cycles, i.e., they are simple paths.
 
 5.Representing shortest paths
 
@@ -62,6 +67,7 @@ RELAX(u,v,w)
 2     v.d = u.d + w(u,v)
 3     v.π = u 
 
+//算法的不同之处：执行多少次relax操作
 The algorithms in this chapter differ in how many times they relax each edge 
 and the order in which they relax edges. Dijkstra’s algorithm and the shortest-paths 
 algorithm for directed acyclic graphs relax each edge exactly once. The Bellman-Ford .
@@ -70,17 +76,20 @@ algorithm relaxes each edge |V| - 1 times.
 7.Properties of shortest paths and relaxation
 
 8.Chapter outline
+//Bellman-Ford能检测能否从一个源点到达一个负权环路 
 Section 24.1 presents the Bellman-Ford algorithm, which solves the single-source
 shortest-paths problem in the general case in which edges can have negative weight.
 The Bellman-Ford algorithm is remarkably simple, and it has the further benefit
 of detecting whether a negative-weight cycle is reachable from the source. 
 
+//线性时间算法 
 Section24.2 gives a linear-time algorithm for computing shortest paths from a single
 source in a directed acyclic graph.
 
 Section 24.3 covers Dijkstra’s algorithm, which has a lower running time than the 
 Bellman-Ford algorithm but requires the edge weights to be nonnegative.
 
+//用Bellman-Ford算法解决线性编程问题 
 Section 24.4 shows how we can use the Bellman-Ford algorithm to solve a special case
 of linear programming. 
 

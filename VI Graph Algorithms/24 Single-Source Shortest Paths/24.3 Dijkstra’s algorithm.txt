@@ -1,8 +1,11 @@
 24.3 Dijkstra’s algorithm
 
+//前提条件:所有边的权非负
 Dijkstra’s algorithm solves the single-source shortest-paths problem on a weighted,
 directed graph G = (V,E) for the case in which all edge weights are nonnegative.
 
+//Q为最小优先队列 
+//算法的运行时间依赖于如何实现优先队列：数组、稀疏二叉堆、斐波那契数堆
 DIJKSTRA(G,w,s)
 1 INITIALIZE-SINGLE-SOURCE(G,s)
 2 S = Ø 

@@ -12,6 +12,8 @@ Breadth-first search usually serves to find shortestpath distances
 (and the associated predecessor subgraph) from a given source. Depth-first search is
 often a subroutine in another algorithm.
 
+//算法的核心是两个遍历循环; DFS中的for循环遍历图G的所有节点,DFS-VISIT的for循环遍历某个顶点
+//所能达到的顶点, 通过color指示判断顶点是否已被访问.
 DFS(G)
 1 for each vertex u ∈ G.V 
 2     u.color = WHITE
@@ -40,9 +42,10 @@ tree in the depth-first forest.
 
 The running time of DFS is therefore Θ(V+E)
 
+//DFS生成树的森林
 2.Properties of depth-first search
 Perhaps the most basic property of depth-first search is that the predecessor subgraph
-G∏ does indeed form a forest of trees, since the structure of the depthfirst
+G∏ does indeed form a forest of trees, since the structure of the depth first
 trees exactly mirrors the structure of recursive calls of DFS-VISIT
 
 Another important property of depth-first search is that discovery and finishing
